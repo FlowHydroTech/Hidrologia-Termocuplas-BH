@@ -28,44 +28,42 @@ v = TARGET_FLUX * 1e-3 / 86400  # mm/día → m/s
 # Difusividad térmica [m²/s]
 alpha = LAMBDA / C_SEDIMENT
 
-# Calcular desfases temporales entre sensores usando ecuación de Hatch (2006)
-# Δφ = (v * ω * Δz²) / (4 * α * v)  [radianes]
-# Simplificado: Δφ ≈ (ω * Δz) / (2 * v_thermal)
-# donde v_thermal = √(4 * α * v / ω)
-
-# Método McCallum invertido para calcular desfases:
-# Δφ = (v * C_water * ω * Δz) / (2 * LAMBDA) - (ω * Δz) / (2 * v)
-
-def calcular_desfase_temporal(z_shallow, z_deep, flux_ms):
+def calcular_desfase_mccallum(z_shallow, z_deep, flux_ms):
     """
-    Calcula el desfase temporal (en segundos) que debería existir entre dos sensores
-    debido a la propagación del calor por advección y conducción.
+    Calcula el desfase de fase usando la ecuación de McCallum (2012) invertida.
     
-    Basado en la solución analítica de la ecuación de transporte de calor.
+    Esta es la forma más robusta ya que luego se puede recuperar el flujo
+    usando exactamente la misma ecuación.
+    
+    McCallum (2012):
+    Δφ² + ΔA² = (ω * Δz²) / (4 * α) + (v² * C_water² * ω * Δz²) / (4 * LAMBDA²)
+    
+    Para simplificar, asumiendo que conocemos ΔA, despejamos Δφ:
+    Δφ = sqrt[(ω * Δz²)/(4 * α) * (1 + v² * C_water²/(4 * LAMBDA² / (ω * Δz²))) - ΔA²]
+    
+    Aproximación para flujos pequeños:
+    Δφ ≈ sqrt[(ω * Δz²)/(4 * α)] + (v * C_water * Δz) / (2 * LAMBDA)
     """
     dz = z_deep - z_shallow
     
-    # Término advectivo (transporte por flujo)
-    phase_advection = (flux_ms * C_WATER * OMEGA * dz) / (2 * LAMBDA)
+    # Término puramente conductivo
+    term_conductive = np.sqrt((OMEGA * dz**2) / (4 * alpha))
     
-    # Término conductivo (difusión térmica)
-    if flux_ms != 0:
-        phase_conduction = (OMEGA * dz) / (2 * flux_ms)
-    else:
-        phase_conduction = 0
+    # Término advectivo (influencia del flujo)
+    term_advective = (flux_ms * C_WATER * dz) / (2 * LAMBDA)
     
-    # Desfase total en radianes
-    delta_phi = phase_advection - phase_conduction
+    # Desfase total (aproximación lineal)
+    delta_phi = term_conductive + term_advective
     
-    # Convertir a segundos (1 ciclo completo = 86400 s = 2π radianes)
+    # Convertir a segundos
     time_lag_seconds = (delta_phi / OMEGA)
     
     return time_lag_seconds, delta_phi
 
 # Calcular desfases entre sensores
-lag_12_sec, phi_12 = calcular_desfase_temporal(z1, z2, v)
-lag_23_sec, phi_23 = calcular_desfase_temporal(z2, z3, v)
-lag_13_sec, phi_13 = calcular_desfase_temporal(z1, z3, v)
+lag_12_sec, phi_12 = calcular_desfase_mccallum(z1, z2, v)
+lag_23_sec, phi_23 = calcular_desfase_mccallum(z2, z3, v)
+lag_13_sec, phi_13 = calcular_desfase_mccallum(z1, z3, v)
 
 print("=" * 80)
 print("GENERACIÓN DE DATOS SINTÉTICOS - VFLUX2")

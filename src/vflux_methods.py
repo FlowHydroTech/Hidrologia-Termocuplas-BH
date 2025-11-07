@@ -97,14 +97,20 @@ def hatch_phase_method(
     phase_deep: float,
     depth_difference: float,
     thermal_diffusivity: float,
-    angular_frequency: float
+    angular_frequency: float,
+    thermal_conductivity: float,
+    heat_capacity_water: float
 ) -> float:
     """
     Método de Hatch et al. (2006) - Desfase Temporal.
     
     Calcula el flujo vertical usando el desfase de fase entre dos sensores.
     
-    v = (4α * Δφ) / (ω * Δz²)
+    ECUACIÓN CORREGIDA:
+    v = [Δφ - √((ω×Δz²)/(4α))] × (2λ)/(Cw×Δz)
+    
+    donde el primer término √((ω×Δz²)/(4α)) es el desfase por conducción pura
+    y debe restarse del desfase total medido para obtener el desfase advectivo.
     
     Parameters
     ----------
@@ -118,6 +124,10 @@ def hatch_phase_method(
         Difusividad térmica del medio (m²/s)
     angular_frequency : float
         Frecuencia angular de la señal (rad/s)
+    thermal_conductivity : float
+        Conductividad térmica del sedimento (W/m·K)
+    heat_capacity_water : float
+        Capacidad calorífica volumétrica del agua (J/m³·K)
         
     Returns
     -------
@@ -127,18 +137,30 @@ def hatch_phase_method(
     References
     ----------
     Hatch, C. E., et al. (2006). Water Resources Research, 42(10).
+    Stallman, R. W. (1965). Journal of Geophysical Research, 70(12).
     """
-    # Calcular desfase
-    delta_phase = phase_deep - phase_shallow
+    # Calcular desfase total (señal profunda se retrasa)
+    delta_phase_total = phase_deep - phase_shallow
     
     # Normalizar a [0, 2π]
-    while delta_phase < 0:
-        delta_phase += 2 * np.pi
-    while delta_phase > 2 * np.pi:
-        delta_phase -= 2 * np.pi
+    while delta_phase_total < 0:
+        delta_phase_total += 2 * np.pi
+    while delta_phase_total > 2 * np.pi:
+        delta_phase_total -= 2 * np.pi
     
-    # Ecuación de Hatch - Fase
-    v = (4 * thermal_diffusivity * delta_phase) / (angular_frequency * depth_difference**2)
+    # Calcular desfase por conducción pura (sin flujo)
+    delta_phase_conductive = np.sqrt((angular_frequency * depth_difference**2) / (4 * thermal_diffusivity))
+    
+    # Desfase causado por advección
+    delta_phase_advective = delta_phase_total - delta_phase_conductive
+    
+    if delta_phase_advective <= 0:
+        # No hay desfase advectivo o flujo ascendente
+        return 0.0  # O podría retornar NaN dependiendo del caso de uso
+    
+    # Ecuación de Hatch - Fase CORREGIDA (con término conductivo)
+    # v = (Δφ_adv / Δz) × (2λ / Cw)
+    v = (delta_phase_advective / depth_difference) * (2 * thermal_conductivity) / heat_capacity_water
     
     return v
 
@@ -395,7 +417,7 @@ def calculate_vflux_all_methods(
         ),
         'hatch_phase': hatch_phase_method(
             phase_shallow, phase_deep, depth_difference, 
-            alpha, angular_frequency
+            alpha, angular_frequency, thermal_conductivity, heat_capacity_water
         ),
         'keery': keery_method(
             amplitude_shallow, amplitude_deep, phase_shallow, phase_deep,
