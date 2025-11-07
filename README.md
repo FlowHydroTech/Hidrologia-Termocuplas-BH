@@ -127,7 +127,6 @@ Ver [`generate_synthetic_data.py`](generate_synthetic_data.py) para detalles.
 
 - [`SOLUCION_ERROR_MAGNITUD.md`](SOLUCION_ERROR_MAGNITUD.md) - Análisis detallado de la corrección
 - [`AUDITORIA_VFLUX2.md`](AUDITORIA_VFLUX2.md) - Auditoría completa de métodos
-- [`CORREO_AVANCE_PROYECTO.md`](CORREO_AVANCE_PROYECTO.md) - Resumen ejecutivo del proyecto
 - [`doc/Manual_Completo_VFLUX2_v1.pdf`](doc/Manual_Completo_VFLUX2_v1.pdf) - Manual VFLUX2 MATLAB original
 
 ---
