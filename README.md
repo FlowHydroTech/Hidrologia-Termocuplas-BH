@@ -6,7 +6,7 @@ El objetivo central es **replicar en Python** el comportamiento del toolbox **VF
 
 ---
 
-# ✅ 1. ¿Qué es VFLUX2?
+# 1. ¿Qué es VFLUX2?
 
 **VFLUX2** es un toolbox desarrollado en MATLAB que estima el **flujo vertical de agua** en el lecho de un río (infiltración o exfiltración) a partir de:
 
@@ -17,12 +17,12 @@ El objetivo central es **replicar en Python** el comportamiento del toolbox **VF
 
 Según el manual oficial, VFLUX2:
 
-✅ Lee un archivo Excel con **fecha y temperatura por cada sensor**  
-✅ Alinea automáticamente las series aun si tienen **desfase temporal de minutos**  
-✅ Realiza análisis espectral y armónico apoyado en Captain Toolbox (`arspec`)  
-✅ Calcula **amplitud (A)** y **fase (φ)** de la señal diaria  
-✅ Obtiene **ΔA** (atenuación) y **Δφ** (desfase) entre sensores  
-✅ Usa modelos físicos para estimar flujo vertical (`q`) mediante 5 métodos:
+* Lee un archivo Excel con **fecha y temperatura por cada sensor**  
+* Alinea automáticamente las series aun si tienen **desfase temporal de minutos**  
+* Realiza análisis espectral y armónico apoyado en Captain Toolbox (`arspec`)  
+* Calcula **amplitud (A)** y **fase (φ)** de la señal diaria  
+* Obtiene **ΔA** (atenuación) y **Δφ** (desfase) entre sensores  
+* Usa modelos físicos para estimar flujo vertical (`q`) mediante 5 métodos:
 
 - **McCallum** (principal)
 - **Hatch – Amplitud**
@@ -43,7 +43,7 @@ VFLUX2 permite ajustar varios parámetros claves del análisis:
 
 ---
 
-## ✅ 2. Flujo de trabajo de VFLUX2 (según el manual)
+## 2. Flujo de trabajo de VFLUX2 (según el manual)
 
 ### **1. Preparación del archivo Excel**
 El archivo debe incluir columnas:
@@ -106,13 +106,13 @@ Finalmente entrega un vector de tiempo con:
 
 ---
 
-# ✅ 3. ¿Cómo replicaremos VFLUX2 exactamente en Python?
+# 3. ¿Cómo replicaremos VFLUX2 exactamente en Python?
 
 Para que Python produzca **los mismos resultados que MATLAB**, debemos replicar **cada módulo interno** del toolbox:
 
 ---
 
-## ✅ 3.1. Etapa 1 — Lectura de datos (equivalente a vfluxformat)
+## 3.1. Etapa 1 — Lectura de datos (equivalente a vfluxformat)
 
 En Python:
 
@@ -128,7 +128,7 @@ vdata = vfluxformat(...)
 
 ---
 
-## ✅ 3.2. Etapa 2 — Análisis armónico (FFT o curve_fit)
+## 3.2. Etapa 2 — Análisis armónico (FFT o curve_fit)
 
 VFLUX2 usa `arspec` del Captain Toolbox.
 
@@ -151,34 +151,34 @@ Luego calculamos:
 
 ---
 
-## ✅ 3.3. Etapa 3 — Implementación de métodos de flujo térmico
+## 3.3. Etapa 3 — Implementación de métodos de flujo térmico
 
 Se replicarán los **cinco métodos originales**:
 
-### ✅ Método Hatch – Amplitud
+### * Método Hatch – Amplitud
 Basado en atenuación de amplitud y propiedades térmicas.
 
-### ✅ Método Hatch – Fase
+### * Método Hatch – Fase
 Basado en retraso de fase entre sensores.
 
-### ✅ Método McCallum
+### * Método McCallum
 Combina ΔA + Δφ → método más estable.
 
-### ✅ Método Keery
+### * Método Keery
 Incluye difusividad térmica corregida.
 
-### ✅ Método Luce
+### * Método Luce
 Método empírico útil para diagnóstico.
 
 Cada método se implementará con las ecuaciones originales publicadas en la literatura científica e interpretadas tal como VFLUX2 las aplica.
 
 ---
 
-## ✅ 3.4. Etapa 4 — Parámetros térmicos
+## 3.4. Etapa 4 — Parámetros térmicos
 
 Definiremos una estructura estándar para:
 
-## ✅ 3.4. Etapa 4 — Parámetros térmicos
+## 3.4. Etapa 4 — Parámetros térmicos
 
 - conductividad térmica: $\lambda$
 - calor específico del sedimento: $C_s$
@@ -192,7 +192,7 @@ Estos valores deben ser configurables para cada campaña.
 
 ---
 
-## ✅ 3.5. Etapa 5 — Comparación MATLAB vs Python
+## 3.5. Etapa 5 — Comparación MATLAB vs Python
 
 Implementaremos:
 
@@ -205,7 +205,7 @@ Esto permitirá certificar que el solver Python reproduce exactamente lo que MAT
 
 ---
 
-# ✅ 4. Arquitectura del repositorio en Python
+# 4. Arquitectura del repositorio en Python
 
 ```text
 Hidrologia-Termocuplas-BH/
@@ -234,13 +234,13 @@ Hidrologia-Termocuplas-BH/
 \-- .gitignore
 ```
 
-# ✅ 5. Estado actual del proyecto
+# 5. Estado actual del proyecto
 
-✅ Manual de VFLUX2 analizado  
-✅ Definida la arquitectura Python  
-✅ Modelo conceptual completo  
-✅ Se generará dataset sintético compatible con MATLAB  
-✅ Próximo paso → implementar los módulos:
+* Manual de VFLUX2 analizado  
+* Definida la arquitectura Python  
+* Modelo conceptual completo  
+* Se generará dataset sintético compatible con MATLAB  
+* Próximo paso → implementar los módulos:
 
 - `harmonic_analysis.py`
 - `vflux_methods.py`
@@ -248,7 +248,7 @@ Hidrologia-Termocuplas-BH/
 
 ---
 
-# ✅ 6. Objetivo final
+# 6. Objetivo final
 
 Construir un **solver térmico completo en Python**, totalmente reproducible, capaz de:
 
