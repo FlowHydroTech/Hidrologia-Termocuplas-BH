@@ -1,8 +1,134 @@
 # Hidrología – Proyecto Termocuplas (VFLUX2 → Python)
 
+[![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
+[![Status](https://img.shields.io/badge/Status-En%20Desarrollo-yellow.svg)]()
+[![License](https://img.shields.io/badge/License-MIT-green.svg)]()
+
 Este repositorio contiene el desarrollo metodológico y computacional para estimar **flujos verticales río–acuífero** mediante análisis térmico usando datos de **termocuplas**.
 
 El objetivo central es **replicar en Python** el comportamiento del toolbox **VFLUX2 (MATLAB)** utilizando una arquitectura abierta, reproducible y escalable.
+
+---
+
+## 📢 ACTUALIZACIONES IMPORTANTES
+
+### 🔍 Corrección Crítica Identificada (Nov 2025)
+
+Durante la validación de la implementación se identificó un **error de magnitud** en varios métodos VFLUX2:
+
+- ✅ **Hatch-Fase**: Error corregido (de 36,710,885% a 0.6%)
+- ✅ **Hatch-Amplitud**: Validado como correcto
+- 🔄 **Keery, McCallum, Luce**: Correcciones pendientes
+
+**Causa raíz:** Las ecuaciones no separaban correctamente el desfase conductivo (98.7%) del advectivo (1.3%). Ver [`SOLUCION_ERROR_MAGNITUD.md`](SOLUCION_ERROR_MAGNITUD.md) para detalles técnicos.
+
+---
+
+## 🚀 Inicio Rápido
+
+### Instalación
+
+```bash
+# Clonar repositorio
+git clone https://github.com/FlowHydroTech/Hidrologia-Termocuplas-BH.git
+cd Hidrologia-Termocuplas-BH
+
+# Crear ambiente virtual
+python -m venv venv
+venv\Scripts\activate  # Windows
+# source venv/bin/activate  # Linux/Mac
+
+# Instalar dependencias
+pip install -r requirements.txt
+```
+
+### Uso Básico
+
+```python
+# Ejecutar análisis completo
+jupyter notebook notebooks/02_solver_vflux.ipynb
+```
+
+### Estructura del Proyecto
+
+```
+Hidrologia-Termocuplas-BH/
+├── src/                          # Código fuente
+│   ├── vflux_methods.py         # Métodos VFLUX2 (con correcciones)
+│   ├── signal_processing.py    # Procesamiento de señales
+│   └── data_loader.py           # Carga de datos
+├── notebooks/                    # Notebooks interactivos
+│   ├── 01_generate_synthetic_data.ipynb
+│   ├── 02_solver_vflux.ipynb   # Análisis principal
+│   └── 03_analisis_dimensional.ipynb  # Diagnóstico
+├── tests/                       # Tests automatizados
+├── data/                        # Datos de entrada
+├── SOLUCION_ERROR_MAGNITUD.md   # Documentación técnica
+├── AUDITORIA_VFLUX2.md          # Auditoría completa
+└── README.md
+```
+
+---
+
+## 📊 Estado Actual del Proyecto
+
+### Métodos Implementados
+
+| Método | Estado | Error | Comentarios |
+|--------|--------|-------|-------------|
+| **Hatch-Amplitud** | ✅ Validado | 0.0% | Funcionando correctamente |
+| **Hatch-Fase** | ✅ Corregido | 0.6% | Corrección implementada Nov 2025 |
+| **Keery (2007)** | ⚠️ En revisión | ~12,000% | Requiere corrección similar a Hatch-Fase |
+| **McCallum (2012)** | ⚠️ En revisión | 0%* | *Usa fallback a Hatch-Amplitud |
+| **Luce (2013)** | ❌ Pendiente | ~868,000% | Requiere revisión de ecuación empírica |
+
+### Hallazgos Técnicos Clave
+
+#### Problema de Separación de Componentes Térmicas
+
+En medios porosos saturados, el desfase de fase tiene **dos componentes**:
+
+```
+Δφ_total = Δφ_conductivo + Δφ_advectivo
+```
+
+**Para flujos típicos (~5 mm/día):**
+- Δφ_conductivo: **98.7%** (difusión térmica pura)
+- Δφ_advectivo: **1.3%** (transporte con flujo de agua)
+
+**Error identificado:** Los métodos asumían que TODO el desfase era advectivo.
+
+**Solución implementada:**
+
+```python
+# 1. Calcular desfase conductivo (sin flujo)
+delta_phi_cond = √((ω × Δz²) / (4 × α))
+
+# 2. Extraer componente advectiva
+delta_phi_adv = delta_phi_total - delta_phi_cond
+
+# 3. Calcular flujo solo con componente advectiva
+v = (delta_phi_adv / Δz) × (2λ) / Cw
+```
+
+### Validación con Datos Sintéticos
+
+Se generaron series temporales con **flujo conocido de 5.0 mm/día**:
+
+- ✅ Hatch-Fase recupera: **5.03 mm/día** (error 0.6%)
+- ✅ Hatch-Amplitud recupera: **5.00 mm/día** (error 0.0%)
+- ❌ Otros métodos: Errores significativos pendientes de corrección
+
+Ver [`generate_synthetic_data.py`](generate_synthetic_data.py) para detalles.
+
+---
+
+## 📚 Documentación Adicional
+
+- [`SOLUCION_ERROR_MAGNITUD.md`](SOLUCION_ERROR_MAGNITUD.md) - Análisis detallado de la corrección
+- [`AUDITORIA_VFLUX2.md`](AUDITORIA_VFLUX2.md) - Auditoría completa de métodos
+- [`CORREO_AVANCE_PROYECTO.md`](CORREO_AVANCE_PROYECTO.md) - Resumen ejecutivo del proyecto
+- [`doc/Manual_Completo_VFLUX2_v1.pdf`](doc/Manual_Completo_VFLUX2_v1.pdf) - Manual VFLUX2 MATLAB original
 
 ---
 
@@ -236,15 +362,102 @@ Hidrologia-Termocuplas-BH/
 
 # 5. Estado actual del proyecto
 
-* Manual de VFLUX2 analizado  
-* Definida la arquitectura Python  
-* Modelo conceptual completo  
-* Se generará dataset sintético compatible con MATLAB  
-* Próximo paso → implementar los módulos:
+✅ **Completado:**
+- Manual de VFLUX2 analizado  
+- Arquitectura Python definida  
+- Módulos principales implementados (`vflux_methods.py`, `signal_processing.py`, `data_loader.py`)
+- Generación de datos sintéticos validada
+- **Corrección crítica en método Hatch-Fase** (Nov 2025)
+- Auditoría completa de todos los métodos
+- Suite de notebooks interactivos
 
-- `harmonic_analysis.py`
-- `vflux_methods.py`
-- `01_exploracion.ipynb`
+🔄 **En Progreso:**
+- Corrección de métodos Keery, McCallum y Luce
+- Validación contra MATLAB VFLUX2 original
+- Tests unitarios automatizados
+
+📋 **Pendiente:**
+- Aplicación a datos reales del Campo de Bombeo Huachipa
+- Análisis espacial y mapas de flujo
+- Documentación de usuario final
+- Paper técnico con hallazgos
+
+---
+
+## 🎯 Próximos Pasos
+
+### Prioridad Alta (2 semanas)
+
+1. **Corregir métodos restantes**
+   - Keery: Aplicar separación conductiva/advectiva
+   - Luce: Revisar ecuación empírica
+   - McCallum: Verificar comportamiento de fallback
+
+2. **Validación completa**
+   - Re-ejecutar con todas las correcciones
+   - Comparar con MATLAB VFLUX2
+   - Objetivo: CV < 20% entre métodos
+
+### Prioridad Media (1-2 meses)
+
+3. **Tests automatizados**
+   - Suite completa de tests unitarios
+   - Casos sintéticos para cada método
+   - CI/CD para prevenir regresiones
+
+4. **Datos reales**
+   - Procesamiento de series 2023-2024 Huachipa
+   - Análisis temporal y espacial
+   - Generación de mapas de flujo
+
+---
+
+## 🤝 Contribuciones
+
+Este proyecto está abierto a colaboración. Puedes contribuir:
+
+- 🐛 Reportando issues o bugs
+- 💡 Sugiriendo mejoras
+- 📝 Mejorando documentación
+- 🔬 Validando contra papers originales
+- 💻 Enviando pull requests
+
+### Cómo Contribuir
+
+1. Fork el repositorio
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+---
+
+## 📖 Referencias Científicas
+
+- **Stallman, R.W. (1965)** - *Steady one-dimensional fluid flow in a semi-infinite porous medium with sinusoidal surface temperature*. Journal of Geophysical Research, 70(12), 2821-2827.
+
+- **Hatch, C.E., et al. (2006)** - *Quantifying surface water–groundwater interactions using time series analysis of streambed thermal records*. Water Resources Research, 42(10).
+
+- **Keery, J., et al. (2007)** - *Temporal and spatial variability of groundwater–surface water fluxes: Development and application of an analytical method using temperature time series*. Journal of Hydrology, 336(1-2), 1-16.
+
+- **McCallum, A.M., et al. (2012)** - *Limitations of the use of environmental tracers to infer groundwater age*. Groundwater, 50(6), 949-951.
+
+- **Luce, C.H., et al. (2013)** - *Solutions for the diurnally forced advection-diffusion equation to estimate bulk fluid velocity and diffusivity in streambeds from temperature time series*. Water Resources Research, 49(1), 488-506.
+
+---
+
+## 📧 Contacto
+
+**FlowHydroTech**  
+GitHub: [@FlowHydroTech](https://github.com/FlowHydroTech)
+
+Para consultas sobre el proyecto o colaboraciones, por favor abre un issue en el repositorio.
+
+---
+
+## 📄 Licencia
+
+Este proyecto es de código abierto y está disponible bajo la licencia MIT.
 
 ---
 
