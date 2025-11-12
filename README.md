@@ -10,9 +10,9 @@ El objetivo central es **replicar en Python** el comportamiento del toolbox **VF
 
 ---
 
-## 📢 ACTUALIZACIONES IMPORTANTES
+## ACTUALIZACIONES IMPORTANTES
 
-### 🔍 Corrección Crítica Identificada (Nov 2025)
+### Corrección Crítica Identificada (Nov 2025)
 
 Durante la validación de la implementación se identificó un **error de magnitud** en varios métodos VFLUX2:
 
@@ -24,7 +24,7 @@ Durante la validación de la implementación se identificó un **error de magnit
 
 ---
 
-## 🚀 Inicio Rápido
+## Inicio Rápido
 
 ### Instalación
 
@@ -70,7 +70,7 @@ Hidrologia-Termocuplas-BH/
 
 ---
 
-## 📊 Estado Actual del Proyecto
+## Estado Actual del Proyecto
 
 ### Métodos Implementados
 
@@ -123,7 +123,7 @@ Ver [`generate_synthetic_data.py`](generate_synthetic_data.py) para detalles.
 
 ---
 
-## 📚 Documentación Adicional
+## Documentación Adicional
 
 - [`SOLUCION_ERROR_MAGNITUD.md`](SOLUCION_ERROR_MAGNITUD.md) - Análisis detallado de la corrección
 - [`AUDITORIA_VFLUX2.md`](AUDITORIA_VFLUX2.md) - Auditoría completa de métodos
@@ -361,7 +361,7 @@ Hidrologia-Termocuplas-BH/
 
 # 5. Estado actual del proyecto
 
-✅ **Completado:**
+**Completado:**
 - Manual de VFLUX2 analizado  
 - Arquitectura Python definida  
 - Módulos principales implementados (`vflux_methods.py`, `signal_processing.py`, `data_loader.py`)
@@ -370,12 +370,12 @@ Hidrologia-Termocuplas-BH/
 - Auditoría completa de todos los métodos
 - Suite de notebooks interactivos
 
-🔄 **En Progreso:**
+**En Progreso:**
 - Corrección de métodos Keery, McCallum y Luce
 - Validación contra MATLAB VFLUX2 original
 - Tests unitarios automatizados
 
-📋 **Pendiente:**
+**Pendiente:**
 - Aplicación a datos reales del Campo de Bombeo Huachipa
 - Análisis espacial y mapas de flujo
 - Documentación de usuario final
@@ -383,7 +383,7 @@ Hidrologia-Termocuplas-BH/
 
 ---
 
-## 🎯 Próximos Pasos
+## Próximos Pasos
 
 ### Prioridad Alta (2 semanas)
 
@@ -411,15 +411,15 @@ Hidrologia-Termocuplas-BH/
 
 ---
 
-## 🤝 Contribuciones
+## Contribuciones
 
 Este proyecto está abierto a colaboración. Puedes contribuir:
 
-- 🐛 Reportando issues o bugs
-- 💡 Sugiriendo mejoras
-- 📝 Mejorando documentación
-- 🔬 Validando contra papers originales
-- 💻 Enviando pull requests
+- Reportando issues o bugs
+- Sugiriendo mejoras
+- Mejorando documentación
+- Validando contra papers originales
+- Enviando pull requests
 
 ### Cómo Contribuir
 
@@ -431,7 +431,7 @@ Este proyecto está abierto a colaboración. Puedes contribuir:
 
 ---
 
-## 📖 Referencias Científicas
+## Referencias Científicas
 
 - **Stallman, R.W. (1965)** - *Steady one-dimensional fluid flow in a semi-infinite porous medium with sinusoidal surface temperature*. Journal of Geophysical Research, 70(12), 2821-2827.
 
@@ -445,7 +445,7 @@ Este proyecto está abierto a colaboración. Puedes contribuir:
 
 ---
 
-## 📧 Contacto
+## Contacto
 
 **FlowHydroTech**  
 GitHub: [@FlowHydroTech](https://github.com/FlowHydroTech)
@@ -456,7 +456,7 @@ Para consultas sobre el proyecto o colaboraciones, por favor abre un issue en el
 
 ## 📄 Licencia
 
-Este proyecto es de código abierto y está disponible bajo la licencia MIT.
+Este proyecto es de código privado y está disponible bajo la licencia MIT.
 
 ---
 
