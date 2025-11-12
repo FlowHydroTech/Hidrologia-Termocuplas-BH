@@ -90,10 +90,10 @@ def generar_serie_termica(base_temp, amplitud, time_index, phase_rad):
     T(t) = T_base + A * sin(ω*t + φ)
     
     donde:
-      - T_base: temperatura promedio [°C]
-      - A: amplitud de oscilación [°C]
-      - ω: frecuencia angular [rad/s]
-      - φ: desfase inicial [rad]
+        - T_base: temperatura promedio [°C]
+        - A: amplitud de oscilación [°C]
+        - ω: frecuencia angular [rad/s]
+        - φ: desfase inicial [rad]
     """
     t_seconds = (time_index - time_index[0]).total_seconds().values
     temp = base_temp + amplitud * np.sin(OMEGA * t_seconds + phase_rad)
@@ -129,10 +129,10 @@ output_dir.mkdir(parents=True, exist_ok=True)
 output_file = output_dir / "termocuplas_sinteticas.xlsx"
 df.to_excel(output_file, index=False)
 
-print(f"\n✅ Archivo '{output_file}' generado correctamente.")
+print(f"\nArchivo '{output_file}' generado correctamente.")
 print(f"   Registros: {len(df)}")
 print(f"   Periodo: {rng[0]} a {rng[-1]}")
-print(f"\n📊 Estadísticas de las series generadas:")
+print(f"\nEstadísticas de las series generadas:")
 print(f"   Sensor 1 (10 cm): {temp1.mean():.2f}°C ± {temp1.std():.2f}°C (rango: {temp1.min():.2f}-{temp1.max():.2f}°C)")
 print(f"   Sensor 2 (20 cm): {temp2.mean():.2f}°C ± {temp2.std():.2f}°C (rango: {temp2.min():.2f}-{temp2.max():.2f}°C)")
 print(f"   Sensor 3 (30 cm): {temp3.mean():.2f}°C ± {temp3.std():.2f}°C (rango: {temp3.min():.2f}-{temp3.max():.2f}°C)")
