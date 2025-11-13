@@ -16,9 +16,9 @@ El objetivo central es **replicar en Python** el comportamiento del toolbox **VF
 
 Durante la validación de la implementación se identificó un **error de magnitud** en varios métodos VFLUX2:
 
-- ✅ **Hatch-Fase**: Error corregido (de 36,710,885% a 0.6%)
-- ✅ **Hatch-Amplitud**: Validado como correcto
-- 🔄 **Keery, McCallum, Luce**: Correcciones pendientes
+-  **Hatch-Fase**: Error corregido (de 36,710,885% a 0.6%)
+-  **Hatch-Amplitud**: Validado como correcto
+-  **Keery, McCallum, Luce**: Correcciones pendientes
 
 **Causa raíz:** Las ecuaciones no separaban correctamente el desfase conductivo (98.7%) del advectivo (1.3%). Ver [`SOLUCION_ERROR_MAGNITUD.md`](SOLUCION_ERROR_MAGNITUD.md) para detalles técnicos.
 
@@ -76,11 +76,11 @@ Hidrologia-Termocuplas-BH/
 
 | Método | Estado | Error | Comentarios |
 |--------|--------|-------|-------------|
-| **Hatch-Amplitud** | ✅ Validado | 0.0% | Funcionando correctamente |
-| **Hatch-Fase** | ✅ Corregido | 0.6% | Corrección implementada Nov 2025 |
-| **Keery (2007)** | ⚠️ En revisión | ~12,000% | Requiere corrección similar a Hatch-Fase |
-| **McCallum (2012)** | ⚠️ En revisión | 0%* | *Usa fallback a Hatch-Amplitud |
-| **Luce (2013)** | ❌ Pendiente | ~868,000% | Requiere revisión de ecuación empírica |
+| **Hatch-Amplitud** | Validado | 0.0% | Funcionando correctamente |
+| **Hatch-Fase** | Corregido | 0.6% | Corrección implementada Nov 2025 |
+| **Keery (2007)** | En revisión | ~12,000% | Requiere corrección similar a Hatch-Fase |
+| **McCallum (2012)** | En revisión | 0%* | *Usa fallback a Hatch-Amplitud |
+| **Luce (2013)** | Pendiente | ~868,000% | Requiere revisión de ecuación empírica |
 
 ### Hallazgos Técnicos Clave
 
@@ -115,9 +115,9 @@ v = (delta_phi_adv / Δz) × (2λ) / Cw
 
 Se generaron series temporales con **flujo conocido de 5.0 mm/día**:
 
-- ✅ Hatch-Fase recupera: **5.03 mm/día** (error 0.6%)
-- ✅ Hatch-Amplitud recupera: **5.00 mm/día** (error 0.0%)
-- ❌ Otros métodos: Errores significativos pendientes de corrección
+- Hatch-Fase recupera: **5.03 mm/día** (error 0.6%)
+- Hatch-Amplitud recupera: **5.00 mm/día** (error 0.0%)
+- Otros métodos: Errores significativos pendientes de corrección
 
 Ver [`generate_synthetic_data.py`](generate_synthetic_data.py) para detalles.
 
@@ -430,6 +430,61 @@ Este proyecto está abierto a colaboración. Puedes contribuir:
 5. Abre un Pull Request
 
 ---
+
+**Resumen: Generación de Datos Sintéticos***
+
+**Objetivo**
+
+Crear series temporales de temperatura sintéticas con flujo vertical conocido (5 mm/día) para validar los métodos VFLUX2.
+
+**Parámetros:**
+
+* TARGET_FLUX = 5.0 mm/día          # Flujo objetivo de infiltración
+* Profundidades: 10, 20, 30 cm      # Tres sensores
+* Frecuencia: 15 minutos            # 3 días de datos
+
+
+**Física Implementada**
+Desfase de fase calculado mediante ecuación de McCallum (aproximación lineal):
+
+$$
+
+Δφ = √((ω×Δz²)/(4α)) + (v×Cw×Δz)/(2λ)
+     └──conductivo──┘   └──advectivo──┘
+
+$$     
+
+**Componentes:**
+
+Δφ_conductivo: ~98.7% del desfase (difusión térmica pura)
+Δφ_advectivo: ~1.3% del desfase (transporte con flujo)
+
+
+**Series Generadas**
+
+Tres señales sinusoidales con:
+
+* Amplitud decreciente con profundidad (3.0 → 2.0 → 1.2 °C)
+* Temperatura base decreciente (20 → 19 → 18 °C)
+* Desfase temporal proporcional al flujo y profundidad
+
+Desfases calculados:
+
+* Sensor 1→2 (10 cm): ~9.3 min
+* Sensor 2→3 (10 cm): ~9.3 min
+* Sensor 1→3 (20 cm): ~18.6 min
+
+**Resultado**
+Archivo: termocuplas_sinteticas.xlsx
+
+* 288 registros (3 días × 96 mediciones/día)
+* Formato compatible con VFLUX2
+* Flujo recuperable: 5.03 mm/día (0.6% error) OK
+
+Uso: Datos de referencia para validar que cada método VFLUX2 recupere correctamente el flujo de 5 mm/día conocido.
+
+
+
 
 ## Referencias Científicas
 
