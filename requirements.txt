@@ -1,8 +1,38 @@
+# Dependencias del Proyecto VFLUX2 - Hidrología Termocuplas BH
+# Compatible con UV package manager
+# Fecha: 19 de noviembre de 2025
+
+# Dependencias principales de análisis científico
 numpy>=1.24.0
 pandas>=2.0.0
-matplotlib>=3.7.0
 scipy>=1.10.0
+
+# Visualización
+matplotlib>=3.7.0
+
+# Lectura de archivos Excel
 openpyxl>=3.1.0
-jupyter>=1.0.0
+
+# Procesamiento de PDF (opcional)
+pypdf>=3.0.0
+
+# Testing
 pytest>=7.4.0
-seaborn>=0.12.0
+
+# Tipo hints y desarrollo
+typing-extensions>=4.5.0
+
+# Jupyter Notebooks para desarrollo
+jupyter>=1.0.0
+ipykernel>=6.0.0
+notebook>=6.5.0
+
+# Nota: seaborn fue removido del proyecto por problemas de compatibilidad
+# Las siguientes librerías están incluidas por defecto en Python 3.8+:
+# - pathlib, typing, re, sys, os (librerías estándar)
+
+# Instalación con UV:
+# uv pip install -r requirements.txt
+
+# Instalación con pip tradicional:
+# pip install -r requirements.txt
