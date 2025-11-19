@@ -1,0 +1,41 @@
+ANÁLISIS DEL PAPER: Suárez 2023
+================================================================================
+
+
+TITLE: 0 coincidencias
+--------------------------------------------------------------------------------
+
+AUTHORS: 0 coincidencias
+--------------------------------------------------------------------------------
+
+METHODS: 0 coincidencias
+--------------------------------------------------------------------------------
+
+EQUATIONS: 307 coincidencias
+--------------------------------------------------------------------------------
+
+[1] ...t2.1639</pdfx:doi><pdfx:CrossmarkMajorVersionDate>2023-02-06</pdfx:CrossmarkMajorVersionDate></rdf:Description> <rdf:Description rdf:about="" xmlns:jav="http://www.niso.org/schemas/jav/1.0/"><jav:journal_article_version>VoR</jav:journal_article_version></rdf:Description> </rdf:RDF></x:xmpmeta>...
+
+[2] ...l f 1 ~v I( S x i@ : H. <' Zs^lM GL J 'H 0, <o d Xa Z f C UB *A a ^ ^ e +q=' y _ X` {Hv4& U I XkKf+ \ k .ln^lc I< { '! "- E,` Ph 9NW C [ m 5 h BNDN 8 3, T +...
+
+[3] ...8 c 3 + { %lKW r [ $ l lGm n a c O kE&E E Y 2 ; K,K h tiN = e { ^-_V^ O o s ] ?T W r j V Q=w }` z i 8 > k E < h T 7 E 7 - - o : } $ d wZ U Q S+Nuw v }o j )9...
+
+[4] ...{ X B wZ~ E { s / b G j ; T ? ? c z ^ T u( = & * = W 5 ? 5c = ) r: C y7 V= ,{ f Z y 7 i l"W N/ #PzV#_ c / z ( Y H i o H s , / ,c G j R= ,{ ?H P...
+
+[5] ...I = 8 u& jq: O , R D @ z 2G H ,, je _ ~X } % o 8 {/ "_ f , i r X +] ? VC V= ,{ J/ c W X ' H & q_ % X o G bo i_ 8 v e o X ^? o # o + c W Q * {o...
+
+[6] ...X q_ qO O F }#Oo X L H : _ ) v OB = q" + " *o 8 4 . q % Y H T ( Q U q_ ? E "[ j V= ,{ / B? # W S V u c { B u ~ X q_ 8 t ( c5 { X q~ C ; X ~ ^ T q_...
+
+[7] ..." aWb ] K y O z \ 7 { z m U + + W`Wb ] v v v* U Wb ] v* U Wb ] ] v* U Wb ] v* U U $r q=+ _ \ C9 .v { /R6 0 hI / = A $R Lk b 's X U 8 @Te ~ * _ B k 9|;d Q M >r B e b I Y8 4 / R&;6_ S, 1 c...
+
+[8] ...t w u m.~ 2 z < \~$H X = 7hG N d r K[ ;a cL yr9 i] p 0 S x xc.Mi M " 7 } 9 [ TC%&S "Y) n mcl4 R1 Rv= @ W Z $ aB %a J k l PV * K Rf rl\ %*j 2 * rT 2A Jg j B >9 4 "JB)e 9u AcH v umM 4 1...
+
+[9] ...Dz | n G G > # s 4KkNG e $ | s ]^ 6 S AJ Z T f; ' Y ] R HA^ ?C\'uDYF 1 DO3 l C v j ( i. ? @> 3 9 q = , Q m = <] t q 1U Y 0 q p ` U w HbT j%Z hG^ bE T f350*p% 8 W* T0 1w?lmT [l \F b > t...
+
+[10] ...d!e | f X J " Q- @ c #) - W v ; i f 4 Y 6 0 p ^h e2 T/4 ch.Qd e < >A Z )< w Y?W Q= }lu Qd F Y 7 AJ u u - 9 " = y~ " G r Dq / k WL:^ m+ G ~ ) ` d | \ _ yV + sf ) d & u o 9`3G...
+
+THERMAL: 0 coincidencias
+--------------------------------------------------------------------------------
+
+VERTICAL_FLUX: 0 coincidencias
+--------------------------------------------------------------------------------
