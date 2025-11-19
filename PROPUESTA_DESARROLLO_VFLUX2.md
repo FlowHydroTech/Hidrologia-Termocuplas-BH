@@ -18,9 +18,11 @@
 ### Propuesta
 Desarrollar una **aplicación web profesional** que transforme el notebook actual en un software robusto, escalable y de fácil uso para:
 - Procesamiento automatizado de datos termocuplas
+- **Gestión espacial** de ubicaciones de termocuplas con **mapas interactivos**
 - Control de calidad integrado
 - Visualización interactiva de resultados
 - Exportación profesional de reportes
+- **Análisis geoespacial** de patrones de flujo
 
 ### Objetivos
 1. **Validación definitiva** con dataset oficial MATLAB VFLUX2
@@ -94,6 +96,15 @@ Desarrollar una **aplicación web profesional** que transforme el notebook actua
 │  │ • Drag&Drop │ │ • λ, C, α   │ │ • Interactive       │    │
 │  │ • Excel/CSV │ │ • Presets   │ │ • Comparisons       │    │
 │  │ • Validation│ │ • Custom    │ │ • Export            │    │
+│  └─────────────┘ └─────────────┘ └─────────────────────┘    │
+│                                                             │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐    │
+│  │  Spatial    │ │ Interactive │ │    Geospatial       │    │
+│  │ Management  │ │    Maps     │ │     Analysis        │    │
+│  │             │ │             │ │                     │    │
+│  │ • Locations │ │ • Leaflet   │ │ • Pattern Analysis  │    │
+│  │ • GPS Coords│ │ • Layers    │ │ • Spatial Stats     │    │
+│  │ • Site Info │ │ • Clusters  │ │ • Flow Patterns     │    │
 │  └─────────────┘ └─────────────┘ └─────────────────────┘    │
 │                                                             │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐    │
@@ -175,14 +186,23 @@ Desarrollar una **aplicación web profesional** que transforme el notebook actua
 │  │  File I/O   │ │  Database   │ │      Cache          │    │
 │  │             │ │             │ │                     │    │
 │  │ • Excel     │ │ • Projects  │ │ • Results Cache     │    │
-│  │ • CSV       │ │ • Sessions  │ │ • Temp Files        │    │
-│  │ • JSON      │ │ • Results   │ │ • User Prefs        │    │
-│  │ • PDF       │ │ • Users     │ │                     │    │
+│  │ • CSV       │ │ • Sessions  │ │ • Spatial Cache     │    │
+│  │ • JSON      │ │ • Results   │ │ • Temp Files        │    │
+│  │ • PDF       │ │ • Users     │ │ • User Prefs        │    │
+│  └─────────────┘ └─────────────┘ └─────────────────────┘    │
+│                                                             │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐    │
+│  │ Geospatial  │ │  PostGIS    │ │    Spatial          │    │
+│  │   Tables    │ │ Functions   │ │   Indexing          │    │
+│  │             │ │             │ │                     │    │
+│  │ • Locations │ │ • ST_*      │ │ • GiST Index        │    │
+│  │ • Geometry  │ │ • Spatial   │ │ • R-Tree            │    │
+│  │ • Metadata  │ │ • Analysis  │ │ • Performance       │    │
 │  └─────────────┘ └─────────────┘ └─────────────────────┘    │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Tecnología:** SQLite (desarrollo), PostgreSQL (producción), Redis (cache)
+**Tecnología:** PostgreSQL + PostGIS (espacial), Redis (cache), SQLite (desarrollo)
 
 ---
 
@@ -199,6 +219,9 @@ pydantic>=2.5.0           # Validación de datos
 sqlalchemy>=2.0.0         # ORM
 alembic>=1.12.0          # Migraciones
 psycopg2>=2.9.0          # PostgreSQL driver
+geoalchemy2>=0.14.0      # Extensiones espaciales
+shapely>=2.0.0           # Geometrías
+fiona>=1.9.0             # I/O geoespacial
 
 # Procesamiento científico
 numpy>=1.24.0            # Análisis numérico
@@ -221,6 +244,9 @@ passlib[bcrypt]          # Hashing passwords
 streamlit>=1.28.0        # Interface científica rápida
 streamlit-authenticator  # Autenticación
 plotly>=5.17.0           # Gráficos interactivos
+streamlit-folium>=0.15.0 # Mapas interactivos
+folium>=0.15.0           # Mapas Leaflet
+streamlit-plotly-events  # Eventos de mapas
 
 # Opción 2: Producción (alternativa)
 # React + TypeScript + Material-UI
@@ -245,9 +271,241 @@ docker-compose>=2.0.0   # Orquestación local
 
 ---
 
+## EVALUACIÓN DE PLATAFORMAS DE HOSTING
+
+### Comparación: Railway vs Render vs Supabase
+
+#### Opción 1: Supabase (RECOMENDADA)
+```yaml
+Fortalezas:
+  ✅ PostgreSQL con PostGIS incluido nativamente
+  ✅ Auth/Users management integrado
+  ✅ Storage para archivos (Excel, PDFs)
+  ✅ Edge Functions para procesamiento
+  ✅ Real-time subscriptions
+  ✅ Dashboard admin incluido
+  ✅ Free tier generoso (500MB DB, 50MB storage)
+  ✅ APIs REST y GraphQL automáticas
+
+Limitaciones:
+  ⚠️ Menos control sobre infraestructura
+  ⚠️ Function timeout (25 segundos)
+  ⚠️ Vendor lock-in parcial
+
+Costos estimados:
+  - Desarrollo: $0/mes (free tier)
+  - Producción: $25-100/mes (Pro tier)
+  - Enterprise: $599+/mes
+
+Ideal para:
+  - MVP y prototipo rápido
+  - Equipos pequeños sin DevOps
+  - Aplicaciones data-driven
+  - Necesidades espaciales (PostGIS)
+```
+
+#### Opción 2: Railway
+```yaml
+Fortalezas:
+  ✅ Deploy directo desde GitHub
+  ✅ PostgreSQL con extensiones
+  ✅ Variables de entorno seguras
+  ✅ Escalado automático
+  ✅ Logs y monitoring
+  ✅ Soporte Docker nativo
+  ✅ Pricing transparente por uso
+
+Limitaciones:
+  ⚠️ PostGIS requiere configuración manual
+  ⚠️ Sin auth management integrado
+  ⚠️ Sin storage integrado para archivos
+
+Costos estimados:
+  - Desarrollo: $5-10/mes
+  - Producción: $20-60/mes
+  - Alto tráfico: $100+/mes
+
+Ideal para:
+  - Aplicaciones con arquitectura custom
+  - Control total sobre stack
+  - Equipos con experiencia DevOps
+```
+
+#### Opción 3: Render
+```yaml
+Fortalezas:
+  ✅ Static sites + backend en una plataforma
+  ✅ Auto-deploy desde Git
+  ✅ SSL automático
+  ✅ PostgreSQL managed
+  ✅ Good performance/price ratio
+  ✅ Europa/US datacenters
+
+Limitaciones:
+  ⚠️ PostGIS no disponible en free tier
+  ⚠️ Menos features específicos para apps espaciales
+  ⚠️ Sin real-time features integradas
+  ⚠️ Storage limitado para archivos
+
+Costos estimados:
+  - Desarrollo: $0-7/mes
+  - Producción: $25-85/mes
+  - Enterprise: $200+/mes
+
+Ideal para:
+  - Aplicaciones web tradicionales
+  - Teams que priorizan simplicidad
+  - Budget limitado inicial
+```
+
+### Arquitectura Recomendada con Supabase
+
+#### Stack Completo
+```yaml
+Frontend:
+  - Streamlit app (desarrollo rápido)
+  - Deploy: Streamlit Cloud o Render Static Sites
+  - Maps: Streamlit-Folium + Leaflet
+  - Auth: Supabase Auth + Streamlit integration
+
+Backend API:
+  - FastAPI (para procesamiento pesado)
+  - Deploy: Railway o Render Web Services
+  - Queue: Redis Cloud para jobs largos
+  - Storage: Supabase Storage para archivos
+
+Database:
+  - Supabase PostgreSQL + PostGIS
+  - Tables: projects, locations, measurements, results
+  - Auth: Supabase native auth system
+  - Storage: Excel/CSV uploads, PDF exports
+
+Processing:
+  - Supabase Edge Functions (análisis rápido)
+  - Railway background jobs (VFLUX2 completo)
+  - Redis queue para trabajos pesados
+  - Webhook notifications al frontend
+```
+
+#### Esquema de Base de Datos Espacial
+```sql
+-- Tabla de proyectos
+CREATE TABLE projects (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_by UUID REFERENCES auth.users(id),
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    bounds GEOMETRY(POLYGON, 4326), -- Área de estudio
+    metadata JSONB -- Parámetros térmicos, configuración
+);
+
+-- Tabla de ubicaciones de termocuplas  
+CREATE TABLE thermocouple_locations (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL,
+    location GEOMETRY(POINT, 4326) NOT NULL, -- Coordenadas GPS
+    elevation DECIMAL(10,2), -- Altitud (m)
+    depth DECIMAL(5,2) NOT NULL, -- Profundidad sensor (m)
+    sensor_type VARCHAR(50),
+    installation_date DATE,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Índices espaciales
+CREATE INDEX idx_thermocouple_locations_geom 
+ON thermocouple_locations USING GIST (location);
+
+CREATE INDEX idx_projects_bounds_geom 
+ON projects USING GIST (bounds);
+
+-- Tabla de mediciones de temperatura
+CREATE TABLE temperature_measurements (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    location_id UUID REFERENCES thermocouple_locations(id),
+    timestamp TIMESTAMPTZ NOT NULL,
+    temperature DECIMAL(5,2) NOT NULL, -- °C
+    quality_flag INTEGER DEFAULT 1, -- 1=good, 2=suspect, 3=bad
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Tabla de resultados VFLUX2
+CREATE TABLE vflux_results (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    location_id UUID REFERENCES thermocouple_locations(id),
+    analysis_date TIMESTAMPTZ DEFAULT NOW(),
+    method_name VARCHAR(50) NOT NULL,
+    flux_value DECIMAL(10,4), -- mm/día
+    reliability_score DECIMAL(3,2), -- 0.0-1.0
+    thermal_params JSONB, -- λ, C, α utilizados
+    harmonic_data JSONB, -- Amplitud, fase, R²
+    metadata JSONB, -- Parámetros de análisis
+    created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+### Flujo de Desarrollo Recomendado
+
+#### Fase 1: MVP con Supabase (2-3 semanas)
+```yaml
+Semana 1:
+  - Setup Supabase project con PostGIS
+  - Crear esquema de base de datos
+  - Implementar auth básico
+  - Streamlit app con mapas básicos
+
+Semana 2:
+  - Upload de datos y geocoding
+  - Integración VFLUX2 básica
+  - Visualización de resultados en mapa
+  - Export básico de resultados
+
+Semana 3:
+  - Testing y debugging
+  - Deploy en Streamlit Cloud
+  - Documentación básica
+  - Demo funcional
+```
+
+#### Fase 2: Escalado con Railway (4-5 semanas)
+```yaml
+Semanas 3-4:
+  - FastAPI backend en Railway
+  - Sistema de colas para procesamiento
+  - API robusta para frontend
+  - Optimización de performance
+
+Semanas 5-6:
+  - Dashboard avanzado
+  - Sistema de notificaciones
+  - Multi-user features
+  - Testing de carga
+```
+
+### Costos Estimados por Fase
+
+#### Desarrollo (3 meses)
+- **Supabase:** $0 (free tier)
+- **Streamlit Cloud:** $0 (community)
+- **Railway:** $15-30/mes
+- **Dominio:** $12/año
+- **Total:** ~$50-100/mes
+
+#### Producción (primer año)
+- **Supabase Pro:** $25/mes
+- **Railway:** $40-80/mes  
+- **Streamlit:** $200/mes (teams)
+- **CDN/Storage:** $20/mes
+- **Total:** $285-325/mes
+
+---
+
 ## FUNCIONALIDADES DETALLADAS
 
-### Módulo 1: Gestión de Datos
+### Módulo 1: Gestión de Datos y Espacial
 ```python
 class DataManager:
     """
@@ -284,6 +542,24 @@ class DataManager:
         - JSON para APIs
         - MATLAB .mat para compatibilidad
         - HDF5 para datasets grandes
+        - GeoJSON para datos espaciales
+        - Shapefile para GIS
+        """
+    
+    def manage_spatial_data(self, locations: List[Location]) -> SpatialDataResponse:
+        """
+        - Gestión de coordenadas GPS de termocuplas
+        - Validación de geometrías
+        - Transformaciones de coordenadas
+        - Metadatos espaciales
+        """
+    
+    def create_site_map(self, project: Project) -> InteractiveMap:
+        """
+        - Mapa base con ubicaciones de sensores
+        - Capas temáticas por tipo de sensor
+        - Información contextual (ríos, topografía)
+        - Herramientas de medición y análisis
         """
 ```
 
@@ -360,7 +636,7 @@ class VFLUX2Engine:
         """
 ```
 
-### Módulo 4: Visualización Avanzada
+### Módulo 4: Visualización Avanzada y Mapas Interactivos
 ```python
 class AdvancedVisualizer:
     """
@@ -397,6 +673,30 @@ class AdvancedVisualizer:
         - Métricas de calidad
         - Recomendaciones de acción
         - Interfaz para no-técnicos
+        """
+    
+    def create_spatial_dashboard(self, project: Project) -> SpatialDashboard:
+        """
+        - Mapa interactivo con ubicaciones de termocuplas
+        - Capas de resultados VFLUX2 por ubicación
+        - Análisis de patrones espaciales de flujo
+        - Herramientas de selección y filtrado geográfico
+        """
+    
+    def generate_flow_pattern_map(self, results: Dict[str, VFLUX2Results]) -> FlowMap:
+        """
+        - Visualización de flujos por zona
+        - Interpolación espacial de resultados
+        - Identificación de zonas de alta/baja permeabilidad
+        - Análisis de conectividad hidráulica
+        """
+    
+    def create_interactive_site_map(self, locations: List[Location]) -> InteractiveMap:
+        """
+        - Mapa base con múltiples capas (satélite, topográfico)
+        - Marcadores inteligentes con información de sensores
+        - Herramientas de medición de distancias y áreas
+        - Exportación de mapas y datos espaciales
         """
 ```
 
@@ -892,12 +1192,321 @@ El proyecto VFLUX2 está en el momento ideal para evolucionar hacia software pro
 1. **Aprobar presupuesto** para fase de validación
 2. **Definir equipo** de desarrollo inicial
 3. **Establecer partnerships** académicos para validación
-4. **Preparar infraestructura** de desarrollo (GitHub, cloud)
-5. **Ejecutar validación MATLAB** como prueba de concepto
+4. **Setup Supabase** para capacidades espaciales (PostGIS)
+5. **Preparar infraestructura** de desarrollo (GitHub, Railway)
+6. **Ejecutar validación MATLAB** como prueba de concepto
+7. **Implementar MVP** con mapas interactivos de termocuplas
+
+---
+
+## RECOMENDACIONES ESPECÍFICAS PARA VFLUX2 ESPACIAL
+
+### Stack Tecnológico Recomendado
+
+#### Opción Óptima: Supabase + Railway
+```yaml
+✅ Justificación técnica:
+  - PostGIS nativo en Supabase para ubicaciones de termocuplas
+  - Auth management integrado para multi-usuarios  
+  - Storage para archivos Excel/CSV/PDF
+  - Railway para procesamiento VFLUX2 pesado
+  - Escalabilidad demostrada para apps científicas
+
+✅ Beneficios económicos:
+  - Free tier generoso para desarrollo y testing
+  - Pricing predecible basado en uso real
+  - Sin costos de setup o infrastructure management
+  - ROI rápido para MVP y validación de mercado
+
+✅ Ventajas de desarrollo:
+  - APIs REST/GraphQL automáticas para datos espaciales
+  - Real-time subscriptions para monitoreo de sensores
+  - Edge Functions para procesamiento distribuido
+  - Backup automático y disaster recovery
+```
+
+### Implementación por Fases
+
+#### Fase 0: Preparación (1 semana)
+```python
+# Setup inicial recomendado
+Supabase_project = {
+    "database": "PostgreSQL + PostGIS",
+    "auth": "Email/password + OAuth Google",
+    "storage": "Archivos Excel/CSV/PDF uploads",
+    "edge_functions": "Análisis ligero y validaciones"
+}
+
+Railway_deployment = {
+    "backend": "FastAPI + VFLUX2 engine",
+    "queue": "Redis para jobs pesados",
+    "monitoring": "Logs y metrics integrados",
+    "auto_deploy": "GitHub Actions CI/CD"
+}
+
+Development_stack = {
+    "frontend": "Streamlit + Folium maps",
+    "spatial": "GeoAlchemy2 + Shapely",
+    "visualization": "Plotly + Matplotlib",
+    "testing": "Pytest + spatial test data"
+}
+```
+
+#### Fase 1: MVP Espacial (3 semanas)
+**Semana 1: Fundación espacial**
+- Setup Supabase con esquema PostGIS
+- Crear tablas para proyectos, ubicaciones, mediciones
+- Implementar upload básico de coordenadas GPS
+- Mapa base con Streamlit-Folium
+
+**Semana 2: Integración VFLUX2**
+- Migrar notebook 02 a módulos Python
+- Integrar con base de datos espacial
+- Procesamiento por ubicación individual
+- Visualización de resultados en mapa
+
+**Semana 3: Dashboard básico**
+- Interface para selección espacial de sensores
+- Filtros por proyecto y fechas
+- Export de resultados por zona geográfica
+- Testing con datos reales de termocuplas
+
+#### Fase 2: Features Avanzadas (4 semanas)
+**Funcionalidades espaciales clave:**
+```python
+class SpatialAnalyzer:
+    def interpolate_flux_surfaces(self, results: Dict[Location, float]) -> RasterSurface:
+        """
+        Interpolar resultados VFLUX2 entre puntos para crear superficies
+        de flujo continuas usando kriging o IDW
+        """
+    
+    def identify_flow_patterns(self, locations: List[Location]) -> FlowPatterns:
+        """
+        Identificar patrones direccionales de flujo usando análisis
+        de vecindario y clustering espacial
+        """
+    
+    def calculate_spatial_statistics(self, project: Project) -> SpatialStats:
+        """
+        Estadísticas espaciales: autocorrelación, hotspots, 
+        varianza espacial de resultados VFLUX2
+        """
+    
+    def generate_flow_corridors(self, high_flux_zones: List[Zone]) -> FlowCorridors:
+        """
+        Identificar corredores preferenciales de flujo basado en
+        conectividad espacial y magnitud de flujos
+        """
+```
+
+### Esquema de Datos Espaciales Detallado
+
+#### Tablas Principales
+```sql
+-- Extensión espacial requerida
+CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS postgis_topology;
+
+-- Tabla de sitios de estudio
+CREATE TABLE study_sites (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    location GEOMETRY(POINT, 4326) NOT NULL, -- Centroide del sitio
+    boundary GEOMETRY(POLYGON, 4326), -- Perímetro del área de estudio
+    river_geometry GEOMETRY(LINESTRING, 4326), -- Geometría del río
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Tabla mejorada de ubicaciones
+CREATE TABLE thermocouple_locations (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    site_id UUID REFERENCES study_sites(id),
+    name VARCHAR(100) NOT NULL,
+    location GEOMETRY(POINT, 4326) NOT NULL,
+    elevation DECIMAL(8,2), -- m sobre nivel del mar
+    depth_sensors DECIMAL(5,2)[], -- Array de profundidades
+    distance_to_river DECIMAL(6,2), -- Distancia perpendicular al río
+    habitat_type VARCHAR(50), -- Tipo de hábitat acuático
+    installation_date DATE,
+    maintenance_log JSONB, -- Historial de mantenimiento
+    metadata JSONB, -- Características del sitio
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Índices espaciales optimizados
+CREATE INDEX idx_thermocouple_geom_gist 
+ON thermocouple_locations USING GIST (location);
+
+CREATE INDEX idx_sites_boundary_gist 
+ON study_sites USING GIST (boundary);
+
+CREATE INDEX idx_river_geometry_gist 
+ON study_sites USING GIST (river_geometry);
+
+-- Vista materializada para consultas espaciales rápidas
+CREATE MATERIALIZED VIEW location_spatial_summary AS
+SELECT 
+    l.id,
+    l.name,
+    ST_X(l.location) as longitude,
+    ST_Y(l.location) as latitude,
+    l.elevation,
+    l.distance_to_river,
+    s.name as site_name,
+    ST_Distance(l.location, s.river_geometry) as computed_river_distance
+FROM thermocouple_locations l
+JOIN study_sites s ON l.site_id = s.id;
+
+CREATE UNIQUE INDEX ON location_spatial_summary (id);
+```
+
+#### Funciones Espaciales Personalizadas
+```sql
+-- Función para calcular distancia al río
+CREATE OR REPLACE FUNCTION calculate_river_distance(sensor_location GEOMETRY)
+RETURNS DECIMAL AS $$
+BEGIN
+    RETURN ST_Distance(
+        sensor_location,
+        (SELECT river_geometry FROM study_sites 
+         WHERE ST_Contains(boundary, sensor_location) LIMIT 1)
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+-- Función para agrupar sensores por proximidad
+CREATE OR REPLACE FUNCTION group_sensors_by_proximity(distance_threshold DECIMAL)
+RETURNS TABLE(group_id INTEGER, sensor_ids UUID[]) AS $$
+BEGIN
+    RETURN QUERY
+    WITH clusters AS (
+        SELECT 
+            id,
+            ST_ClusterDBSCAN(location, distance_threshold, 2) 
+            OVER () AS cluster_id
+        FROM thermocouple_locations
+    )
+    SELECT 
+        cluster_id::INTEGER,
+        array_agg(id) as sensor_ids
+    FROM clusters 
+    WHERE cluster_id IS NOT NULL
+    GROUP BY cluster_id;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+### Casos de Uso Espaciales
+
+#### Caso 1: Análisis Regional de Cuenca
+```python
+# Ejemplo de workflow espacial completo
+def analyze_watershed_fluxes(watershed_boundary: Polygon):
+    """
+    Analizar todos los sitios dentro de una cuenca hidrográfica
+    """
+    # 1. Seleccionar sensores dentro de la cuenca
+    sensors = spatial_query(
+        "SELECT * FROM thermocouple_locations "
+        "WHERE ST_Contains(%(boundary)s, location)",
+        {"boundary": watershed_boundary}
+    )
+    
+    # 2. Ejecutar VFLUX2 para cada ubicación
+    results = {}
+    for sensor in sensors:
+        temp_data = get_temperature_data(sensor.id)
+        vflux_result = run_vflux2_analysis(temp_data, sensor.thermal_params)
+        results[sensor.id] = vflux_result
+    
+    # 3. Interpolación espacial de resultados
+    flux_surface = interpolate_kriging(
+        coordinates=[(s.longitude, s.latitude) for s in sensors],
+        values=[results[s.id].hatch_amplitude for s in sensors]
+    )
+    
+    # 4. Identificar zonas de alta permeabilidad
+    high_flux_zones = identify_clusters(
+        flux_surface, 
+        threshold=watershed.high_flux_percentile_90
+    )
+    
+    return WatershedAnalysisResult(
+        total_flux=sum(results.values()),
+        flux_surface=flux_surface,
+        high_flux_zones=high_flux_zones,
+        statistics=calculate_spatial_stats(results)
+    )
+```
+
+#### Caso 2: Optimización de Red de Monitoreo
+```python
+def optimize_sensor_network(existing_sensors: List[Location], 
+                          target_coverage: float = 0.95):
+    """
+    Optimizar ubicación de nuevos sensores para maximizar 
+    cobertura espacial con mínimo número de puntos
+    """
+    # Análisis de varianza espacial
+    variogram = calculate_spatial_variogram(existing_sensors)
+    
+    # Identificar gaps en cobertura actual
+    coverage_gaps = identify_coverage_gaps(
+        sensors=existing_sensors,
+        study_area=project.boundary,
+        min_distance=variogram.effective_range
+    )
+    
+    # Optimización multi-objetivo
+    new_locations = optimize_locations(
+        objectives=[
+            maximize_spatial_coverage,
+            minimize_installation_cost,
+            maximize_flow_gradient_detection
+        ],
+        constraints=[
+            min_distance_to_existing(50),  # metros
+            accessible_by_road(max_distance=500),
+            within_study_boundary(project.boundary)
+        ]
+    )
+    
+    return OptimizationResult(
+        recommended_locations=new_locations,
+        expected_coverage=target_coverage,
+        cost_estimate=calculate_installation_cost(new_locations)
+    )
+```
+
+### Métricas de Éxito Espaciales
+
+#### KPIs Específicos para Features Espaciales
+```yaml
+Funcionalidad técnica:
+  - Tiempo consulta espacial: < 2 segundos para 1000+ puntos
+  - Precisión interpolación: Error RMSE < 15% vs mediciones
+  - Performance mapas: Render < 3 seg para 500 sensores
+  - Escalabilidad: Soporte hasta 10,000 ubicaciones
+
+Usabilidad espacial:
+  - Selección múltiple en mapa: Funcional en 95% casos
+  - Filtros espaciales: Intuitivos para usuarios no-GIS
+  - Export datos espaciales: Shapefile + GeoJSON + KML
+  - Zoom/Pan performance: Fluido en dispositivos móviles
+
+Valor científico:
+  - Identificación patrones: > 80% acuerdo con expertos
+  - Interpolación confiable: R² > 0.7 en validación cruzada
+  - Análisis regional: Coherencia con hidrogeología conocida
+  - Optimización redes: 30% reducción sensores necesarios
+```
 
 ---
 
 **Elaborado por:** GitHub Copilot + Cesar (FlowHydroTech)  
 **Fecha:** 19 de noviembre de 2025  
-**Versión:** 1.0 - Propuesta completa de desarrollo  
-**Estado:** Listo para revisión y aprobación
+**Versión:** 2.0 - Propuesta con capacidades espaciales completas  
+**Stack recomendado:** Supabase (PostgreSQL + PostGIS) + Railway + Streamlit  
+**Estado:** Listo para implementación de MVP espacial
