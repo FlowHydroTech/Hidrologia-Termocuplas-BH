@@ -2,11 +2,23 @@
 # ARCHIVOS PRIVADOS Y COMUNICACIONES
 # ====================================================================================
 CORREO_AVANCE_PROYECTO.md
+CORREO_REPORTE_AVANCE.md
 GUIA_GIT_PUSH.md
 push_to_github.ps1
 **/correo*.md
 **/notas_privadas/
 **/borrador*.md
+
+# ====================================================================================
+# DOCUMENTOS DE AVANCE, REUNIONES Y PRESENTACIONES (temporales)
+# ====================================================================================
+AVANCE_*.md
+AVANCE_*.txt
+AVANCE_REUNION_*.txt
+PRESENTACION_*.md
+REPORTE_AVANCE_*.md
+SOLUCION_ERROR_*.md
+ANALISIS_RESULTADOS.md
 
 # ====================================================================================
 # PYTHON

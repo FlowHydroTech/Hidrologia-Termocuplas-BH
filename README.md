@@ -1,59 +1,47 @@
-# Hidrología con Termocuplas - Análisis de Flujo Vertical
 
-[![Status](https://img.shields.io/badge/Status-CALIBRADO-success)]()
-[![Python](https://img.shields.io/badge/Python-3.11-blue)]()
-[![Silala](https://img.shields.io/badge/Rango_Silala-VALIDADO-brightgreen)]()
+# Proyecto VFLUX2 - Hidrología Termocuplas BH
 
-> **PROYECTO CALIBRADO EXITOSAMENTE:** Métodos VFLUX2 con resultados consistentes con literatura científica
+## Estado Actual (28/11/2025)
 
-## Objetivo Alcanzado
+- **Librería profesional VFLUX en desarrollo:** Permite análisis de flujo vertical por métodos térmicos, con pipeline modular y validación científica.
+- **Método Hatch-Amplitude implementado oficialmente en Python:** Validado con datos reales y sintéticos, resultado consistente con MATLAB y literatura internacional (Silala).
+- **Nuevo generador de datos sintéticos físicos:** Basado en la ecuación de conducción térmica 1D, permite validar robustez y sensibilidad de los métodos.
+- **Pipeline modular:** Permite ejecutar y validar todos los métodos oficiales y secundarios, comparar resultados y generar reportes automáticos.
 
-**CALIBRACIÓN EXITOSA DE MÉTODOS TÉRMICOS VFLUX2**
+## Scripts Clave
 
-- **Estado:** Parámetros térmicos calibrados exitosamente
-- **Método validado:** Hatch-Amplitude dentro rango Silala (9-60 cm/día)
-- **Resultado principal:** 56 cm/día (consistente con literatura)
+- `script_prueba_flujo_matlab_v2.py`: Implementación oficial Hatch-Amplitude, ajuste armónico y cálculo analítico. Ideal para comparación directa con MATLAB y literatura.
+- `script_prueba.py`: Pipeline modular, pruebas integrales, validación secundaria y generación de datos sintéticos físicos avanzados.
 
-## Estado Final de los Métodos
+## Diferencias entre scripts y datasets
 
-### 1. Hatch-Amplitude Method - VALIDADO
-- **Resultado:** 56.1 mm/día = 56 cm/día
-- **Estado:** DENTRO DEL RANGO SILALA (9-60 cm/día)
-- **Observación:** Método más confiable para datos sintéticos
+- **script_prueba_flujo_matlab_v2.py:** Foco en validación directa del método Hatch-Amplitude. Usa datos reales y sintéticos, extrae amplitudes/fases y calcula el flujo vertical. Ideal para comparar con MATLAB y validar la implementación oficial.
+- **script_prueba.py:** Foco en pruebas modulares y desarrollo de la librería. Permite probar todos los métodos, generar datos sintéticos físicos avanzados (con gradiente, decaimiento de amplitud y desfase), y validar el pipeline completo.
+- **Nuevo generador de datos sintéticos:** Implementa la ecuación de conducción térmica 1D, generando señales diurnas con gradiente, amplitud decreciente y desfase creciente. Permite validar robustez y sensibilidad de los métodos.
 
-### 2. McCallum Method - FUNCIONAL
-- **Resultado:** 198.9 mm/día = 199 cm/día
-- **Estado:** Fuera de rango Silala pero funcional
-- **Acción:** Requiere datos reales para validación
+## Validación Científica
 
-### 3. Keery Method - FALLBACK VALIDADO
-- **Resultado:** 56.1 mm/día = 56 cm/día
-- **Estado:** Usa fallback a Hatch-Amplitude exitosamente
-- **Observación:** Implementación correcta de estrategia fallback
+- Comparación directa de amplitud, fase y flujo vertical entre Python y MATLAB.
+- Parámetros térmicos y gradiente validados.
+- Resultados dentro del rango internacional (ejemplo: 56 cm/día).
 
-### 4. Luce Method - FUNCIONAL
-- **Resultado:** 280.3 mm/día = 280 cm/día
-- **Estado:** Requiere calibración adicional
-- **Acción:** Validar con datos de campo
+## Estado de los Métodos
 
-### 5. Hatch-Phase Method - PROBLEMÁTICO CON DATOS SINTÉTICOS
-- **Resultado:** 0.0 mm/día
-- **Observación:** Desfases sintéticos irrealmente grandes (27-55°)
-- **Recomendación:** Usar con datos reales de campo
+| Método            | Estado         | Resultado         | Observaciones                  |
+|-------------------|---------------|-------------------|-------------------------------|
+| Hatch-Amplitude   | Validado      | 56 mm/día         | Coincide con MATLAB y Silala  |
+| Keery/McCallum    | En optimización| -                 | Pendiente validación robusta   |
+| Hatch-Phase/Luce  | En revisión   | -                 | Requieren corrección técnica   |
 
-## 📈 Resultados de Validación Final
+## Próximos Pasos
 
-| Método | Resultado | Error | Estado | Estrategia |
-|--------|-----------|-------|--------|------------|
-| **Hatch Amplitude** | 5.0000 mm/día | 0.00% | Gold Standard | Método base |
-| **Hatch Phase** | 5.0000 mm/día | 0.00% | Corregido | Separación física |
-| **McCallum** | **5.0000 mm/día** | **0.00%** | **Corregido** | **Lógica fallback** |
-| **Keery** | **5.0000 mm/día** | **0.00%** | **Corregido** | **Fallback inteligente** |
-| **Luce** | **5.0000 mm/día** | **0.00%** | **Corregido** | **Fallback documentado** |
+- Aplicar Hatch-Amplitude a todos los datasets reales
+- Finalizar validación de métodos secundarios
+- Generar reportes técnicos finales y documentación comparativa
 
-**CV FINAL: Calibrado para rango Silala**
+## Contacto
 
-## Parámetros Térmicos Calibrados
+FlowHydroTech - Equipo científico y técnico
 
 ### Separación Física de Fases Térmicas
 ```text
@@ -98,8 +86,8 @@ Para flujos pequeños (Pe << 1):
 #### **Validación Científica**
 - [x] **CV = 0.0%** - Objetivo < 20% superado
 - [x] **Base física sólida** - Separación conductivo/advectivo validada
-- [x] **Compatibilidad MATLAB** - Los 5 métodos funcionan
-- [x] **Documentación completa** - 900+ líneas de análisis técnico
+- [ ] **Compatibilidad MATLAB** - Los 5 métodos funcionan
+- [ ] **Documentación completa** - 900+ líneas de análisis técnico
 
 ### PRÓXIMOS PASOS - FASE DE APLICACIÓN
 
@@ -189,7 +177,7 @@ Ver [`doc/ECUACIONES_VFLUX_REFERENCIAS.md`](doc/ECUACIONES_VFLUX_REFERENCIAS.md)
 
 ---
 
-## 📞 Estado del Proyecto
+##  Estado del Proyecto
 
 ## PROYECTO COMPLETADO EXITOSAMENTE
 
@@ -668,6 +656,7 @@ Uso: Datos de referencia para validar que cada método VFLUX2 recupere correctam
 
 
 
+---
 
 ## Referencias Científicas
 
@@ -692,24 +681,9 @@ Para consultas sobre el proyecto o colaboraciones, por favor abre un issue en el
 
 ---
 
-## 📄 Licencia
+## Licencia
 
 Este proyecto es de código privado y está disponible bajo la licencia MIT.
 
----
-
-# 6. Objetivo final
-
-Construir un **solver térmico completo en Python**, totalmente reproducible, capaz de:
-
-- Leer datos crudos  
-- Procesarlos como VFLUX2  
-- Calcular ΔA, Δφ  
-- Aplicar los métodos de flujo con la misma lógica que MATLAB  
-- Validar equivalencia Python/MATLAB  
-- Integrarse a reportabilidad profesional (Power BI, gráficos, dashboards)
-
----
-
 ## © FlowHydroTech – Proyecto Termocuplas  
-Repositorio oficial de investigación y desarrollo para el análisis térmico río–acuífero.
+Repositorio oficial de investigación y desarrollo para el análisis térmico subterraneos.

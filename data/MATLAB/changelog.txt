@@ -1,0 +1,42 @@
+VFLUX Changelog
+
+
+v. 1.1.0  5/11/2011
+ -first public release
+
+v. 1.1.1  10/3/2011
+ -changed default interpolation technique in vfluxformat.m from cubic to linear
+
+v. 1.2.0  10/26/2011
+ -added optional 'unattended' switch to vflux.m to supress all pauses/interactions with the user
+ -added post-calculation routine vflux_post.m, and option to run it at the end of vflux.m
+ -vflux_post.m optionally does the following:
+    -displays two results figures, with four plots each of time series, amp, phs, and flux results
+    -displays bar charts showing how many flux calculations were not-NaN at each depth for different window sizes
+ -made functional (but optional) the perviously-experimental Hatch derivative check (on the Hatch Amp method only),
+  which writes flux as NaN if derivative dAr/dq is below a threshold value (See Hatch et al. 2006, section 3.1).
+    -added enable/disable switch and input for derivative limit to the beginning of the vflux.m code
+    -section in vflux_flux.m that calculates dAr/dv and writes NaN is now active if enabled in vflux.m
+    -also corrected difference between dAr/dq (derivative with respect to seepage flux) and dAr/dv (derivative with respect to thermal front velocity)
+ -added to VFLUX package new functions that use VFLUX to do basic sensitivity analyses (vfluxsens.m) and Monte Carlo analyses (vfluxmc.m)
+
+v. 1.2.1  11/08/2011
+ -corrected error in code dealing with multiple real roots in Keery Amp method (error did not previously affect results)
+
+v. 1.2.2  11/08/2011
+ -corrected default number of Monte Carlo realizations in vfluxmc.m.  Version 1.2.1 accidentally shipped with the realizations set to 20; now set to 1000.
+
+v. 1.2.3  9/05/2012
+ -updated Documentation document only
+
+v. 1.2.4 9/24/2014
+ -corrected code so that whenever the product of thermal front velocity (v) and dispersivity (beta) is computed, the returned value is the absolute value.
+
+#######################
+# VFLUX VERSION 2.0.0 #
+#######################
+
+v. 2.0.0 03/13/2015
+- added McCallum et al. (2012), and Luce et al. (2013) methods to calculate  flux (q), and thermal diffusivity (Ke).  Luce et al. (2013) method to calculate sensor spacing was also added to vflux_flux.m. The updated version (v. 2.0.0) is fully compatible with previous v. 1.x.x releases.
+- additional figure in vflux_post.m plots flux and thermal diffusivity time series, with theoretical limits of thermal diffusivity. If thermal diffusivity values from the McCallum/ Luce methods are outside of this range, flux estimates are likely unreliable from the McCallum/Luce methods.
+- functionality included in the vflux_post.m to refine the range of plausible thermal diffusivity at a site. This functionality can be used to guide the user on whether flux estimates are reliable. See documentation for more details.
