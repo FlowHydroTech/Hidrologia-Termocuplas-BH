@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_15c3f69282257d27b78a8755364a3854 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.css"/>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_15c3f69282257d27b78a8755364a3854" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_15c3f69282257d27b78a8755364a3854 = L.map(
+                "map_15c3f69282257d27b78a8755364a3854",
+                {
+                    center: [-31.87510919707601, -70.61756396903745],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 14,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_7938de1d822257035147721112e9d944 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Esri World Imagery",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_7938de1d822257035147721112e9d944.addTo(map_15c3f69282257d27b78a8755364a3854);
+        
+    
+            var tile_layer_0e4ca73ab383d0a6bc538764fb7bc02e = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Esri Labels",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_0e4ca73ab383d0a6bc538764fb7bc02e.addTo(map_15c3f69282257d27b78a8755364a3854);
+        
+    
+            var marker_169b09ed7d78a11423e9929e331591ad = L.marker(
+                [-31.865098479895895, -70.61434119083572],
+                {
+}
+            ).addTo(map_15c3f69282257d27b78a8755364a3854);
+        
+    
+            var icon_e2c7504e486f9a097ba05f29f741d54e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "thermometer-half",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2ffaacba2d8c60ae6bb4ad1917efbc3c = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_1b2e36d6544fce2a289d93a5cf25bb84 = $(`<div id="html_1b2e36d6544fce2a289d93a5cf25bb84" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; font-size: 12px; min-width: 180px;">         <b style="font-size: 14px; color: #c0392b;">TC1</b><br>         <hr style="margin: 3px 0;">         <b>UTM 19S:</b> 347285 E, 6473381 N<br>         <b>WGS84:</b> -31.865098°, -70.614341°<br>         <b>Profundidades:</b> 0, 28, 56 cm<br>         <b>Estado:</b> ✅ Datos procesados     </div>     </div>`)[0];
+                popup_2ffaacba2d8c60ae6bb4ad1917efbc3c.setContent(html_1b2e36d6544fce2a289d93a5cf25bb84);
+            
+        
+
+        marker_169b09ed7d78a11423e9929e331591ad.bindPopup(popup_2ffaacba2d8c60ae6bb4ad1917efbc3c)
+        ;
+
+        
+    
+    
+            marker_169b09ed7d78a11423e9929e331591ad.bindTooltip(
+                `<div>
+                     TC1 (activa)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_169b09ed7d78a11423e9929e331591ad.setIcon(icon_e2c7504e486f9a097ba05f29f741d54e);
+            
+    
+            var marker_fe798cd42629315e92a960518c163b20 = L.marker(
+                [-31.863450859406555, -70.61267419403467],
+                {
+}
+            ).addTo(map_15c3f69282257d27b78a8755364a3854);
+        
+    
+            var icon_865c6180a26c8a7abdda4cacb2e001de = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "gray",
+  "iconColor": "white",
+  "icon": "circle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d61a93725f4473fa920ca77440728420 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_a6508bd0b0c2d6336f8edb4728b6ea22 = $(`<div id="html_a6508bd0b0c2d6336f8edb4728b6ea22" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; font-size: 12px; min-width: 180px;">         <b style="font-size: 14px; color: #7f8c8d;">TC2</b><br>         <hr style="margin: 3px 0;">         <b>UTM 19S:</b> 347440 E, 6473566 N<br>         <b>WGS84:</b> -31.863451°, -70.612674°<br>         <b>Profundidades:</b> Sin datos iButton<br>         <b>Estado:</b> ⏳ Pendiente     </div>     </div>`)[0];
+                popup_d61a93725f4473fa920ca77440728420.setContent(html_a6508bd0b0c2d6336f8edb4728b6ea22);
+            
+        
+
+        marker_fe798cd42629315e92a960518c163b20.bindPopup(popup_d61a93725f4473fa920ca77440728420)
+        ;
+
+        
+    
+    
+            marker_fe798cd42629315e92a960518c163b20.bindTooltip(
+                `<div>
+                     TC2 (pendiente)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_fe798cd42629315e92a960518c163b20.setIcon(icon_865c6180a26c8a7abdda4cacb2e001de);
+            
+    
+            var marker_4431e89a6807aebca1291118e6eed65d = L.marker(
+                [-31.874965075062438, -70.61660626808708],
+                {
+}
+            ).addTo(map_15c3f69282257d27b78a8755364a3854);
+        
+    
+            var icon_3798728bc27688a5899f55a4617964f1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "thermometer-half",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8b326c8702b66c4afb95e55f459e1ebe = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_0b7733b495044955bd7d9aba4060b606 = $(`<div id="html_0b7733b495044955bd7d9aba4060b606" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; font-size: 12px; min-width: 180px;">         <b style="font-size: 14px; color: #c0392b;">TC3</b><br>         <hr style="margin: 3px 0;">         <b>UTM 19S:</b> 347087 E, 6472284 N<br>         <b>WGS84:</b> -31.874965°, -70.616606°<br>         <b>Profundidades:</b> 0, 20, 40 cm<br>         <b>Estado:</b> ✅ Datos procesados     </div>     </div>`)[0];
+                popup_8b326c8702b66c4afb95e55f459e1ebe.setContent(html_0b7733b495044955bd7d9aba4060b606);
+            
+        
+
+        marker_4431e89a6807aebca1291118e6eed65d.bindPopup(popup_8b326c8702b66c4afb95e55f459e1ebe)
+        ;
+
+        
+    
+    
+            marker_4431e89a6807aebca1291118e6eed65d.bindTooltip(
+                `<div>
+                     TC3 (activa)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4431e89a6807aebca1291118e6eed65d.setIcon(icon_3798728bc27688a5899f55a4617964f1);
+            
+    
+            var marker_dec197dd46e5ff5ca8ed27b51c368bf8 = L.marker(
+                [-31.87643856660477, -70.61635715809003],
+                {
+}
+            ).addTo(map_15c3f69282257d27b78a8755364a3854);
+        
+    
+            var icon_4af07e07be38db3b58035d1073827c26 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "gray",
+  "iconColor": "white",
+  "icon": "circle",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_834dac26b90583524c13d037b48a1578 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_b9fe9abc79c4665efb1ae2859a014170 = $(`<div id="html_b9fe9abc79c4665efb1ae2859a014170" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; font-size: 12px; min-width: 180px;">         <b style="font-size: 14px; color: #7f8c8d;">TC4</b><br>         <hr style="margin: 3px 0;">         <b>UTM 19S:</b> 347113 E, 6472121 N<br>         <b>WGS84:</b> -31.876439°, -70.616357°<br>         <b>Profundidades:</b> Sin datos iButton<br>         <b>Estado:</b> ⏳ Pendiente     </div>     </div>`)[0];
+                popup_834dac26b90583524c13d037b48a1578.setContent(html_b9fe9abc79c4665efb1ae2859a014170);
+            
+        
+
+        marker_dec197dd46e5ff5ca8ed27b51c368bf8.bindPopup(popup_834dac26b90583524c13d037b48a1578)
+        ;
+
+        
+    
+    
+            marker_dec197dd46e5ff5ca8ed27b51c368bf8.bindTooltip(
+                `<div>
+                     TC4 (pendiente)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dec197dd46e5ff5ca8ed27b51c368bf8.setIcon(icon_4af07e07be38db3b58035d1073827c26);
+            
+    
+            var marker_d147b5486ce63eb6113c5fa23d1a85d4 = L.marker(
+                [-31.8852640362697, -70.62174444818955],
+                {
+}
+            ).addTo(map_15c3f69282257d27b78a8755364a3854);
+        
+    
+            var icon_2484600cfc8736a73dd75fc938d45d70 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "thermometer-half",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8b362241d3ee340a39c8164262fc54f5 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_43b9e9946c2e7d3755c1bbea70762bdc = $(`<div id="html_43b9e9946c2e7d3755c1bbea70762bdc" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; font-size: 12px; min-width: 180px;">         <b style="font-size: 14px; color: #c0392b;">TC5</b><br>         <hr style="margin: 3px 0;">         <b>UTM 19S:</b> 346618 E, 6471135 N<br>         <b>WGS84:</b> -31.885264°, -70.621744°<br>         <b>Profundidades:</b> 0, 28, 56 cm<br>         <b>Estado:</b> ✅ Datos procesados     </div>     </div>`)[0];
+                popup_8b362241d3ee340a39c8164262fc54f5.setContent(html_43b9e9946c2e7d3755c1bbea70762bdc);
+            
+        
+
+        marker_d147b5486ce63eb6113c5fa23d1a85d4.bindPopup(popup_8b362241d3ee340a39c8164262fc54f5)
+        ;
+
+        
+    
+    
+            marker_d147b5486ce63eb6113c5fa23d1a85d4.bindTooltip(
+                `<div>
+                     TC5 (activa)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d147b5486ce63eb6113c5fa23d1a85d4.setIcon(icon_2484600cfc8736a73dd75fc938d45d70);
+            
+    
+            var poly_line_63422c84333cbbc09f56328874f7abee = L.polyline(
+                [[-31.8852640362697, -70.62174444818955], [-31.87643856660477, -70.61635715809003], [-31.874965075062438, -70.61660626808708], [-31.863450859406555, -70.61267419403467], [-31.865098479895895, -70.61434119083572]],
+                {"bubblingMouseEvents": true, "color": "cyan", "dashArray": "8", "dashOffset": null, "fill": false, "fillColor": "cyan", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(map_15c3f69282257d27b78a8755364a3854);
+        
+    
+            poly_line_63422c84333cbbc09f56328874f7abee.bindTooltip(
+                `<div>
+                     Perfil longitudinal de estaciones
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var measure_control_781ae00b63ba8146275a8930775ae8b3 = new L.Control.Measure(
+                {
+  "position": "bottomleft",
+  "primaryLengthUnit": "meters",
+  "secondaryLengthUnit": "miles",
+  "primaryAreaUnit": "sqmeters",
+  "secondaryAreaUnit": "acres",
+});
+            map_15c3f69282257d27b78a8755364a3854.addControl(measure_control_781ae00b63ba8146275a8930775ae8b3);
+
+            // Workaround for using this plugin with Leaflet>=1.8.0
+            // https://github.com/ljagis/leaflet-measure/issues/171
+            L.Control.Measure.include({
+                _setCaptureMarkerIcon: function () {
+                    // disable autopan
+                    this._captureMarker.options.autoPanOnFocus = false;
+                    // default function
+                    this._captureMarker.setIcon(
+                        L.divIcon({
+                            iconSize: this._map.getSize().multiplyBy(2)
+                        })
+                    );
+                },
+            });
+
+        
+    
+            var layer_control_86319b963256f610cfecea271172e697_layers = {
+                base_layers : {
+                    "https://server.arcgisonline.com/arcgis/rest/services/world_imagery/mapserver/tile/{z}/{y}/{x}" : tile_layer_7938de1d822257035147721112e9d944,
+                },
+                overlays :  {
+                    "Etiquetas" : tile_layer_0e4ca73ab383d0a6bc538764fb7bc02e,
+                },
+            };
+            let layer_control_86319b963256f610cfecea271172e697 = L.control.layers(
+                layer_control_86319b963256f610cfecea271172e697_layers.base_layers,
+                layer_control_86319b963256f610cfecea271172e697_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_15c3f69282257d27b78a8755364a3854);
+
+        
+</script>
+</html>

@@ -1,7 +1,10 @@
 termocupla,posicion,label,sensor_id,profundidad_m
-TC1,surface,temp_5,A400000082BAF041,0.0
-TC1,intermediate,temp_4,7D000000828FA841,0.28
-TC1,deep,temp_3,5900000082B86A41,0.56
-TC5,surface,temp_2,3800000082952A41,0.0
-TC5,intermediate,temp_6,B000000082987741,0.28
+TC1,surface,temp_6,A400000082BAF041,0.0
+TC1,intermediate,temp_5,7D000000828FA841,0.28
+TC1,deep,temp_4,5900000082B86A41,0.56
+TC3,surface,temp_9,F60000008290D841,0.0
+TC3,intermediate,temp_2,2D00000082925E41,0.2
+TC3,deep,temp_8,B3000000828F2741,0.4
+TC5,surface,temp_3,3800000082952A41,0.0
+TC5,intermediate,temp_7,B000000082987741,0.28
 TC5,deep,temp_1,2800000082978041,0.56
