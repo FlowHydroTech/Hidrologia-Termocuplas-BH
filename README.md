@@ -291,7 +291,7 @@ MIT License — ver [LICENSE](LICENSE)
 ## Contacto
 
 Proyecto Hidrología-Termocuplas-BH  
-Universidad de Chile — Departamento de Geología
+Flow Hydro - Tecnología
 
 ---
 

@@ -1,46 +1,46 @@
-Par,Metodo,q (mm/dia),q (m/s),Direccion
-TC1: sup-int,McCallum (2012),246.0,2.85e-06,Infiltracion (desc.)
-TC1: sup-int,Hatch-Amplitud,381.65,4.42e-06,Infiltracion (desc.)
-TC1: sup-int,Hatch-Fase,-6311.83,-7.31e-05,Exfiltracion (asc.)
-TC1: sup-int,Keery (2007),1191.44,1.38e-05,Infiltracion (desc.)
-TC1: sup-int,Luce (2013),1032.38,1.19e-05,Infiltracion (desc.)
-TC1: int-inf,McCallum (2012),624.82,7.23e-06,Infiltracion (desc.)
-TC1: int-inf,Hatch-Amplitud,992.59,1.15e-05,Infiltracion (desc.)
-TC1: int-inf,Hatch-Fase,-5717.64,-6.62e-05,Exfiltracion (asc.)
-TC1: int-inf,Keery (2007),1413.73,1.64e-05,Infiltracion (desc.)
-TC1: int-inf,Luce (2013),1534.0,1.78e-05,Infiltracion (desc.)
-TC1: sup-inf,McCallum (2012),1878.12,2.17e-05,Infiltracion (desc.)
-TC1: sup-inf,Hatch-Amplitud,687.12,7.95e-06,Infiltracion (desc.)
-TC1: sup-inf,Hatch-Fase,-363.97,-4.21e-06,Exfiltracion (asc.)
-TC1: sup-inf,Keery (2007),679.4,7.86e-06,Infiltracion (desc.)
-TC1: sup-inf,Luce (2013),1618.58,1.87e-05,Infiltracion (desc.)
-TC3: sup-int,McCallum (2012),17.72,2.05e-07,Infiltracion (desc.)
-TC3: sup-int,Hatch-Amplitud,64.36,7.45e-07,Infiltracion (desc.)
-TC3: sup-int,Hatch-Fase,-16197.1,-1.87e-04,Exfiltracion (asc.)
-TC3: sup-int,Keery (2007),1735.43,2.01e-05,Infiltracion (desc.)
-TC3: sup-int,Luce (2013),182.82,2.12e-06,Infiltracion (desc.)
-TC3: int-inf,McCallum (2012),8.72,1.01e-07,Infiltracion (desc.)
-TC3: int-inf,Hatch-Amplitud,31.96,3.70e-07,Infiltracion (desc.)
-TC3: int-inf,Hatch-Fase,-16354.68,-1.89e-04,Exfiltracion (asc.)
-TC3: int-inf,Keery (2007),1734.99,2.01e-05,Infiltracion (desc.)
-TC3: int-inf,Luce (2013),93.42,1.08e-06,Infiltracion (desc.)
-TC3: sup-inf,McCallum (2012),53.84,6.23e-07,Infiltracion (desc.)
-TC3: sup-inf,Hatch-Amplitud,48.16,5.57e-07,Infiltracion (desc.)
-TC3: sup-inf,Hatch-Fase,-3357.9,-3.89e-05,Exfiltracion (asc.)
-TC3: sup-inf,Keery (2007),862.75,9.99e-06,Infiltracion (desc.)
-TC3: sup-inf,Luce (2013),266.01,3.08e-06,Infiltracion (desc.)
-TC5: sup-int,McCallum (2012),650.63,7.53e-06,Infiltracion (desc.)
-TC5: sup-int,Hatch-Amplitud,831.12,9.62e-06,Infiltracion (desc.)
-TC5: sup-int,Hatch-Fase,-4368.52,-5.06e-05,Exfiltracion (asc.)
-TC5: sup-int,Keery (2007),1144.11,1.32e-05,Infiltracion (desc.)
-TC5: sup-int,Luce (2013),1465.24,1.70e-05,Infiltracion (desc.)
-TC5: int-inf,McCallum (2012),225.0,2.60e-06,Infiltracion (desc.)
-TC5: int-inf,Hatch-Amplitud,267.04,3.09e-06,Infiltracion (desc.)
-TC5: int-inf,Hatch-Fase,-4648.53,-5.38e-05,Exfiltracion (asc.)
-TC5: int-inf,Keery (2007),901.27,1.04e-05,Infiltracion (desc.)
-TC5: int-inf,Luce (2013),818.52,9.47e-06,Infiltracion (desc.)
-TC5: sup-inf,McCallum (2012),2390.38,2.77e-05,Infiltracion (desc.)
-TC5: sup-inf,Hatch-Amplitud,549.08,6.36e-06,Infiltracion (desc.)
-TC5: sup-inf,Hatch-Fase,389.14,4.50e-06,Infiltracion (desc.)
-TC5: sup-inf,Keery (2007),399.51,4.62e-06,Infiltracion (desc.)
-TC5: sup-inf,Luce (2013),1565.98,1.81e-05,Infiltracion (desc.)
+Par,Método,q (mm/día),q (m/s),Dirección
+TC1: sup-int,McCallum (2012),246.0,2.85e-06,Infiltración ↓
+TC1: sup-int,Hatch-Amplitud,381.65,4.42e-06,Infiltración ↓
+TC1: sup-int,Hatch-Fase,-6311.83,-7.31e-05,Exfiltración ↑
+TC1: sup-int,Keery (2007),1191.44,1.38e-05,Infiltración ↓
+TC1: sup-int,Luce (2013),1032.38,1.19e-05,Infiltración ↓
+TC1: int-inf,McCallum (2012),624.82,7.23e-06,Infiltración ↓
+TC1: int-inf,Hatch-Amplitud,992.59,1.15e-05,Infiltración ↓
+TC1: int-inf,Hatch-Fase,-5717.64,-6.62e-05,Exfiltración ↑
+TC1: int-inf,Keery (2007),1413.73,1.64e-05,Infiltración ↓
+TC1: int-inf,Luce (2013),1534.0,1.78e-05,Infiltración ↓
+TC1: sup-inf,McCallum (2012),1878.12,2.17e-05,Infiltración ↓
+TC1: sup-inf,Hatch-Amplitud,687.12,7.95e-06,Infiltración ↓
+TC1: sup-inf,Hatch-Fase,-363.97,-4.21e-06,Exfiltración ↑
+TC1: sup-inf,Keery (2007),679.4,7.86e-06,Infiltración ↓
+TC1: sup-inf,Luce (2013),1618.58,1.87e-05,Infiltración ↓
+TC3: sup-int,McCallum (2012),17.72,2.05e-07,Infiltración ↓
+TC3: sup-int,Hatch-Amplitud,64.36,7.45e-07,Infiltración ↓
+TC3: sup-int,Hatch-Fase,-16197.1,-1.87e-04,Exfiltración ↑
+TC3: sup-int,Keery (2007),1735.43,2.01e-05,Infiltración ↓
+TC3: sup-int,Luce (2013),182.82,2.12e-06,Infiltración ↓
+TC3: int-inf,McCallum (2012),8.72,1.01e-07,Infiltración ↓
+TC3: int-inf,Hatch-Amplitud,31.96,3.70e-07,Infiltración ↓
+TC3: int-inf,Hatch-Fase,-16354.68,-1.89e-04,Exfiltración ↑
+TC3: int-inf,Keery (2007),1734.99,2.01e-05,Infiltración ↓
+TC3: int-inf,Luce (2013),93.42,1.08e-06,Infiltración ↓
+TC3: sup-inf,McCallum (2012),53.84,6.23e-07,Infiltración ↓
+TC3: sup-inf,Hatch-Amplitud,48.16,5.57e-07,Infiltración ↓
+TC3: sup-inf,Hatch-Fase,-3357.9,-3.89e-05,Exfiltración ↑
+TC3: sup-inf,Keery (2007),862.75,9.99e-06,Infiltración ↓
+TC3: sup-inf,Luce (2013),266.01,3.08e-06,Infiltración ↓
+TC5: sup-int,McCallum (2012),650.63,7.53e-06,Infiltración ↓
+TC5: sup-int,Hatch-Amplitud,831.12,9.62e-06,Infiltración ↓
+TC5: sup-int,Hatch-Fase,-4368.52,-5.06e-05,Exfiltración ↑
+TC5: sup-int,Keery (2007),1144.11,1.32e-05,Infiltración ↓
+TC5: sup-int,Luce (2013),1465.24,1.70e-05,Infiltración ↓
+TC5: int-inf,McCallum (2012),225.0,2.60e-06,Infiltración ↓
+TC5: int-inf,Hatch-Amplitud,267.04,3.09e-06,Infiltración ↓
+TC5: int-inf,Hatch-Fase,-4648.53,-5.38e-05,Exfiltración ↑
+TC5: int-inf,Keery (2007),901.27,1.04e-05,Infiltración ↓
+TC5: int-inf,Luce (2013),818.52,9.47e-06,Infiltración ↓
+TC5: sup-inf,McCallum (2012),2390.38,2.77e-05,Infiltración ↓
+TC5: sup-inf,Hatch-Amplitud,549.08,6.36e-06,Infiltración ↓
+TC5: sup-inf,Hatch-Fase,389.14,4.50e-06,Infiltración ↓
+TC5: sup-inf,Keery (2007),399.51,4.62e-06,Infiltración ↓
+TC5: sup-inf,Luce (2013),1565.98,1.81e-05,Infiltración ↓

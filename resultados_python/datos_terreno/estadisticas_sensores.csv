@@ -1,4 +1,4 @@
-TC,Posicion,Prof (cm),N,T_media (C),T_min (C),T_max (C),Rango (C),Desv.std (C)
+TC,Posición,Prof (cm),N,T_media (°C),T_min (°C),T_max (°C),Rango (°C),Desv.std (°C)
 TC1,Superficie,0.0,1560,17.5,13.06,23.76,10.7,2.7
 TC1,Intermedio,28.000000000000004,1560,17.53,14.73,20.3,5.57,1.17
 TC1,Inferior,56.00000000000001,1560,17.65,16.51,19.08,2.57,0.467
