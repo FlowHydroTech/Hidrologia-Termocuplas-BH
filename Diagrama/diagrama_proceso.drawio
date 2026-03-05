@@ -255,6 +255,36 @@
         </mxCell>
 
         <!-- ============================================================ -->
+        <!-- ETAPA 9: SERIES TEMPORALES DE FLUJO (NEW) -->
+        <!-- ============================================================ -->
+        <mxCell id="g9" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#388e3c;strokeWidth=2;arcSize=10;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="650" width="280" height="220" as="geometry"/>
+        </mxCell>
+        <mxCell id="g9_title" value="&lt;b&gt;9. SERIES TEMPORALES&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=top;fontSize=13;fontColor=#1b5e20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="655" width="180" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="s9a" value="flux_timeseries.py&lt;br&gt;(ventan deslizante 48h, paso 12h)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#388e3c;fontSize=10;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="1065" y="690" width="250" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="s9b" value="calculate_flux_timeseries()&lt;br&gt;Flujo estimado cada 12h" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#388e3c;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1065" y="730" width="250" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="s9c" value="batch_calculate_flux_timeseries()&lt;br&gt;Todos los pares de sensores" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#388e3c;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1065" y="770" width="250" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="s9d" value="Exportación: CSV por par +&lt;br&gt;Excel consolidado (series_temporales/)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#388e3c;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1065" y="810" width="250" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- FLECHA 8→9 -->
+        <mxCell id="a89" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;strokeColor=#1a365d;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="g8" target="g9">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a89_lbl" value="flux_results" style="edgeLabel;html=1;fontSize=9;fontColor=#555;align=center;" vertex="1" connectable="0" parent="a89">
+          <mxGeometry x="-0.1" relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ============================================================ -->
         <!-- NOTA AL PIE -->
         <!-- ============================================================ -->
         <mxCell id="note1" value="&lt;i&gt;Flujo de trabajo basado en VFLUX2 (Gordon et al., 2012) — Implementación Python (paquete vfluxx)&lt;br&gt;Métodos: Hatch (2006), Keery (2007), McCallum (2012), Luce (2013)&lt;/i&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;fontColor=#888;fontFamily=Arial;" vertex="1" parent="1">
@@ -289,7 +319,10 @@
           <mxGeometry x="1215" y="551" width="110" height="25" as="geometry"/>
         </mxCell>
         <mxCell id="smod7" value="logger_vflux.py" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#7b1fa2;fontSize=9;fontFamily=Courier New;" vertex="1" parent="1">
-          <mxGeometry x="1095" y="584" width="230" height="25" as="geometry"/>
+          <mxGeometry x="1095" y="584" width="110" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="smod8" value="flux_timeseries.py" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#388e3c;fontSize=9;fontFamily=Courier New;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1215" y="584" width="110" height="25" as="geometry"/>
         </mxCell>
 
       </root>

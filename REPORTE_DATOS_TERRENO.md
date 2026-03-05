@@ -594,7 +594,95 @@ y_pred, y_std = model.predict(X_new, return_std=True)
 
 ---
 
-## 15. Referencias
+## 15. Series Temporales de Flujo (Análisis de Ventana Deslizante)
+
+### 15.1 Motivación
+
+El análisis armónico estándar proporciona **una única estimación de flujo** para todo el período de medición. Sin embargo, para investigaciones que requieren resolución temporal de los flujos (variabilidad diaria/semanal), se implementó un módulo de **análisis de ventana deslizante**.
+
+### 15.2 Metodología
+
+El módulo `flux_timeseries.py` implementa análisis de ventana deslizante con los siguientes parámetros por defecto:
+
+| Parámetro | Valor | Justificación |
+|-----------|-------|---------------|
+| **Ventana** | 48 horas | Captura ≥2 ciclos diurnos completos |
+| **Paso** | 12 horas | Balance entre resolución y suavizado |
+| **Método** | McCallum (2012) | Mayor estabilidad numérica |
+| **Mínimo datos** | 80% de ventana | Evita estimaciones con gaps |
+
+### 15.3 Funciones Disponibles
+
+```python
+from vfluxx import (
+    calculate_flux_timeseries,   # Análisis para un par de sensores
+    export_flux_timeseries,       # Exporta CSV/Excel
+    batch_calculate_flux_timeseries  # Procesa todos los pares
+)
+```
+
+#### Ejemplo de uso:
+```python
+# Un par de sensores
+results_ts = calculate_flux_timeseries(
+    df_work, 
+    sensor_sup='TC1_0cm', 
+    sensor_inf='TC1_28cm',
+    depth_m=0.28,
+    window_hours=48,
+    step_hours=12,
+    thermal_params=thermal_params
+)
+
+# Todos los pares (batch)
+all_ts = batch_calculate_flux_timeseries(
+    df_work, 
+    sensor_pairs, 
+    thermal_params,
+    output_dir='resultados_python/datos_terreno/series_temporales/'
+)
+```
+
+### 15.4 Formato de Salida
+
+Cada par de sensores genera un CSV con las siguientes columnas:
+
+| Columna | Descripción | Unidad |
+|---------|-------------|--------|
+| `timestamp` | Centro de la ventana de análisis | ISO 8601 |
+| `window_start` | Inicio de la ventana | ISO 8601 |
+| `window_end` | Fin de la ventana | ISO 8601 |
+| `flux_mm_day` | Flujo estimado | mm/día |
+| `flux_direction` | Dirección del flujo | infiltración/exfiltración |
+| `amplitude_ratio` | Razón de amplitudes (Ar) | - |
+| `phase_shift_hours` | Desfase de fase | horas |
+| `r2_upper` | R² del sensor superior | - |
+| `r2_lower` | R² del sensor inferior | - |
+| `n_samples` | Número de muestras en ventana | - |
+| `quality_flag` | 0=válido, 1=bajo R², 2=insuf. datos | - |
+
+### 15.5 Archivos Exportados
+
+```
+resultados_python/datos_terreno/series_temporales/
+├── flux_timeseries_TC1_0cm_TC1_28cm.csv
+├── flux_timeseries_TC1_0cm_TC1_56cm.csv
+├── flux_timeseries_TC1_28cm_TC1_56cm.csv
+├── flux_timeseries_TC5_0cm_TC5_28cm.csv
+├── flux_timeseries_TC5_0cm_TC5_56cm.csv
+├── flux_timeseries_TC5_28cm_TC5_56cm.csv
+└── flux_timeseries_consolidado.xlsx  (todas las hojas)
+```
+
+### 15.6 Interpretación de Resultados
+
+- **quality_flag = 0**: Estimación confiable
+- **quality_flag = 1**: R² < 0.5 en algún sensor → usar con precaución
+- **quality_flag = 2**: < 80% datos en ventana → no usar
+
+---
+
+## 16. Referencias
 
 - Gordon, R. P., Lautz, L. K., Briggs, M. A., & McKenzie, J. M. (2012). Automated calculation of vertical pore-water flux from field temperature time series using the VFLUX method and computer program. *Journal of Hydrology*, 420–421, 142–158.
 - Hatch, C. E., Fisher, A. T., Revenaugh, J. S., Constantz, J., & Ruehl, C. (2006). Quantifying surface water–groundwater interactions using time series analysis of streambed thermal records: Method development. *Water Resources Research*, 42(10).
