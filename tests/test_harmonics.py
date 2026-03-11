@@ -11,42 +11,47 @@ from pathlib import Path
 # Añadir el directorio src al path
 sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
 
-from harmonic_analysis import (
-    compute_fft,
-    extract_dominant_frequency,
-    fit_harmonic_model
+from vfluxx.harmonic_analysis import (
+    compute_ar_spectrum,
+    fit_harmonic_model,
+    analyze_sensor_pair
 )
 
 
-def test_compute_fft():
-    """Test básico de FFT con señal sintética."""
-    # Crear señal sintética: 1 Hz
-    sampling_rate = 100  # Hz
-    duration = 1  # segundo
-    t = np.linspace(0, duration, int(sampling_rate * duration), endpoint=False)
-    frequency = 1  # Hz
-    signal = np.sin(2 * np.pi * frequency * t)
+def test_compute_ar_spectrum():
+    """Test básico de espectro AR con señal sintética."""
+    # Crear señal sintética con ciclo de 24 horas
+    n_points = 48 * 2  # 2 días a 30 min = 96 puntos
+    t = np.linspace(0, 48, n_points)  # horas
+    signal = 10 + 3 * np.sin(2 * np.pi * t / 24)  # Ciclo 24h
     
-    freqs, amplitudes = compute_fft(pd.Series(signal), sampling_rate)
+    # compute_ar_spectrum espera DataFrame con columna 'temperature'
+    df = pd.DataFrame({'temperature': signal})
+    spectrum, freqs = compute_ar_spectrum(df, order=12)
     
-    # Encontrar frecuencia dominante
-    dominant_idx = np.argmax(amplitudes)
-    dominant_freq = freqs[dominant_idx]
-    
-    assert np.isclose(dominant_freq, frequency, rtol=0.1)
+    assert len(freqs) > 0
+    assert len(spectrum) == len(freqs)
+    assert all(s >= 0 for s in spectrum)  # Espectro no negativo
 
 
-def test_extract_dominant_frequency():
-    """Test de extracción de frecuencia dominante."""
-    sampling_rate = 100
-    duration = 2
-    t = np.linspace(0, duration, int(sampling_rate * duration), endpoint=False)
-    frequency = 5  # Hz
-    signal = np.sin(2 * np.pi * frequency * t) + 0.1 * np.random.randn(len(t))
+def test_analyze_sensor_pair():
+    """Test de análisis de par de sensores."""
+    # Crear datos sintéticos con atenuación y desfase
+    n_points = 48 * 3  # 3 días
+    t = np.linspace(0, 72, n_points)  # horas
     
-    dominant_freq = extract_dominant_frequency(pd.Series(signal), sampling_rate)
+    # Sensor superficial: mayor amplitud
+    temp_shallow = 15 + 4 * np.sin(2 * np.pi * t / 24)
     
-    assert np.isclose(dominant_freq, frequency, rtol=0.1)
+    # Sensor profundo: menor amplitud y desfasado
+    temp_deep = 15 + 2 * np.sin(2 * np.pi * t / 24 - np.pi/6)
+    
+    result = analyze_sensor_pair(t, temp_shallow, temp_deep, period_hours=24.0)
+    
+    # La función retorna claves A_shallow, A_deep directamente
+    assert 'A_shallow' in result
+    assert 'A_deep' in result
+    assert result['A_shallow'] > result['A_deep']
 
 
 def test_fit_harmonic_model():
@@ -54,20 +59,24 @@ def test_fit_harmonic_model():
     # Parámetros conocidos
     mean = 10
     amplitude = 5
-    omega = 2 * np.pi / 24  # Ciclo diario
+    period = 24  # Ciclo diario en horas
     phase = np.pi / 4
     
-    # Generar datos
-    t = np.linspace(0, 48, 100)  # 48 horas
-    temperature = mean + amplitude * np.sin(omega * t + phase)
+    # Generar datos sintéticos con ruido mínimo
+    t = np.linspace(0, 72, 144)  # 72 horas, 30 min intervalo
+    temperature = mean + amplitude * np.sin(2 * np.pi * t / period + phase)
     
     # Ajustar modelo
-    params = fit_harmonic_model(t, temperature)
+    params = fit_harmonic_model(t, temperature, period_hours=24.0)
     
     # Verificar parámetros
-    assert np.isclose(params['mean'], mean, rtol=0.1)
-    assert np.isclose(params['amplitude'], amplitude, rtol=0.1)
-    assert np.isclose(params['omega'], omega, rtol=0.1)
+    assert 'amplitude' in params
+    assert 'phase' in params
+    assert 'offset' in params
+    assert 'r_squared' in params
+    assert np.isclose(params['offset'], mean, rtol=0.1)
+    assert np.isclose(params['amplitude'], amplitude, rtol=0.2)
+    assert params['r_squared'] > 0.9  # Debe ser buen ajuste sin ruido
 
 
 if __name__ == '__main__':

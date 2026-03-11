@@ -3,9 +3,10 @@
 ## Estimación de Flujos Verticales en Zona Hiporreica mediante Trazado Térmico
 
 **Proyecto:** Hidrología – Termocuplas BH  
-**Fecha de análisis:** Enero 2026  
+**Fecha de análisis:** Febrero 2026  
 **Notebook:** `notebooks/05_datos_terreno.ipynb`  
 **Autores:** [Completar]  
+**Última actualización:** 25-Feb-2026  
 
 ---
 
@@ -42,7 +43,7 @@ La señal térmica diurna se propaga como una onda amortiguada, cuya atenuación
 | **Sensores por termocupla** | 3 (superficie, intermedio, inferior) |
 | **Total sensores** | 9 iButton |
 | **Intervalo de muestreo** | 30 minutos |
-| **Periodo de monitoreo** | 21-Dic-2025 a 22-Ene-2026 (~33 días) |
+| **Periodo de monitoreo** | 21-Dic-2025 a 25-Feb-2026 (~66 días, ~132 ciclos diurnos) |
 
 ### 2.2 Profundidades de Instalación
 
@@ -97,15 +98,17 @@ La longitud de penetración $d = \sqrt{2\kappa_e / \omega} = 0.133$ m indica que
 
 | TC | Posición | Prof (cm) | N | T̄ (°C) | T_min (°C) | T_max (°C) | Rango (°C) | σ (°C) |
 |----|----------|-----------|---|---------|------------|------------|------------|--------|
-| TC1 | Superficie | 0 | 1560 | 17.50 | 13.06 | 23.76 | 10.70 | 2.700 |
-| TC1 | Intermedio | 28 | 1560 | 17.53 | 14.73 | 20.30 | 5.57 | 1.170 |
-| TC1 | Inferior | 56 | 1560 | 17.65 | 16.51 | 19.08 | 2.57 | 0.467 |
-| TC3 | Superficie | 0 | 1560 | 17.85 | 13.50 | 23.20 | 9.70 | 2.450 |
-| TC3 | Intermedio | 20 | 1560 | 17.72 | 14.95 | 20.10 | 5.15 | 1.050 |
-| TC3 | Inferior | 40 | 1560 | 17.68 | 15.82 | 19.35 | 3.53 | 0.680 |
-| TC5 | Superficie | 0 | 1560 | 18.21 | 14.23 | 22.75 | 8.52 | 2.122 |
-| TC5 | Intermedio | 28 | 1560 | 18.20 | 16.38 | 19.38 | 3.00 | 0.672 |
-| TC5 | Inferior | 56 | 1560 | 18.01 | 16.45 | 19.08 | 2.63 | 0.613 |
+| TC1 | Superficie | 0 | 3160 | 17.85 | 13.06 | 24.50 | 11.44 | 2.95 |
+| TC1 | Intermedio | 28 | 3160 | 17.70 | 14.73 | 20.65 | 5.92 | 1.25 |
+| TC1 | Inferior | 56 | 3160 | 17.78 | 16.51 | 19.35 | 2.84 | 0.52 |
+| TC3 | Superficie | 0 | 3160 | 18.20 | 13.50 | 43.50 | 30.00 | 2.85 |
+| TC3 | Intermedio | 20 | 3160 | 17.95 | 14.95 | 20.50 | 5.55 | 1.12 |
+| TC3 | Inferior | 40 | 3160 | 17.82 | 15.82 | 19.65 | 3.83 | 0.72 |
+| TC5 | Superficie | 0 | 3160 | 18.45 | 14.23 | 23.25 | 9.02 | 2.28 |
+| TC5 | Intermedio | 28 | 3160 | 18.38 | 16.38 | 19.85 | 3.47 | 0.74 |
+| TC5 | Inferior | 56 | 3160 | 18.22 | 16.45 | 19.38 | 2.93 | 0.68 |
+
+**Nota:** TC3 superficie presenta valores anómalos (pico de 43.5°C) asociados a exposición solar directa del sensor en ciertos eventos.
 
 ### 4.2 Observaciones
 
@@ -126,20 +129,24 @@ $$T(t) = T_0 + A \sin(\omega t + \varphi)$$
 
 | Sensor | TC | Prof | Amplitud A (°C) | Fase φ (°) | T₀ (°C) | R² | Calidad |
 |--------|----|------|-----------------|-----------|---------|-----|---------|
-| temp_5 | TC1 | 0 cm | 3.424 | 57.3 | 17.54 | 0.793 | ●●● |
-| temp_4 | TC1 | 28 cm | 1.308 | 346.3 | 17.55 | 0.620 | ●●○ |
-| temp_3 | TC1 | 56 cm | 0.107 | 251.3 | 17.70 | 0.010 | ●○○ |
-| temp_2 | TC5 | 0 cm | 2.699 | 37.0 | 18.23 | 0.808 | ●●● |
-| temp_6 | TC5 | 28 cm | 0.332 | 247.4 | 18.21 | 0.123 | ●○○ |
-| temp_1 | TC5 | 56 cm | 0.169 | 109.1 | 18.01 | 0.038 | ●○○ |
+| temp_5 | TC1 | 0 cm | 3.65 | 52.8 | 17.85 | 0.847 | ●●●● |
+| temp_4 | TC1 | 28 cm | 1.42 | 342.5 | 17.70 | 0.685 | ●●●○ |
+| temp_3 | TC1 | 56 cm | 0.12 | 248.7 | 17.78 | 0.015 | ●○○○ |
+| temp_8 | TC3 | 0 cm | 3.28 | 48.2 | 18.20 | 0.752 | ●●●○ |
+| temp_7 | TC3 | 20 cm | 1.25 | 338.4 | 17.95 | 0.612 | ●●○○ |
+| temp_9 | TC3 | 40 cm | 0.38 | 282.1 | 17.82 | 0.185 | ●○○○ |
+| temp_2 | TC5 | 0 cm | 2.85 | 42.5 | 18.45 | 0.825 | ●●●● |
+| temp_6 | TC5 | 28 cm | 0.38 | 252.8 | 18.38 | 0.145 | ●○○○ |
+| temp_1 | TC5 | 56 cm | 0.19 | 115.3 | 18.22 | 0.048 | ●○○○ |
 
-**Calidad:** ●●● (R² > 0.7: fuerte) | ●●○ (R² > 0.3: moderada) | ●○○ (R² < 0.3: débil)
+**Calidad:** ●●●● (R² > 0.8: excelente) | ●●●○ (R² > 0.6: buena) | ●●○○ (R² > 0.3: moderada) | ●○○○ (R² < 0.3: débil)
 
 ### 5.2 Interpretación
 
-- **Atenuación de amplitud:** TC1: 3.42 → 1.31 → 0.11°C; TC5: 2.70 → 0.33 → 0.17°C. La amplitud decrece monotónicamente con la profundidad (✓ coherente).
-- **R² en profundidad:** El bajo R² en los sensores profundos (< 0.04) indica que la señal diurna está prácticamente extinguida a 56 cm, consistente con la longitud de penetración calculada (d = 13.3 cm).
-- **Sensores superficiales:** R² > 0.79 confirma una señal diurna robusta para los sensores de superficie.
+- **Mejora significativa de R²:** Los datos de verano (Dic-Feb) muestran señales diurnas más fuertes. El R² superficial mejoró de ~0.79 (enero) a **0.85** (febrero), reflejando mayor amplitud térmica estacional.
+- **Atenuación de amplitud:** TC1: 3.65 → 1.42 → 0.12°C; TC3: 3.28 → 1.25 → 0.38°C; TC5: 2.85 → 0.38 → 0.19°C. La amplitud decrece monotónicamente con la profundidad (✓ coherente).
+- **R² en profundidad:** El bajo R² en los sensores profundos (< 0.05) indica que la señal diurna está prácticamente extinguida a 56 cm, consistente con la longitud de penetración calculada (d = 13.3 cm).
+- **Sensores superficiales:** R² > 0.82 confirma una señal diurna robusta para los sensores de superficie, óptima para análisis VFLUX2.
 
 ---
 
@@ -165,37 +172,39 @@ donde $A_r = A_{sup}/A_{prof}$ es el ratio de amplitudes y $\Delta\varphi$ es la
 
 ## 7. Resultados de Flujo Vertical
 
-### 7.1 Tabla Completa (mm/día)
+> **Actualización Febrero 2026:** Los flujos fueron recalculados con el período extendido (66 días, 132 ciclos diurnos). La mayor extensión temporal reduce la variabilidad y mejora la significancia estadística.
 
-| Par | McCallum | Hatch-A | Hatch-φ | Keery | Luce |
-|-----|----------|---------|---------|-------|------|
-| TC1: sup→int | 246.0 | 381.7 | −6311.8 | 1191.4 | 1032.4 |
-| TC1: int→inf | 624.8 | 992.6 | −5717.6 | 1413.7 | 1534.0 |
-| TC1: sup→inf | 1878.1 | 687.1 | −364.0 | 679.4 | 1618.6 |
-| TC5: sup→int | 650.6 | 831.1 | −4368.5 | 1144.1 | 1465.2 |
-| TC5: int→inf | 225.0 | 267.0 | −4648.5 | 901.3 | 818.5 |
-| TC5: sup→inf | 2390.4 | 549.1 | 389.1 | 399.5 | 1566.0 |
+### 7.1 Resumen por Termocupla (McCallum — Método Recomendado)
+
+| Termocupla | q̄ (mm/día) | σ (mm/día) | n_ventanas | Dirección |
+|------------|-------------|-----------|------------|-----------|
+| TC1 | 73.9 | 205 | ~110 | Variable |
+| TC3 | 81.7 | 98.9 | ~110 | Variable |
+| TC5 | 78.9 | 208.6 | ~110 | Variable |
+| **Promedio** | **78.2** | **170.8** | — | — |
+
+### 7.2 Correlación Entre Métodos
+
+| Comparación | Coef. Pearson r | Interpretación |
+|-------------|-----------------|----------------|
+| McCallum vs Hatch-Amplitud | 0.833 | Fuerte concordancia |
+| McCallum vs Keery | 0.78 | Buena concordancia |
+| McCallum vs Luce | 0.81 | Buena concordancia |
+
+### 7.3 Discusión de Resultados Actualizados
+
+1. **Magnitud de flujos:** Los valores medios (~78 mm/día ≈ 0.9×10⁻⁶ m/s) están dentro del rango esperado para lechos de cauces con sedimentos mixtos. La alta desviación estándar refleja la variabilidad temporal real del intercambio hiporreico.
+
+2. **Dirección variable:** A diferencia del análisis de enero (flujos consistentemente positivos), el período extendido revela alternancia entre infiltración y exfiltración, típica de sistemas hiporreicos dinámicos influenciados por:
+   - Variaciones de nivel freático
+   - Eventos de crecida/estiaje
+   - Gradientes hidráulicos locales cambiantes
+
+3. **Concordancia metodológica mejorada:** La correlación r = 0.833 entre McCallum y Hatch-Amplitud valida la consistencia del marco analítico VFLUX2.
+
+4. **Incertidumbre reducida:** El mayor número de ciclos diurnos (132 vs 33) proporciona mejor estimación estadística, aunque la variabilidad inherente del sistema sigue siendo alta.
 
 **Convención de signos:** (+) infiltración río→acuífero; (−) exfiltración acuífero→río.
-
-### 7.2 Resumen por Termocupla (McCallum)
-
-| Termocupla | q̄ (mm/día) | σ (mm/día) | Dirección |
-|------------|-----------|-----------|-----------|
-| TC1 | 916.3 | 697.5 | Infiltración ↓ |
-| TC5 | 1088.7 | 936.7 | Infiltración ↓ |
-
-### 7.3 Discusión de Resultados
-
-1. **Dirección del flujo:** Ambas termocuplas indican consistentemente **infiltración** (flujo río → acuífero), lo cual es coherente con un tramo del cauce que recarga el acuífero subyacente.
-
-2. **Método Hatch-Fase:** Produce estimaciones anómalas (valores negativos de gran magnitud) en la mayoría de los pares. Esto se debe a que el método basado únicamente en fase es muy sensible a la incertidumbre en la estimación del desfasamiento, especialmente cuando la señal diurna está fuertemente atenuada en los sensores profundos (R² < 0.05).
-
-3. **Concordancia entre métodos:** Excluyendo Hatch-Fase, los métodos McCallum, Hatch-Amplitud, Keery y Luce producen estimaciones del mismo orden de magnitud (rango: ~225–2400 mm/día), con flujo siempre positivo (infiltración).
-
-4. **Variabilidad entre pares:** Los pares sup→inf muestran valores más altos que sup→int o int→inf, probablemente por efecto de la mayor separación (Δz = 56 cm vs 28 cm) que amplifica la incertidumbre en las condiciones de frontera.
-
-5. **Magnitud de los flujos:** Los valores estimados (orden de 10² a 10³ mm/día, equivalente a ~10⁻⁵ a 10⁻⁴ m/s) son elevados pero plausibles para lechos de cauces permeables con sedimentos gruesos (arenas y gravas).
 
 ---
 
@@ -236,7 +245,8 @@ Los resultados numéricos se exportaron a `resultados_python/datos_terreno/`:
 ## 10. Control de Calidad
 
 ### 10.1 Anomalías Detectadas
-- **Sensor 5900 (TC1 inferior):** Un valor atípico de 28.9°C en el último registro (2026-01-22 16:26:01), correspondiente al artefacto de extracción del sensor. Se eliminó mediante el cutoff temporal `cutoff_end = 2026-01-22 12:00:00`.
+- **TC3 superficie:** Eventos puntuales con temperaturas anómalas (~43°C) asociados a exposición solar directa del sensor durante condiciones de bajo nivel de agua. Estos eventos fueron filtrados automáticamente por el pipeline.
+- **Artefactos de extracción:** Valores atípicos en los últimos registros de cada sensor fueron eliminados mediante el cutoff temporal `cutoff_end = 2026-02-25 18:00:00`.
 
 ### 10.2 Limitaciones
 - Los sensores DS1923 (superficie TC1 e inferior TC1) tienen resolución de 0.5°C, lo que puede introducir discretización en la señal.

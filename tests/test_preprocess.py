@@ -1,6 +1,16 @@
+"""
+Tests para el módulo de preprocesamiento.
+"""
+
 import unittest
+import sys
+from pathlib import Path
 import numpy as np
 import pandas as pd
+
+# Añadir el directorio src al path
+sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
+
 from vfluxx.preprocess import build_dataframe, resample_temperatures
 
 class TestPreprocess(unittest.TestCase):

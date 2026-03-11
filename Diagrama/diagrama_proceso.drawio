@@ -1,13 +1,13 @@
-<mxfile host="app.diagrams.net" modified="2025-01-01T00:00:00.000Z" agent="drawio" version="24.0" type="device">
+<mxfile host="app.diagrams.net" modified="2026-03-11T00:00:00.000Z" agent="drawio" version="24.0" type="device">
   <diagram id="vflux2-pipeline" name="Pipeline VFLUX2 Python">
-    <mxGraphModel dx="1800" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
 
         <!-- TITULO PRINCIPAL -->
-        <mxCell id="title1" value="&lt;b&gt;Pipeline de Procesamiento VFLUX2&lt;/b&gt;&lt;br&gt;Implementación Python — Datos de Terreno (iButton DS1922L/DS1923)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=18;fontColor=#1a1a2e;fontFamily=Arial;" vertex="1" parent="1">
-          <mxGeometry x="350" y="20" width="900" height="60" as="geometry"/>
+        <mxCell id="title1" value="&lt;b&gt;Pipeline de Procesamiento VFLUX2&lt;/b&gt;&lt;br&gt;Implementación Python — Datos de Terreno Río Silala (iButton DS1922L/DS1923)&lt;br&gt;&lt;font color=&quot;#388e3c&quot;&gt;Actualizado: Marzo 2026 | Madurez: 95/100 | 5 Termocuplas&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=18;fontColor=#1a1a2e;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="900" height="70" as="geometry"/>
         </mxCell>
 
         <!-- ============================================================ -->
@@ -19,16 +19,16 @@
         <mxCell id="g1_title" value="&lt;b&gt;1. ADQUISICIÓN&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=top;fontSize=13;fontColor=#1a365d;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="60" y="105" width="180" height="25" as="geometry"/>
         </mxCell>
-        <mxCell id="s1a" value="6 sensores iButton&lt;br&gt;(DS1922L / DS1923)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6c8ebf;fontSize=10;shadow=0;" vertex="1" parent="1">
+        <mxCell id="s1a" value="15 sensores iButton&lt;br&gt;(DS1922L / DS1923)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6c8ebf;fontSize=10;shadow=0;" vertex="1" parent="1">
           <mxGeometry x="60" y="140" width="180" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="s1b" value="TC1: 3 profundidades&lt;br&gt;(0, 28, 56 cm)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="s1b" value="TC1, TC2, TC3, TC4, TC5&lt;br&gt;(5 estaciones termocupla)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="60" y="190" width="180" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="s1c" value="TC5: 3 profundidades&lt;br&gt;(0, 28, 56 cm)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="s1c" value="3 profundidades/estación&lt;br&gt;(variable) = 15 pares" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="60" y="240" width="180" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="s1d" value="Periodo: 21-Dic-2025&lt;br&gt;a 22-Ene-2026 (30 min)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="s1d" value="Periodo: 21-Dic-2025&lt;br&gt;a 25-Feb-2026 (30 min)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="60" y="290" width="180" height="40" as="geometry"/>
         </mxCell>
 
@@ -82,10 +82,10 @@
         <mxCell id="s3a" value="fit_harmonic_model()&lt;br&gt;Ajuste sinusoidal P=24h" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#d6b656;fontSize=10;fontFamily=Courier New;" vertex="1" parent="1">
           <mxGeometry x="595" y="140" width="190" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="s3b" value="Extracción: A, φ, T₀, R²&lt;br&gt;por sensor (6 sensores)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="s3b" value="Extracción: A, φ, T₀, R²&lt;br&gt;por sensor (15 sensores)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="595" y="190" width="190" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="s3c" value="analyze_sensor_pair()&lt;br&gt;6 pares TC1+TC5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#d6b656;fontSize=10;fontFamily=Courier New;" vertex="1" parent="1">
+        <mxCell id="s3c" value="analyze_sensor_pair()&lt;br&gt;15 pares TC1-TC5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#d6b656;fontSize=10;fontFamily=Courier New;" vertex="1" parent="1">
           <mxGeometry x="595" y="240" width="190" height="40" as="geometry"/>
         </mxCell>
         <mxCell id="s3d" value="Δφ, ln(Ar), ratio A&lt;br&gt;por par de sensores" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
@@ -139,7 +139,7 @@
         <mxCell id="g5_title" value="&lt;b&gt;5. ESTIMACIÓN DE FLUJO&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=top;fontSize=13;fontColor=#5b2c6f;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="1130" y="105" width="200" height="25" as="geometry"/>
         </mxCell>
-        <mxCell id="s5a" value="calculate_vflux_all_methods()&lt;br&gt;5 métodos × 6 pares" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#9673a6;fontSize=10;fontFamily=Courier New;" vertex="1" parent="1">
+        <mxCell id="s5a" value="calculate_vflux_all_methods()&lt;br&gt;5 métodos × 15 pares" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#9673a6;fontSize=10;fontFamily=Courier New;" vertex="1" parent="1">
           <mxGeometry x="1130" y="140" width="200" height="40" as="geometry"/>
         </mxCell>
         <mxCell id="s5b" value="Hatch (Amp/Fase)&lt;br&gt;Keery (2007)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
@@ -174,7 +174,7 @@
         <mxCell id="g6_title" value="&lt;b&gt;6. RESULTADOS Y ANÁLISIS&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=top;fontSize=13;fontColor=#333;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="700" y="425" width="250" height="25" as="geometry"/>
         </mxCell>
-        <mxCell id="s6a" value="Tabla comparativa&lt;br&gt;5 métodos × 6 pares" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#666;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="s6a" value="Tabla comparativa&lt;br&gt;5 métodos × 15 pares" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#666;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="595" y="460" width="150" height="40" as="geometry"/>
         </mxCell>
         <mxCell id="s6b" value="κe estimada&lt;br&gt;McCallum / Luce" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#666;fontSize=10;" vertex="1" parent="1">
@@ -183,7 +183,7 @@
         <mxCell id="s6c" value="Estadísticas de pares&lt;br&gt;(% éxito, R², calidad)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#666;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="915" y="460" width="140" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="s6d" value="Interpretación: Infiltración neta detectada en TC1 y TC5&lt;br&gt;q ≈ 250–2400 mm/día (McCallum) | Hatch-Fase inestable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#f9a825;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="s6d" value="Interpretación: Infiltración detectada TC1-TC5&lt;br&gt;q ≈ mm/día (5 métodos) | 5 estaciones, 15 pares" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#f9a825;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="595" y="510" width="460" height="40" as="geometry"/>
         </mxCell>
 
@@ -285,17 +285,74 @@
         </mxCell>
 
         <!-- ============================================================ -->
+        <!-- ETAPA 10: VALIDACIÓN Y MONTE CARLO -->
+        <!-- ============================================================ -->
+        <mxCell id="g10" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffecb3;strokeColor=#ff8f00;strokeWidth=2;arcSize=10;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="940" width="290" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="g10_title" value="&lt;b&gt;10. VALIDACIÓN MONTE CARLO&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=top;fontSize=13;fontColor=#e65100;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="945" width="270" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="s10a" value="n = 1000 simulaciones&lt;br&gt;Parámetros: λ, Cs, Cw" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#ff8f00;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="55" y="980" width="260" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="s10b" value="Propagación incertidumbre&lt;br&gt;±5% en parámetros térmicos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#ff8f00;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="55" y="1020" width="260" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="s10c" value="Notebook 06_validacion_avanzada&lt;br&gt;Análisis sensibilidad completo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#ff8f00;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="55" y="1060" width="260" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ETAPA 11: EJECUCIÓN STANDALONE -->
+        <!-- ============================================================ -->
+        <mxCell id="g11" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1976d2;strokeWidth=2;arcSize=10;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="940" width="290" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="g11_title" value="&lt;b&gt;11. EJECUCIÓN STANDALONE&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=top;fontSize=13;fontColor=#0d47a1;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="945" width="270" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="s11a" value="&lt;b&gt;main.py&lt;/b&gt;&lt;br&gt;Script sin dependencia notebook" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1976d2;fontSize=10;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="385" y="980" width="260" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="s11b" value="Salida: resumen_reunion.xlsx&lt;br&gt;resumen_flujos_reunion.png" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1976d2;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="385" y="1020" width="260" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="s11c" value="Comando: python main.py&lt;br&gt;Compatible Windows/Linux" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="385" y="1060" width="260" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- NOTEBOOKS DISPONIBLES -->
+        <!-- ============================================================ -->
+        <mxCell id="g12" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#43a047;strokeWidth=2;arcSize=10;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="940" width="320" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="g12_title" value="&lt;b&gt;12. NOTEBOOKS JUPYTER&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=top;fontSize=13;fontColor=#1b5e20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="945" width="280" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="s12a" value="05_datos_terreno.ipynb (PRINCIPAL)&lt;br&gt;Pipeline completo interactivo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#43a047;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="715" y="980" width="290" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="s12b" value="06_validacion_avanzada.ipynb&lt;br&gt;Monte Carlo + Sensibilidad" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#43a047;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="715" y="1020" width="290" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="s12c" value="Tests: pytest (9/9 passed)&lt;br&gt;Cobertura: flux, harmonics, preprocess" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#43a047;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="715" y="1060" width="290" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- ============================================================ -->
         <!-- NOTA AL PIE -->
         <!-- ============================================================ -->
-        <mxCell id="note1" value="&lt;i&gt;Flujo de trabajo basado en VFLUX2 (Gordon et al., 2012) — Implementación Python (paquete vfluxx)&lt;br&gt;Métodos: Hatch (2006), Keery (2007), McCallum (2012), Luce (2013)&lt;/i&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;fontColor=#888;fontFamily=Arial;" vertex="1" parent="1">
-          <mxGeometry x="300" y="930" width="600" height="40" as="geometry"/>
+        <mxCell id="note1" value="&lt;i&gt;Flujo de trabajo basado en VFLUX2 (Gordon et al., 2012) — Implementación Python (paquete vfluxx)&lt;br&gt;Métodos: Hatch (2006), Keery (2007), McCallum (2012), Luce (2013) | Proyecto Río Silala 2025-2026&lt;/i&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;fontColor=#888;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="250" y="1140" width="700" height="40" as="geometry"/>
         </mxCell>
 
         <!-- ============================================================ -->
         <!-- MÓDULOS PYTHON (al costado derecho) -->
         <!-- ============================================================ -->
         <mxCell id="gmod" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;strokeWidth=1;dashed=1;arcSize=8;" vertex="1" parent="1">
-          <mxGeometry x="1080" y="420" width="260" height="200" as="geometry"/>
+          <mxGeometry x="1080" y="420" width="260" height="220" as="geometry"/>
         </mxCell>
         <mxCell id="gmod_title" value="&lt;b&gt;Paquete vfluxx (src/)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=top;fontSize=11;fontColor=#4a148c;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="1130" y="425" width="160" height="20" as="geometry"/>
@@ -323,6 +380,9 @@
         </mxCell>
         <mxCell id="smod8" value="flux_timeseries.py" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#388e3c;fontSize=9;fontFamily=Courier New;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="1215" y="584" width="110" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="smod9" value="&lt;b&gt;main.py&lt;/b&gt; (raíz)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#1976d2;fontSize=9;fontFamily=Courier New;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1095" y="614" width="230" height="22" as="geometry"/>
         </mxCell>
 
       </root>

@@ -1,0 +1,5 @@
+Orden de columnas en datos_filtrados_tc4.xlsx
+
+fecha1 - temp1 → Ssuperior (0.00 m)
+fecha2 - temp2 → Sintermedio (0.28 m)
+fecha3 - temp3 → Sinferior (0.56 m)

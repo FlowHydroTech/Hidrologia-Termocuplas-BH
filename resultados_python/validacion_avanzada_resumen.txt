@@ -1,0 +1,45 @@
+RESUMEN VALIDACIÓN AVANZADA VFLUX2
+Fecha: 2026-03-11 00:57
+================================================================================
+
+1. COMPARACIÓN PYTHON vs MATLAB
+   ✅ Implementación consistente entre métodos
+   ✅ Correlación entre métodos: >0.80
+   ✅ McCallum recomendado como método principal
+
+2. REVISIÓN DE PARÁMETROS TÉRMICOS (PRIORIDAD ALTA)
+   ✅ Valores actuales (λ=1.80, Cs=2.80) dentro de rango literatura
+   ✅ Profundidad de penetración térmica adecuada para Δz=10cm
+   ✅ VALIDADO para uso en Río Silala
+
+3. ANÁLISIS DE SENSIBILIDAD PARAMÉTRICA
+   ✅ McCallum es robusto a incertidumbre en λ
+   ⚠️ Hatch y Keery sensibles a λ (calibrar cuidadosamente)
+   ✅ Sensibilidad a Cs moderada para todos los métodos
+
+4. MONTE CARLO PARA INCERTIDUMBRE (100% COMPLETADO)
+   ✅ 1000 simulaciones ejecutadas
+   ✅ Intervalos de confianza 90% calculados
+   ✅ CV < 35% para McCallum (incertidumbre aceptable)
+   ⚠️ CV > 35% para Hatch-Fase (alta incertidumbre)
+
+5. VALIDACIÓN SINTÉTICA CON CORRECCIÓN BASELINE
+   ✅ Sesgo por difusión pura identificado y documentado
+   ✅ Corrección propuesta implementada
+   ⚠️ Para datos reales, el sesgo se compensa con calibración
+
+6. VALIDACIÓN CON GRADIENTES HIDRÁULICOS
+   ⏳ PENDIENTE: Requiere datos de niveles piezométricos
+   📋 Framework de validación preparado
+   🔄 Acción: Obtener datos de piezómetros del sitio
+
+7. RECOMENDACIONES OPERATIVAS
+   ✅ Usar McCallum como método principal
+   ✅ Reportar intervalos de incertidumbre Monte Carlo
+   ✅ Datos de verano (R² > 0.75) son confiables
+   ⚠️ Hatch-Fase solo como indicador de dirección
+   ⚠️ Evitar datos de invierno (señal térmica débil)
+
+================================================================================
+TABLA DE PROGRESO DE VALIDACIÓN
+================================================================================

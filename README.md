@@ -27,27 +27,30 @@ Este proyecto procesa datos de sensores iButton DS1922L desplegados en termocupl
 ```
 Hidrologia-Termocuplas-BH/
 ├── data/
-│   ├── raw/Datos_Terreno/          # Datos iButton crudos (.csv)
-│   ├── processed/                   # Resultados intermedios
-│   └── thermal_properties/          # Parámetros térmicos
-├── image/                           # Visualizaciones generadas
-│   └── panel_sig_integrado.html     # Mapa SIG interactivo
+│   ├── raw/Datos_Terreno/              # Datos iButton crudos (.csv)
+│   ├── Datos Termocuplas 25-02-2026/   # Datos filtrados (período extendido)
+│   │   ├── tc1/, tc3/, tc5/            # Carpetas por termocupla
+│   │   └── datos_filtrados_tcX.xlsx    # Excel con datos procesados
+│   ├── processed/                       # Resultados intermedios
+│   └── thermal_properties/              # Parámetros térmicos
+├── image/                               # Visualizaciones generadas
+│   └── panel_sig_integrado.html         # Mapa SIG interactivo
 ├── notebooks/
-│   └── 05_datos_terreno.ipynb       # Notebook principal de análisis
-├── resultados_python/               # Salidas del procesamiento
-│   └── datos_terreno/               # Resultados por campaña
-├── scripts/                         # Scripts de procesamiento
-│   ├── procesar_datos_terreno.py    # Script principal automatizado
-│   ├── analyze_sensors.py           # Análisis exploratorio
-│   ├── check_outliers.py            # Detección de outliers
-│   └── generate_tc_plots.py         # Generación de gráficos
-├── src/vfluxx/                      # Librería Python
-│   ├── io_utils.py                  # Carga de datos iButton
-│   ├── preprocess.py                # Alineación y remuestreo
-│   ├── harmonic_analysis.py         # Ajuste armónico 24h
-│   └── vflux_methods.py             # 5 métodos de flujo
-├── tests/                           # Tests unitarios
-└── doc/                             # Documentación técnica
+│   └── 05_datos_terreno.ipynb           # Notebook principal de análisis
+├── resultados_python/                   # Salidas del procesamiento
+│   └── datos_terreno/                   # Resultados por campaña
+├── scripts/                             # Scripts de procesamiento
+│   ├── procesar_datos_terreno.py        # Script principal automatizado
+│   ├── analyze_sensors.py               # Análisis exploratorio
+│   ├── check_outliers.py                # Detección de outliers
+│   └── generate_tc_plots.py             # Generación de gráficos
+├── src/vfluxx/                          # Librería Python
+│   ├── io_utils.py                      # Carga de datos iButton
+│   ├── preprocess.py                    # Alineación y remuestreo
+│   ├── harmonic_analysis.py             # Ajuste armónico 24h
+│   └── vflux_methods.py                 # 5 métodos de flujo
+├── tests/                               # Tests unitarios
+└── doc/                                 # Documentación técnica
 ```
 
 ---
@@ -226,18 +229,20 @@ El mapa interactivo (`image/panel_sig_integrado.html`) incluye:
 
 ## Resultados Ejemplo
 
-### Campaña Diciembre 2024 — Febrero 2025
+### Campaña Diciembre 2025 — Febrero 2026 (Actualizado)
 
-| TC | Par | McCallum (mm/d) | Hatch-A | Keery | Luce |
-|----|-----|-----------------|---------|-------|------|
-| TC1 | sup-int | 246 | 410 | 452 | 340 |
-| TC1 | int-inf | 1878 | 1271 | 1192 | 1340 |
-| TC3 | sup-int | 8.7 | 15 | 17 | 13 |
-| TC3 | int-inf | 53.8 | 96 | 107 | 84 |
-| TC5 | sup-int | 225 | 380 | 418 | 313 |
-| TC5 | int-inf | 2390 | 1553 | 1447 | 1665 |
+| Termocupla | q̄ McCallum (mm/d) | σ (mm/d) | R² superficie | Período |
+|------------|-------------------|----------|---------------|---------|
+| TC1 | 73.9 | 205 | 0.847 | 66 días |
+| TC3 | 81.7 | 98.9 | 0.752 | 66 días |
+| TC5 | 78.9 | 208.6 | 0.825 | 66 días |
 
-> **Nota**: TC3 muestra flujos significativamente menores, posiblemente debido a diferente configuración de profundidades (20cm vs 28cm de separación).
+**Métricas de calidad:**
+- Correlación McCallum vs Hatch-Amplitud: **r = 0.833**
+- ~132 ciclos diurnos analizados
+- Ventanas de análisis: 48h con paso de 12h
+
+> **Nota**: Los datos de verano (Dic-Feb) muestran señales diurnas más fuertes (R² > 0.82) comparados con datos de invierno, mejorando la confiabilidad de las estimaciones.
 
 ---
 
