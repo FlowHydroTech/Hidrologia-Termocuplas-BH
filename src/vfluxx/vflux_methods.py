@@ -17,30 +17,50 @@ Referencias:
 """
 
 import numpy as np
+from scipy.optimize import brentq
 
 
-def _flux_hatch_amplitude(A_shallow, A_deep, dz, alpha_e, omega):
+def _flux_hatch_amplitude(A_shallow, A_deep, dz, alpha_e, omega, beta=0.0):
     """
-    Método Hatch - Amplitud (2006).
+    Método Hatch - Amplitud (2006) — Ecuación completa no-lineal.
 
-    v = (2 * alpha_e / dz) * ln(A_shallow / A_deep) - (2 * alpha_e * omega / dz)^0.5
-    Simplificado:
-    v_amplitude = (alpha_e / dz) * [sqrt(omega/alpha_e) - ln(Ar)/dz] ... 
-    
-    Forma usada en VFLUX2 (Gordon et al., 2012):
-    v = 2 * Ke / dz * [sqrt(v_t^2 + 2*sqrt(alpha_e * omega)) - v_t]^(-1) ...
-    
-    Forma simplificada robusta (Stallman, 1965 / Hatch 2006):
-    v = (2 * alpha_e / dz) * ln(Ar)
-    donde Ar = A_shallow / A_deep, alpha_e = difusividad térmica efectiva
+    Implementa Hatch et al. (2006) Eq. 6a con dispersividad térmica,
+    idéntico a VFLUX2 MATLAB (Gordon et al., 2012):
+
+        f(v) = (2·α_eff/Δz)·ln(Ar) + √((√(v⁴+(4ωα_eff)²)+v²)/2) − v = 0
+
+    donde α_eff = α_e + β·|v| (difusividad efectiva con dispersividad)
+    y Ar = A_deep / A_shallow (< 1 para atenuación normal).
+
+    Se resuelve con brentq (equivalente a fzero de MATLAB).
+
+    Returns: thermal front velocity v_t [m/s] (NO es seepage flux q).
+    Para obtener q: multiplicar por C_total/C_water.
     """
     if A_shallow <= 0 or A_deep <= 0:
         return np.nan
-    Ar = A_shallow / A_deep
-    if Ar <= 0:
+    Ar = A_deep / A_shallow  # MATLAB convention: lower/upper < 1
+    if Ar <= 0 or Ar >= 1.0:
         return np.nan
-    v = (2.0 * alpha_e / dz) * np.log(Ar)
-    return v
+
+    ln_Ar = np.log(Ar)  # Negative for normal attenuation
+
+    def equation(v):
+        alpha_eff = alpha_e + abs(beta * v)
+        term1 = (2.0 * alpha_eff / dz) * ln_Ar
+        inner = np.sqrt(v**4 + (4.0 * omega * alpha_eff)**2)
+        term2 = np.sqrt((inner + v**2) / 2.0)
+        return term1 + term2 - v
+
+    # Solve with progressively wider brackets (like MATLAB's fzero)
+    for bracket in [(0, 1e-2), (-1e-3, 1e-1), (-1e-2, 1.0)]:
+        try:
+            v_thermal = brentq(equation, bracket[0], bracket[1], maxiter=200)
+            return v_thermal
+        except (ValueError, RuntimeError):
+            continue
+
+    return np.nan
 
 
 def _flux_hatch_phase(dz, delta_phi, alpha_e, omega):
@@ -173,7 +193,8 @@ def calculate_vflux_all_methods(
     thermal_conductivity,
     heat_capacity_sediment,
     heat_capacity_water,
-    angular_frequency
+    angular_frequency,
+    beta=0.0
 ):
     """
     Calcula el flujo vertical usando los 5 métodos de VFLUX2.
@@ -198,11 +219,13 @@ def calculate_vflux_all_methods(
         Capacidad calorífica volumétrica del agua (J/m³·K).
     angular_frequency : float
         Frecuencia angular del ciclo (rad/s). Para diario: 2π/86400.
+    beta : float
+        Dispersividad térmica (m). Default 0.0.
 
     Returns
     -------
     dict con:
-        'flux_m_s': dict - Flujos en m/s para cada método
+        'flux_m_s': dict - Flujos en m/s para cada método (seepage flux q)
         'flux_mm_day': dict - Flujos en mm/día para cada método
         'parameters': dict - Parámetros intermedios de cálculo
     """
@@ -215,6 +238,11 @@ def calculate_vflux_all_methods(
     # Difusividad térmica efectiva
     alpha_e = Ke / Cs
 
+    # Heat capacity ratio: convierte v_thermal → seepage flux q
+    # q = v_t * (C_total / C_water)
+    # C_total ≈ C_sediment (medido por IDIEM como muestra bulk saturada)
+    heat_capacity_ratio = Cs / Cw
+
     # Desfase
     delta_phi = phase_deep - phase_shallow
     if delta_phi < 0:
@@ -223,9 +251,16 @@ def calculate_vflux_all_methods(
     A_s = amplitude_shallow
     A_d = amplitude_deep
 
+    # --- Hatch Amplitude: ecuación completa + conversión v_t → q ---
+    v_thermal_ha = _flux_hatch_amplitude(A_s, A_d, dz, alpha_e, omega, beta=beta)
+    if v_thermal_ha is not None and not np.isnan(v_thermal_ha):
+        q_ha = v_thermal_ha * heat_capacity_ratio
+    else:
+        q_ha = np.nan
+
     # Calcular cada método
     results_ms = {}
-    results_ms['hatch_amplitude'] = _flux_hatch_amplitude(A_s, A_d, dz, alpha_e, omega)
+    results_ms['hatch_amplitude'] = q_ha
     results_ms['hatch_phase'] = _flux_hatch_phase(dz, delta_phi, alpha_e, omega)
     results_ms['keery'] = _flux_keery(A_s, A_d, delta_phi, dz, alpha_e, omega)
     results_ms['mccallum'] = _flux_mccallum(A_s, A_d, delta_phi, dz, alpha_e, omega, Cw, Cs)
@@ -264,5 +299,8 @@ def calculate_vflux_all_methods(
             'Ke': Ke,
             'Cs': Cs,
             'Cw': Cw,
+            'beta': beta,
+            'heat_capacity_ratio': heat_capacity_ratio,
+            'v_thermal_ha': v_thermal_ha,
         }
     }

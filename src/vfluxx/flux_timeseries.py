@@ -100,6 +100,7 @@ def calculate_flux_timeseries(
     Cs = thermal_params.get('C_sediment', 2.80e6)
     Cw = thermal_params.get('C_water', 4.18e6)
     omega = thermal_params.get('omega', 2 * np.pi / 86400)
+    beta = thermal_params.get('beta', 0.0)
     
     # Diferencia de profundidad
     dz = abs(depth_deep - depth_shallow)
@@ -189,7 +190,8 @@ def calculate_flux_timeseries(
                 thermal_conductivity=lambda_s,
                 heat_capacity_sediment=Cs,
                 heat_capacity_water=Cw,
-                angular_frequency=omega
+                angular_frequency=omega,
+                beta=beta
             )
             
             # Desfase
