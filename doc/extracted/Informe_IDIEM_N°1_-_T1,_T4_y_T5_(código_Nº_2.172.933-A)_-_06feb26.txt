@@ -1,0 +1,1664 @@
+--- PÁGINA 1 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+INFORME DE ENSAYO ESPECIAL Nº 2.172.933-A 
+CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN,  
+FLOW - MLP OT-10 
+FLOW HYDRO CONSULTING GROUP SPA 
+División Geotecnia Laboratorio 
+Sección  Ensayos Geomecánicos 
+Ejemplar Nº 01 
+Nº de páginas 15 
+Revisión Nº 01 
+Informe N° 2.172.933-A 
+Ref.: DGL.PRE.2340.2025.0478 
+Nombre 
+Fecha 
+Elaborado por: 
+Catalina Fuentes R.   
+06-02-2026 
+Revisado por: 
+Catalina Fuentes R.   
+06-02-2026 
+Aprobado por: 
+Scarlet Frez B.  
+06-02-2026 
+Destinatario: 
+Andrés Rojas 
+06-02-2026 
+
+--- PÁGINA 2 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 2 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+ 
+ 
+ 
+CONTENIDO 
+ 
+1. 
+ANTECEDENTES ................................................................................................................................................3 
+2. 
+IDENTIFICACIÓN DE MUESTRAS RECEPCIONADAS Y ENSAYADAS .........................................................4 
+3. 
+RESULTADO ENSAYOS ....................................................................................................................................6 
+4. 
+ANEXOS: TABLA RESUMEN DE ENSAYOS EJECUTADOS ....................................................................... 14 
+5. 
+CONTROL DE CAMBIOS ................................................................................................................................ 15 
+ 
+ 
+ 
+ 
+ 
+
+--- PÁGINA 3 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 3 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+1. ANTECEDENTES 
+ 
+Informe de ensayos realizados según los siguientes documentos recibidos por la Sección Ensayos Geomecánicos  
+ 
+- 
+Aceptación de presupuesto DGL.PRE.2340.2025.0478 
+ 
+ 
+De acuerdo a esto, se ejecutaron los siguientes ensayos: 
+ 
+- 
+Granulometría ASTM D422-63 (2007)e2 y MC 8.102.1, Determinación de la granulometría de suelos.  
+- 
+Peso Unitario basado en ASTM D7263-09 
+- 
+Ensayo de determinación de conductividad térmica en suelos ASTM D5334-22ae1 
+- 
+Ensayo Permeabilidad Carga Constante Pared Flexible ASTM D5084-24 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+--- PÁGINA 4 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 4 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+2. Identificación de muestras recepcionadas y ensayadas 
+ 
+FECHA DE MUESTREO:   (----) 
+LUGAR DE MUESTREO: (----) 
+FECHA DE RECEPCIÓN DE 
+MUESTRAS:   
+30 / 12 / 2025 
+FECHA DE INICIO DE LOS 
+TRABAJOS:   
+19 / 01 /2026 
+FECHA DE TÉRMINO DE LOS 
+ENSAYOS:  
+02 / 02 / 2026 
+FECHA DE EMISIÓN:  06 / 02 / 2026 
+ 
+Las muestras recepcionadas y ensayadas corresponden al detalle indicado en la tabla Nº1.  
+ 
+ 
+Tabla Nº1.- Muestras recepcionadas y ensayadas 
+ 
+Identificación de Muestra 
+ 
+Calicata 
+ 
+Cotas 
+Tipo 
+Recibida 
+Ensayada 
+[Nº] 
+[m] 
+TC_1 
+- 
+- 
+P 
+X 
+X 
+TC_1 
+- 
+- 
+S 
+X 
+X 
+TC_4 
+- 
+- 
+S 
+X 
+X 
+TC_4 
+- 
+- 
+P 
+X 
+X 
+TC_5 
+- 
+- 
+P 
+X 
+X 
+TC_5 
+- 
+- 
+S 
+X 
+X 
+ 
+La definición del tipo de muestras corresponde a: 
+- 
+P: muestra perturbada 
+- 
+NP: muestra no perturbada en bloque inalterado 
+- 
+SH: muestra tubo Shelby 
+- 
+CN: muestra cuchara normal 
+- 
+CD: muestra corona diamantina 
+- 
+C: colpa 
+ 
+ 
+ 
+ 
+ 
+
+--- PÁGINA 5 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 5 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+Las muestras son almacenadas por IDIEM hasta 15 días luego de emitido este informe. Posterior a este tiempo serán eliminadas, a 
+menos que exista una solicitud escrita del cliente para su resguardo y la ejecución de ensayos adicionales por un tiempo determinado. 
+  
+ 
+Dirección de los ensayos ejecutados: 
+ 
+• 
+Plaza Ercilla 883, Santiago. 
+• 
+Arturo Prat 1171, Santiago. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Catalina Fuentes R.   
+Scarlet Frez B.  
+Ingeniera de Proyectos 
+   División Geotecnia Laboratorios 
+Gestora Técnica 
+División Geotecnia Laboratorios 
+IDIEM 
+IDIEM 
+ 
+ 
+ 
+ 
+ 
+ 
+SFB/CFR/lcn  
+ 
+
+--- PÁGINA 6 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 6 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+3. Resultado Ensayos 
+ 
+ 
+ 
+ 
+Proyecto
+Inf. Ensaye
+Orden de Trabajo
+Fecha Inicio
+Fecha Término
+IDENTIFICACIÓN
+Muestra
+Nº
+TC_1
+TC_4
+TC_5
+Cota
+[m]
+-
+-
+-
+Partículas sobre 3"
+[%]
+0,0
+0,0
+0,0
+GRANULOMETRÍA
+Tamaño de
+Designación
+Partícula, mm
+Malla o Criba
+63,50
+2 1/2"
+100,0
+100,0
+100,0
+50,80
+2"
+97,4
+100,0
+100,0
+38,10
+ 1 1/2"
+97,4
+94,7
+100,0
+25,40
+1"
+93,3
+84,3
+100,0
+19,00
+3/4"
+91,0
+74,8
+99,7
+9,52
+3/8"
+80,4
+59,6
+96,8
+4,76
+Nº   4
+66,8
+47,0
+83,6
+2,00
+Nº  10
+51,4
+35,8
+68,3
+0,84
+Nº  20
+34,5
+23,4
+51,6
+0,42
+Nº  40
+22,4
+14,7
+36,4
+0,25
+Nº  60
+14,5
+10,0
+24,5
+0,11
+Nº 140
+7,7
+6,4
+13,1
+0,07
+Nº 200
+5,8
+5,2
+9,6
+-
+-
+-
+-
+-
+-
+-
+-
+-
+Clasificación USCS
+-
+-
+-
+Límite Líquido [%]
+1. Granulometría ASTM D422-63 (2007) y MC 8.102.1, Determinación de la granulometría de suelos.
+Referencias
+INFORME ENSAYOS DE CLASIFICACIÓN DE MUESTRAS DE SUELO
+Caracterización de Infiltraciones río Cuncumén, Flow - MLP OT-10
+2.172.933-A
+-
+22-01-2026
+23-01-2026
+Límite Plástico  [%]
+Indice de Plasticidad [%]
+% en peso que pasa
+
+--- PÁGINA 7 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 7 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+ 
+ 
+ 
+INFORME DETERMINACION PESO UNITARIO
+Proyecto
+Inf. Ensaye
+Orden de Trabajo
+Fecha Inicio
+Fecha Término
+RESULTADOS DE ENSAYO
+Muestra
+Cota 
+Densidad
+Humedad
+Densidad
+Húmeda
+Seca
+[m]
+[g/cm3]
+[%]
+[g/cm3]
+TC_1
+-
+1,50
+36,00
+1,10
+TC_4
+-
+1,60
+16,98
+1,37
+TC_5
+-
+1,78
+46,00
+1,22
+Referencias
+1. Densidad de las muestras determinadas mediante la determinación del volumen por 
+      peso sumergido previa cobertura de la muestra con parafina sólida. Basado en ASTM D7263-09
+2. Determinación de Humedad basado en ASTM D2216-05
+Observaciones
+a. Muestra TC_1 corresponde a arena limosa, plasticidad de los finos baja, compacidad media, cementación 
+baja, estructura homogénea. Se observan capas con alto contenido de materia organica. 
+b. Muestra TC_4 corresponde a arena limosa con gravas dispersas, plasticidad de los finos baja, compacidad 
+media, cementación baja, estructura homogénea. Se observa la presencia de materia organica a lo largo de 
+toda la probeta.
+c. Muestra TC_1 corresponde a arena limosa gravosa, plasticidad de los finos baja, compacidad media, 
+cementación baja, estructura homogénea. Se observa la presencia de materia organica a lo largo de toda la 
+probeta.
+Caracterización de Infiltraciones río Cuncumén, Flow  - MLP OT-10
+Nº 2.172.933-A
+-
+30-01-2026
+02-02-2026
+
+--- PÁGINA 8 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 8 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+ 
+ 
+ 
+INFORME DE ENSAYO DE DETERMINACIÓN DE CONDUCTIVIDAD TÉRMICA EN SUELOS ASTM D5334-22ae1
+Proyecto
+Caracterización de Infiltraciones río Cuncumén, Flow  - MLP OT-10
+Inf. Ensaye
+Nº 2.172.933-A
+Orden de Trabajo
+-
+Fecha Inicio
+19-01-2026
+Fecha Término
+19-01-2026
+Identificacion
+Muestra
+TC_1
+Datos Confección Probeta
+Diámetro promedio
+cm
+4,70
+Altura de probeta
+cm
+9,96
+Volumen de probeta
+cm3
+172,80
+Peso húmedo
+g
+253,80
+Densidad Humeda
+g/cm³
+1,47
+Contenido de Humedad
+%
+36,84
+Densidad Seca
+g/cm³
+1,07
+Tipo de probeta (remoldeada o natural)
+NATURAL
+Conductividad Termica "K"
+W/(m*K)
+0,614
+Capacidad de Calor Especifico "C"
+MJ/(m³*K)
+3,389
+Difusividad Termica "D"
+mm²/s
+0,203
+Resistividad Termica "R"
+(m*K)/W
+1,633
+Observaciones:
+1. Determinación de la Conductividad Térmica, Calor Específico, Difusividad Térmica y Resistivad Térmica basadas en ASTM D5334-14.
+2. Ensaye realizado con equipo Analizador de Propiedades Térmicas KD2 PRO (Decagon Devices, Inc)
+21,6
+21,7
+21,8
+21,9
+22,0
+22,1
+22,2
+22,3
+22,4
+0
+10
+20
+30
+40
+50
+60
+70
+Temperatura [º C]
+Tiempo (s)
+Registro temperatura promedio ensayo
+Muestra: TC_1
+Proyecto: Caracterización de Infiltraciones río Cuncumén, Flow  - MLP OT-10
+
+--- PÁGINA 9 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 9 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+ 
+ 
+ 
+INFORME DE ENSAYO DE DETERMINACIÓN DE CONDUCTIVIDAD TÉRMICA EN SUELOS
+Proyecto
+Caracterización de Infiltraciones río Cuncumén, Flow  - MLP OT-10
+Inf. Ensaye
+Nº 2.172.933-A
+Orden de Trabajo
+-
+Fecha Inicio
+19-01-2026
+Fecha Término
+19-01-2026
+Identificacion
+Muestra
+TC_4
+Datos Confección Probeta
+Diámetro promedio
+cm
+4,68
+Altura de probeta
+cm
+6,55
+Volumen de probeta
+cm3
+112,55
+Peso húmedo
+g
+196,83
+Densidad Humeda
+g/cm³
+1,75
+Contenido de Humedad
+%
+16,29
+Densidad Seca
+g/cm³
+1,50
+Tipo de probeta (remoldeada o natural)
+NATURAL
+Conductividad Termica "K"
+W/(m*K)
+0,666
+Capacidad de Calor Especifico "C"
+MJ/(m³*K)
+2,342
+Difusividad Termica "D"
+mm²/s
+0,313
+Resistividad Termica "R"
+(m*K)/W
+1,510
+Observaciones:
+1. Determinación de la Conductividad Térmica, Calor Específico, Difusividad Térmica y Resistivad Térmica basadas en ASTM D5334-14.
+2. Ensaye realizado con equipo Analizador de Propiedades Térmicas KD2 PRO (Decagon Devices, Inc)
+21,2
+21,3
+21,4
+21,5
+21,6
+21,7
+21,8
+21,9
+22,0
+22,1
+22,2
+0
+10
+20
+30
+40
+50
+60
+70
+Temperatura [º C]
+Tiempo (s)
+Registro temperatura promedio ensayo
+Muestra: TC_4
+Proyecto: Caracterización de Infiltraciones río Cuncumén, Flow  - MLP OT-10
+
+--- PÁGINA 10 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 10 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+ 
+ 
+ 
+INFORME DE ENSAYO DE DETERMINACIÓN DE CONDUCTIVIDAD TÉRMICA EN SUELOS
+Proyecto
+Caracterización de Infiltraciones río Cuncumén, Flow  - MLP OT-10
+Inf. Ensaye
+Nº 2.172.933-A
+Orden de Trabajo
+-
+Fecha Inicio
+19-01-2026
+Fecha Término
+19-01-2026
+Identificacion
+Muestra
+TC_5
+Datos Confección Probeta
+Diámetro promedio
+cm
+4,68
+Altura de probeta
+cm
+10,04
+Volumen de probeta
+cm3
+172,71
+Peso húmedo
+g
+262,78
+Densidad Humeda
+g/cm³
+1,52
+Contenido de Humedad
+%
+30,52
+Densidad Seca
+g/cm³
+1,17
+Tipo de probeta (remoldeada o natural)
+NATURAL
+Conductividad Termica "K"
+W/(m*K)
+0,578
+Capacidad de Calor Especifico "C"
+MJ/(m³*K)
+2,690
+Difusividad Termica "D"
+mm²/s
+0,224
+Resistividad Termica "R"
+(m*K)/W
+1,773
+Observaciones:
+1. Determinación de la Conductividad Térmica, Calor Específico, Difusividad Térmica y Resistivad Térmica basadas en ASTM D5334-14.
+2. Ensaye realizado con equipo Analizador de Propiedades Térmicas KD2 PRO (Decagon Devices, Inc)
+21,7
+21,8
+21,9
+22,0
+22,1
+22,2
+22,3
+22,4
+22,5
+22,6
+22,7
+0
+10
+20
+30
+40
+50
+60
+70
+Temperatura [º C]
+Tiempo (s)
+Registro temperatura promedio ensayo
+Muestra: TC_5
+Proyecto: Caracterización de Infiltraciones río Cuncumén, Flow  - MLP OT-10
+
+--- PÁGINA 11 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 11 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+ 
+ 
+ 
+INFORME ENSAYO PERMEABILIDAD CARGA CONSTANTE
+(ASTM D5084-24)
+Proyecto
+Caracterización de Infiltraciones río Cuncumén, Flow - MLP OT-10
+Inf. Ensaye
+Nº 2.172.933-A
+Orden de Trabajo
+-
+Fecha de Inicio
+20-01-2026
+Fecha de término
+21-01-2026
+Muestra
+TC_1
+DATOS INICIALES 
+DATOS CORREGIDOS POR CONSOLIDACION
+Diámetro Inicial
+[cm]
+4,70
+Contrapresión
+[kg/cm²]
+2,00
+Altura Inicial
+[cm]
+9,96
+DVolumen por Consolidación
+[cm³]
+3,50
+Volumen  Inicial
+[cm³]
+172,44
+Altura   Corregida
+[cm]
+9,89
+Densidad Húmeda
+[gr/cm³]
+1,47
+Diámetro Corregido
+[cm]
+4,66
+Humedad Natural
+[%]
+36,84
+Area  Corregida
+[cm²]
+17,08
+Densidad Seca
+[gr/cm³]
+1,08
+LECTURAS DE ENSAYO
+Determinación Nº
+Tiempo
+Altura Carga
+Volumen
+Velocidad de 
+Gradiente 
+Coef. Permeabilidad
+Escurrimiento Promedio
+Hidráulica
+Escurrimiento
+Escurrimiento
+Hidráulico
+K
+[s]
+[cm]
+[cm³]
+[cm/s]
+[cm/s]
+1
+4600,00
+100,00
+2,10
+2,67E-05
+10,11
+2,64E-06
+2
+6879,00
+200,00
+6,40
+5,45E-05
+20,22
+2,69E-06
+3
+3236,00
+300,00
+5,00
+9,05E-05
+30,33
+2,98E-06
+4
+2287,00
+400,00
+5,00
+1,28E-04
+40,43
+3,17E-06
+Observaciones:
+1. Permeabilidad realizada según método de PARED FLEXIBLE
+2. Permeabilidad realizada a presión de confinamiento = 0,50 kg/cm2
+3. Ensaye efectuado en probeta REMOLDEADA
+Estimación de Permeabilidad (K)
+3,0E-06
+cm/seg
+4. Visualmente, material corresponde a arena limosa, plasticidad de los finos baja, compacidad media, cementación baja, estructura homogénea. Se observan capas con 
+alto contenido de materia organica. 
+y = 3,0E-06x
+R² = 0,9967
+0,00E+00
+2,00E-05
+4,00E-05
+6,00E-05
+8,00E-05
+1,00E-04
+1,20E-04
+1,40E-04
+0,00
+5,00
+10,00
+15,00
+20,00
+25,00
+30,00
+35,00
+40,00
+45,00
+Velocidad de Escurrimiento 
+(cm/seg)
+Gradiente Hidráulico
+PERMEABILIDAD A CARGA CONSTANTE
+Proyecto: Caracterización de Infiltraciones río Cuncumén, Flow - MLP OT-10
+Muestra: TC_1
+
+--- PÁGINA 12 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 12 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+ 
+ 
+ 
+INFORME ENSAYO PERMEABILIDAD CARGA CONSTANTE
+(ASTM D5084-24)
+Proyecto
+Caracterización de Infiltraciones río Cuncumén, Flow - MLP OT-10
+Inf. Ensaye
+Nº 2.172.933-A
+Orden de Trabajo
+-
+Fecha de Inicio
+22-01-2026
+Fecha de término
+23-01-2026
+Muestra
+TC_14
+DATOS INICIALES 
+DATOS CORREGIDOS POR CONSOLIDACION
+Diámetro Inicial
+[cm]
+4,68
+Contrapresión
+[kg/cm²]
+3,00
+Altura Inicial
+[cm]
+6,55
+DVolumen por Consolidación
+[cm³]
+1,50
+Volumen  Inicial
+[cm³]
+112,55
+Altura   Corregida
+[cm]
+6,52
+Densidad Húmeda
+[gr/cm³]
+1,75
+Diámetro Corregido
+[cm]
+4,66
+Humedad Natural
+[%]
+16,29
+Area  Corregida
+[cm²]
+17,03
+Densidad Seca
+[gr/cm³]
+1,50
+LECTURAS DE ENSAYO
+Determinación Nº
+Tiempo
+Altura Carga
+Volumen
+Velocidad de 
+Gradiente 
+Coef. Permeabilidad
+Escurrimiento Promedio
+Hidráulica
+Escurrimiento
+Escurrimiento
+Hidráulico
+K
+[s]
+[cm]
+[cm³]
+[cm/s]
+[cm/s]
+1
+59,37
+50,00
+10,00
+9,89E-03
+7,67
+1,29E-03
+2
+59,00
+50,00
+10,00
+9,95E-03
+7,67
+1,30E-03
+3
+35,50
+100,00
+10,00
+1,65E-02
+15,34
+1,08E-03
+4
+35,78
+100,00
+10,00
+1,64E-02
+15,34
+1,07E-03
+5
+28,34
+150,00
+10,00
+2,07E-02
+23,00
+9,01E-04
+6
+28,00
+150,00
+10,00
+2,10E-02
+23,00
+9,12E-04
+7
+22,00
+200,00
+10,00
+2,67E-02
+30,67
+8,70E-04
+8
+22,47
+200,00
+10,00
+2,61E-02
+30,67
+8,52E-04
+9
+17,23
+250,00
+10,00
+3,41E-02
+38,34
+8,89E-04
+10
+17,69
+250,00
+10,00
+3,32E-02
+38,34
+8,66E-04
+Observaciones:
+1. Permeabilidad realizada según método de PARED FLEXIBLE
+2. Permeabilidad realizada a presión de confinamiento = 0,50 kg/cm2
+3. Ensaye efectuado en probeta REMOLDEADA
+Estimación de Permeabilidad (K)
+9,0E-04
+cm/seg
+4. Visualmente, material corresponde a arena limosa con gravas dispersas, plasticidad de los finos baja, compacidad media, cementación baja, estructura homogénea. Se 
+observa la presencia de materia organica a lo largo de toda la probeta.
+y = 9,0E-04x
+R² = 0,9929
+0,00E+00
+5,00E-03
+1,00E-02
+1,50E-02
+2,00E-02
+2,50E-02
+3,00E-02
+3,50E-02
+4,00E-02
+0,00
+5,00
+10,00
+15,00
+20,00
+25,00
+30,00
+35,00
+40,00
+45,00
+Velocidad de Escurrimiento 
+(cm/seg)
+Gradiente Hidráulico
+PERMEABILIDAD A CARGA CONSTANTE
+Proyecto: Caracterización de Infiltraciones río Cuncumén, Flow - MLP OT-10
+Muestra: TC_14
+
+--- PÁGINA 13 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 13 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+INFORME ENSAYO PERMEABILIDAD CARGA CONSTANTE
+(ASTM D5084-24)
+Proyecto
+Caracterización de Infiltraciones río Cuncumén, Flow - MLP OT-10
+Inf. Ensaye
+Nº 2.172.933-A
+Orden de Trabajo
+-
+Fecha de Inicio
+20-01-2026
+Fecha de término
+20-01-2026
+Muestra
+TC_5
+DATOS INICIALES 
+DATOS CORREGIDOS POR CONSOLIDACION
+Diámetro Inicial
+[cm]
+4,68
+Contrapresión
+[kg/cm²]
+3,00
+Altura Inicial
+[cm]
+10,04
+DVolumen por Consolidación
+[cm³]
+3,90
+Volumen  Inicial
+[cm³]
+172,46
+Altura   Corregida
+[cm]
+9,96
+Densidad Húmeda
+[gr/cm³]
+1,52
+Diámetro Corregido
+[cm]
+4,64
+Humedad Natural
+[%]
+30,52
+Area  Corregida
+[cm²]
+16,92
+Densidad Seca
+[gr/cm³]
+1,17
+LECTURAS DE ENSAYO
+Determinación Nº
+Tiempo
+Altura Carga
+Volumen
+Velocidad de 
+Gradiente 
+Coef. Permeabilidad
+Escurrimiento Promedio
+Hidráulica
+Escurrimiento
+Escurrimiento
+Hidráulico
+K
+[s]
+[cm]
+[cm³]
+[cm/s]
+[cm/s]
+1
+2701,20
+100,00
+2,00
+4,38E-05
+10,04
+4,36E-06
+2
+1500,00
+200,00
+2,00
+7,88E-05
+20,07
+3,93E-06
+3
+1166,40
+300,00
+2,00
+1,01E-04
+30,11
+3,37E-06
+Observaciones:
+1. Permeabilidad realizada según método de PARED FLEXIBLE
+2. Permeabilidad realizada a presión de confinamiento = 0,50 kg/cm2
+3. Ensaye efectuado en probeta REMOLDEADA
+Estimación de Permeabilidad (K)
+3,6E-06
+cm/seg
+4. Visualmente, material corresponde a arena limosa gravosa, plasticidad de los finos baja, compacidad media, cementación baja, estructura homogénea. Se observa la 
+presencia de materia organica a lo largo de toda la probeta.
+y = 3,6E-06x
+R² = 0,9918
+0,00E+00
+2,00E-05
+4,00E-05
+6,00E-05
+8,00E-05
+1,00E-04
+1,20E-04
+0,00
+5,00
+10,00
+15,00
+20,00
+25,00
+30,00
+35,00
+Velocidad de Escurrimiento 
+(cm/seg)
+Gradiente Hidráulico
+PERMEABILIDAD A CARGA CONSTANTE
+Proyecto: Caracterización de Infiltraciones río Cuncumén, Flow - MLP OT-10
+Muestra: TC_5
+
+--- PÁGINA 14 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 14 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+4. Anexos: Tabla Resumen de Ensayos Ejecutados 
+ 
+ 
+ 
+Nº IDIEM 
+Identificación de Muestra 
+ENSAYOS EJECUTADOS 
+BÁSICOS 
+ESPECIALES  
+GRAN 
+PU 
+RESISTTÉRM 
+PERMEFLEX-CTE 
+5274-01 
+TC_1 
+1 
+- 
+- 
+- 
+5274-02 
+TC_1 
+- 
+1 
+1 
+1 
+5274-03 
+TC_4 
+ 
+1 
+1 
+1 
+5274-04 
+TC_4 
+1 
+- 
+- 
+- 
+5274-05 
+TC_5 
+1 
+- 
+- 
+- 
+5274-06 
+TC_5 
+- 
+1 
+1 
+1 
+ 
+ 
+ 
+Nomenclatura: 
+ 
+GRAN 
+: Granulometría 
+PU 
+: Peso Unitario 
+RESISTTÉRM 
+: Resistividad Térmica. Incluye Conductividad Térmica 
+PERMEFLEX-CTE 
+: Ensayo de Permeabilidad pared flexible, carga constante. Probeta 5 x 10 cm.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+--- PÁGINA 15 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 15 de 15 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-A CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+5. Control de Cambios 
+ 
+ 
+Nº Informe 
+Modificación 
+Solicitado por 
+Realizado por 
+Fecha 
+N° 2.172.933-A 
+- 
+- 
+-  
+- 
+ 
+ 
+ 
+ 
+ 
+ 
+
+--- PÁGINA 16 ---
+Este documento está disponible en http://repositorio.idiem.cl
+El codigo del documento es: qEqUmMyck4

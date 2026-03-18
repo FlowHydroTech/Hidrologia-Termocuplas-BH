@@ -1,0 +1,133 @@
+--- PÁGINA 1 ---
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Página 6 de 13 
+DGL-FT-153 V3 
+Investigación, desarrollo e innovación de 
+Estructuras y Materiales 
+Oficina central 
+Plaza Ercilla 883, Santiago, Chile 
+Teléfono: +56 2 2978 4800 
+Correo electrónico: contacto@idiem.cl  
+www.idiem.cl 
+Nota:  
+La reproducción parcial del presente informe debe ser hecha con la autorización de la Sección Ensayos Geomecánicos de IDIEM.  
+Los resultados son aplicables sólo a las muestras ensayadas. 
+ 
+Plaza Ercilla 883, Santiago 
+Informe Ensayo Nº 2.172.933-B CARACTERIZACIÓN DE INFILTRACIONES RÍO CUNCUMÉN, FLOW - MLP OT-10 
+3. Resultado Ensayos 
+ 
+ 
+ 
+ 
+ 
+Proyecto
+Inf. Ensaye
+Orden de Trabajo
+Fecha Inicio
+Fecha Término
+IDENTIFICACIÓN
+Muestra
+Nº
+TC-2
+TC-3
+Cota
+[m]
+-
+-
+Partículas sobre 3"
+[%]
+0,0
+0,0
+GRANULOMETRÍA
+Tamaño de
+Designación
+Partícula, mm
+Malla o Criba
+63,50
+2 1/2"
+100,0
+100,0
+50,80
+2"
+100,0
+100,0
+38,10
+ 1 1/2"
+100,0
+98,9
+25,40
+1"
+100,0
+97,6
+19,00
+3/4"
+98,3
+95,4
+9,52
+3/8"
+94,7
+84,8
+4,76
+Nº   4
+91,0
+70,9
+2,00
+Nº  10
+86,3
+55,0
+0,84
+Nº  20
+82,0
+38,2
+0,42
+Nº  40
+79,0
+22,9
+0,25
+Nº  60
+75,9
+14,9
+0,11
+Nº 140
+63,7
+10,0
+0,07
+Nº 200
+52,5
+8,6
+-
+-
+-
+-
+-
+-
+Clasificación USCS
+-
+-
+INFORME ENSAYOS DE CLASIFICACIÓN DE MUESTRAS DE SUELO
+Caracterización de Infiltraciones río Cuncumén, Flow - MLP OT-10
+Nº 2.172.933-B
+-
+16-02-2026
+17-02-2026
+Límite Plástico  [%]
+Indice de Plasticidad [%]
+% en peso que pasa
+Referencias
+Límite Líquido [%]
+Observaciones
+a. Granulometría realizada por método seco.
+1. SLG-PP-06 Granulometría ASTM D422-63 (2007).
