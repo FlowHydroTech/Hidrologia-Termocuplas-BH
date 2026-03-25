@@ -27,6 +27,9 @@ jupyter>=1.0.0
 ipykernel>=6.0.0
 notebook>=6.5.0
 
+# Orquestación de pipelines
+prefect>=3.0.0
+
 # Nota: seaborn fue removido del proyecto por problemas de compatibilidad
 # Las siguientes librerías están incluidas por defecto en Python 3.8+:
 # - pathlib, typing, re, sys, os (librerías estándar)

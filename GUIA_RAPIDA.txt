@@ -1,0 +1,179 @@
+================================================================================
+  GUIA RAPIDA — VFLUX2 Python · Hidrologia Termocuplas BH
+================================================================================
+
+Proyecto : Estimacion de flujos verticales de agua subterranea
+           Rio Cuncumen / Silala
+Metodo   : Hatch-Amplitude (2006)
+Sensores : iButton DS1922L en 5 termocuplas (TC1-TC5)
+Entrega  : Marzo 2026
+
+================================================================================
+  1. REQUISITOS
+================================================================================
+
+  - Python 3.12 o superior
+  - uv (gestor de paquetes) — instalar con: pip install uv
+    o desde https://docs.astral.sh/uv/getting-started/installation/
+  - Windows 10/11, Linux o macOS
+  - ~500 MB de espacio en disco (incluyendo entorno virtual)
+
+================================================================================
+  2. INSTALACION
+================================================================================
+
+  2.1 Descomprimir el archivo ZIP en la carpeta de trabajo.
+
+  2.2 Instalar dependencias y crear entorno virtual:
+
+      Desde la raiz del proyecto:
+
+        cd Hidrologia-Termocuplas-BH
+        uv sync
+
+      Esto crea automaticamente el entorno virtual .venv, instala todas
+      las dependencias de pyproject.toml (numpy, pandas, scipy, matplotlib,
+      plotly, folium, pyproj, openpyxl) y el paquete local "vfluxx".
+
+      El archivo uv.lock garantiza versiones reproducibles.
+
+      Alternativa sin uv (pip manual):
+        python -m venv .venv
+        .venv\Scripts\activate       (Windows)
+        source .venv/bin/activate     (Linux/Mac)
+        pip install -r requirements.txt
+        pip install -e .
+
+================================================================================
+  3. ESTRUCTURA DEL PROYECTO
+================================================================================
+
+  Hidrologia-Termocuplas-BH/
+  |
+  |-- src/vfluxx/                  Libreria de calculo (core)
+  |   |-- harmonic_analysis.py       Ajuste armonico 24h
+  |   |-- vflux_methods.py           Metodos Hatch, McCallum, Keery, Luce
+  |   |-- flux_timeseries.py         Series temporales ventana deslizante
+  |   |-- io_utils.py                Lectura datos iButton / Excel
+  |   |-- preprocess.py              Alineacion y remuestreo
+  |
+  |-- scripts/                     Scripts de ejecucion directa
+  |   |-- config_05A.py              Configuracion (parametros, rutas)
+  |   |-- pipeline_05A.py            Pipeline completo (carga -> exportacion)
+  |   |-- figuras_05A.py             Generacion de figuras estaticas
+  |   |-- paneles_05A.py             Paneles interactivos (HTML)
+  |
+  |-- notebooks/
+  |   |-- 05A_datos_terreno.ipynb  Notebook interactivo (mismo analisis)
+  |
+  |-- data/                        Datos de entrada
+  |   |-- Datos Termocuplas 25-02-2026/
+  |   |   |-- tc1/datos_filtrados_tc1.xlsx
+  |   |   |-- tc2/datos_filtrados_tc2.xlsx
+  |   |   |-- tc3/datos_filtrados_tc3.xlsx
+  |   |   |-- tc4/datos_filtrados_tc4.xlsx
+  |   |   |-- tc5/datos_filtrados_tc5.xlsx
+  |   |-- Resultados_IDIEM/
+  |       |-- Resultados IDIEM.xlsx
+  |
+  |-- tests/                       Tests unitarios
+  |-- pyproject.toml               Metadatos del proyecto
+  |-- requirements.txt             Dependencias con versiones minimas
+  |-- README.md                    Documentacion completa
+
+================================================================================
+  4. EJECUCION
+================================================================================
+
+  OPCION A — Scripts por linea de comandos (recomendado)
+  ------------------------------------------------------
+
+  Desde la carpeta scripts/:
+
+      cd scripts
+
+  Paso 1: Pipeline completo
+  (carga datos -> analisis armonico -> calculo de flujo -> exportacion)
+
+      uv run python pipeline_05A.py
+
+    Genera:
+      - resultados_python/terreno_2026_hatch/resultados_05A_hatch_amplitude.xlsx
+        (Excel con 7 hojas)
+      - CSVs de flujos, confiabilidad e incertidumbre
+
+  Paso 2: Figuras estaticas (PNG + PDF calidad publicacion)
+
+      uv run python figuras_05A.py
+
+    Genera en image/terreno_2026/:
+      - Series de temperatura por TC
+      - Ajustes armonicos 5x3
+      - Boxplot comparativo Hatch vs McCallum
+      - Barras de flujo por TC con referencia MATLAB
+      - Forest-plot con intervalos de confianza 95%
+      - Panel de series temporales de flujo
+      - Figuras de publicacion (300 DPI)
+
+  Paso 3: Paneles interactivos (HTML con Plotly + Folium)
+
+      uv run python paneles_05A.py
+
+    Genera en image/terreno_2026/:
+      - selector_ventana_TC{1-5}.html   Selectores con range-slider
+      - perfil_flujo_rio_05A.html       Perfil longitudinal del rio
+      - panel_sig_integrado_05A.html    Mapa SIG con capas satelite/topo
+
+
+  OPCION B — Notebook interactivo
+  --------------------------------
+
+      uv run jupyter notebook notebooks/05A_datos_terreno.ipynb
+
+    Ejecutar todas las celdas en orden (Kernel > Restart & Run All).
+
+================================================================================
+  5. RESULTADOS PRINCIPALES
+================================================================================
+
+  Termocupla | Flujo Hatch-Amplitude (mm/dia) | Direccion
+  -----------|-------------------------------|------------------
+     TC1     |          347 +/- 34            | Infiltracion
+     TC2     |          330 +/- 15            | Infiltracion
+     TC3     |         1720 +/- 494           | Infiltracion
+     TC4     |         1740 +/- 126           | Infiltracion
+     TC5     |          220 +/- 117           | Infiltracion
+
+  Promedio global          : 871 mm/dia
+  Indice de confiabilidad  : IC = 0.573
+  Incertidumbre relativa   : +/-17.3%
+
+================================================================================
+  6. NOTA SOBRE CODIFICACION (Windows)
+================================================================================
+
+  Si aparecen caracteres extranos en la consola de Windows, ejecutar antes:
+
+      $env:PYTHONIOENCODING = "utf-8"
+
+  O bien directamente:
+
+      $env:PYTHONIOENCODING = "utf-8"; uv run python pipeline_05A.py
+
+================================================================================
+  7. TESTS
+================================================================================
+
+  Para ejecutar los tests unitarios:
+
+      cd ..
+      uv run pytest tests/ -v
+
+================================================================================
+  8. CONTACTO
+================================================================================
+
+  Para consultas tecnicas sobre el analisis o los resultados, contactar
+  al equipo de desarrollo.
+
+================================================================================

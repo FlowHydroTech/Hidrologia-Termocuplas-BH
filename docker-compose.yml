@@ -1,0 +1,42 @@
+# ═══════════════════════════════════════════════════════════════════
+# docker-compose.yml — Hatch-Amplitude Pipeline + Prefect Dashboard
+# ═══════════════════════════════════════════════════════════════════
+#
+# Uso:
+#   docker compose up              — Ejecuta pipeline + dashboard
+#   docker compose up pipeline     — Solo pipeline (sin dashboard)
+#   docker compose up prefect      — Solo dashboard Prefect
+#
+# Acceder al dashboard: http://localhost:4200
+# ═══════════════════════════════════════════════════════════════════
+
+services:
+  # --- Prefect Server (Dashboard) ---
+  prefect:
+    image: prefecthq/prefect:3-python3.12
+    command: prefect server start --host 0.0.0.0
+    ports:
+      - "4200:4200"
+    environment:
+      PREFECT_SERVER_API_HOST: "0.0.0.0"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:4200/api/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # --- Pipeline Hatch-Amplitude ---
+  pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      prefect:
+        condition: service_healthy
+    environment:
+      PREFECT_API_URL: "http://prefect:4200/api"
+    volumes:
+      # Montar data/ para acceso a entradas y persistir salidas
+      - ./data:/app/data
+    working_dir: /app

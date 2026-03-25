@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Selector Ventana Temporal - TC2</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; background: #fafafa; }
+#chart { width: 100%; max-width: 1100px; margin: 0 auto; }
+#stats-table { width: 100%; max-width: 1100px; margin: 15px auto; border-collapse: collapse; }
+#stats-table th { background: #2c3e50; color: white; padding: 8px 12px; font-size: 13px; }
+#stats-table td { padding: 6px 12px; text-align: center; font-size: 12px; border-bottom: 1px solid #ddd; }
+#stats-table tr:nth-child(even) { background: #ecf0f1; }
+#stats-table tr:nth-child(odd) { background: #ffffff; }
+h2 { text-align: center; color: #2c3e50; }
+#range-info { text-align: center; color: #555; font-size: 13px; margin: 5px 0 10px; }
+</style>
+</head>
+<body>
+<h2>Flujo Hatch-Amplitude &mdash; TC2</h2>
+<div id="range-info">Ventana: serie completa</div>
+<div id="chart"></div>
+<table id="stats-table">
+<thead><tr>
+  <th>Par</th><th>Mediana (m/s)</th><th>Promedio (m/s)</th>
+  <th>Q1 (m/s)</th><th>Q3 (m/s)</th><th>IQR (m/s)</th>
+  <th>Mediana (mm/d)</th><th>Promedio (mm/d)</th><th>n</th>
+</tr></thead>
+<tbody id="stats-body"></tbody>
+</table>
+<script>
+var DATA = {"sup_int": {"dt": ["2026-01-24T04:00:00", "2026-01-24T16:00:00", "2026-01-25T04:00:00", "2026-01-25T16:00:00", "2026-01-26T04:00:00", "2026-01-26T16:00:00", "2026-01-27T04:00:00", "2026-01-27T16:00:00", "2026-01-28T04:00:00", "2026-01-29T04:00:00", "2026-01-30T04:00:00", "2026-01-30T16:00:00", "2026-01-31T04:00:00", "2026-01-31T16:00:00", "2026-02-01T04:00:00", "2026-02-02T04:00:00", "2026-02-02T16:00:00", "2026-02-03T04:00:00", "2026-02-04T04:00:00", "2026-02-05T04:00:00", "2026-02-06T04:00:00", "2026-02-06T16:00:00", "2026-02-07T04:00:00", "2026-02-07T16:00:00", "2026-02-08T04:00:00", "2026-02-08T16:00:00", "2026-02-09T04:00:00", "2026-02-09T16:00:00", "2026-02-10T04:00:00", "2026-02-11T16:00:00", "2026-02-12T04:00:00", "2026-02-12T16:00:00", "2026-02-13T04:00:00", "2026-02-14T04:00:00", "2026-02-14T16:00:00", "2026-02-15T04:00:00", "2026-02-15T16:00:00", "2026-02-16T04:00:00", "2026-02-16T16:00:00", "2026-02-17T04:00:00", "2026-02-17T16:00:00", "2026-02-18T04:00:00", "2026-02-18T16:00:00", "2026-02-19T04:00:00", "2026-02-20T04:00:00", "2026-02-20T16:00:00", "2026-02-21T04:00:00", "2026-02-21T16:00:00", "2026-02-22T04:00:00", "2026-02-23T04:00:00", "2026-02-23T16:00:00", "2026-02-24T04:00:00"], "flux_ms": [4.6459e-06, -8.7451e-06, -9.1336e-06, -9.5663e-06, -1.15506e-05, 5.0098e-06, -1.01818e-05, 4.7669e-06, 4.8412e-06, 4.7371e-06, 4.6535e-06, 4.8283e-06, 4.3152e-06, 5.3415e-06, 3.8701e-06, -9.9353e-06, -1.0565e-05, -9.5819e-06, -1.15257e-05, 3.0892e-06, -8.9672e-06, 5.0633e-06, 4.2145e-06, -9.1848e-06, -1.09327e-05, 4.1852e-06, 3.9533e-06, 4.2226e-06, -8.5756e-06, 4.0617e-06, 3.7397e-06, 3.8535e-06, 3.7479e-06, -1.00608e-05, 3.743e-06, 3.6845e-06, 3.7222e-06, 3.6346e-06, 3.8059e-06, 3.6939e-06, 3.8308e-06, 3.8095e-06, 3.7712e-06, 3.8692e-06, -9.4162e-06, -1.13377e-05, 3.84e-06, 3.8977e-06, -9.9622e-06, 3.8973e-06, -9.2262e-06, 3.9009e-06]}, "int_inf": {"dt": ["2026-01-24T04:00:00", "2026-01-24T16:00:00", "2026-01-26T16:00:00", "2026-01-27T16:00:00", "2026-01-28T04:00:00", "2026-01-28T16:00:00", "2026-01-29T04:00:00", "2026-01-29T16:00:00", "2026-01-30T04:00:00", "2026-01-30T16:00:00", "2026-01-31T04:00:00", "2026-01-31T16:00:00", "2026-02-01T04:00:00", "2026-02-01T16:00:00", "2026-02-03T16:00:00", "2026-02-04T16:00:00", "2026-02-05T04:00:00", "2026-02-07T04:00:00", "2026-02-08T16:00:00", "2026-02-09T04:00:00", "2026-02-09T16:00:00", "2026-02-10T16:00:00", "2026-02-11T04:00:00", "2026-02-11T16:00:00", "2026-02-12T04:00:00", "2026-02-12T16:00:00", "2026-02-13T04:00:00", "2026-02-13T16:00:00", "2026-02-14T16:00:00", "2026-02-15T04:00:00", "2026-02-15T16:00:00", "2026-02-16T04:00:00", "2026-02-16T16:00:00", "2026-02-17T04:00:00", "2026-02-17T16:00:00", "2026-02-18T04:00:00", "2026-02-18T16:00:00", "2026-02-19T04:00:00", "2026-02-19T16:00:00", "2026-02-21T04:00:00", "2026-02-21T16:00:00", "2026-02-22T04:00:00", "2026-02-23T04:00:00", "2026-02-23T16:00:00", "2026-02-24T04:00:00"], "flux_ms": [3.9338e-06, -3.0139e-06, 3.7665e-06, 3.8265e-06, 3.8692e-06, 4.3028e-06, 3.7639e-06, 4.4391e-06, 3.8044e-06, -9.5762e-06, 4.4021e-06, -9.6229e-06, -9.5514e-06, 3.9266e-06, 5.8359e-06, 4.9418e-06, 3.3575e-06, -9.3442e-06, -8.9964e-06, 4.3603e-06, 3.3009e-06, 3.3195e-06, -8.4498e-06, -8.864e-06, -8.9766e-06, 3.2523e-06, 4.4776e-06, 3.5984e-06, -8.4453e-06, -8.1615e-06, 3.8166e-06, -8.381e-06, -1e-05, -1.10671e-05, 3.4247e-06, -8.2592e-06, -9.2394e-06, -9.2226e-06, 4.671e-06, 3.471e-06, -9.0408e-06, 6.8514e-06, 3.734e-06, 6.3209e-06, 3.5951e-06]}, "sup_inf": {"dt": ["2026-01-24T04:00:00", "2026-01-24T16:00:00", "2026-01-25T04:00:00", "2026-01-25T16:00:00", "2026-01-26T04:00:00", "2026-01-26T16:00:00", "2026-01-27T04:00:00", "2026-01-27T16:00:00", "2026-01-28T04:00:00", "2026-01-29T04:00:00", "2026-01-30T04:00:00", "2026-01-30T16:00:00", "2026-01-31T04:00:00", "2026-01-31T16:00:00", "2026-02-01T04:00:00", "2026-02-02T04:00:00", "2026-02-02T16:00:00", "2026-02-03T04:00:00", "2026-02-04T04:00:00", "2026-02-05T04:00:00", "2026-02-06T04:00:00", "2026-02-07T04:00:00", "2026-02-07T16:00:00", "2026-02-08T04:00:00", "2026-02-08T16:00:00", "2026-02-09T04:00:00", "2026-02-09T16:00:00", "2026-02-10T04:00:00", "2026-02-11T04:00:00", "2026-02-11T16:00:00", "2026-02-12T04:00:00", "2026-02-12T16:00:00", "2026-02-13T04:00:00", "2026-02-14T04:00:00", "2026-02-14T16:00:00", "2026-02-15T04:00:00", "2026-02-15T16:00:00", "2026-02-16T04:00:00", "2026-02-16T16:00:00", "2026-02-17T04:00:00", "2026-02-17T16:00:00", "2026-02-18T04:00:00", "2026-02-18T16:00:00", "2026-02-19T04:00:00", "2026-02-20T04:00:00", "2026-02-20T16:00:00", "2026-02-21T04:00:00", "2026-02-21T16:00:00", "2026-02-22T04:00:00", "2026-02-23T04:00:00", "2026-02-23T16:00:00", "2026-02-24T04:00:00"], "flux_ms": [4.2628e-06, -5.7255e-06, 4.3544e-06, 4.2781e-06, 4.377e-06, 4.3061e-06, 4.369e-06, 4.2497e-06, 4.3048e-06, 4.2004e-06, 4.1908e-06, -3.0903e-06, 4.3582e-06, -3.0569e-06, -3.2134e-06, 4.2668e-06, 3.8205e-06, 3.5831e-06, 3.1039e-06, 3.2199e-06, 4.3072e-06, -3.0791e-06, 3.7222e-06, 4.2147e-06, -2.9457e-06, 4.1481e-06, 3.7188e-06, 4.1552e-06, 5.5652e-06, -2.9112e-06, -3.0103e-06, 3.535e-06, 4.0848e-06, 3.8909e-06, -2.7924e-06, -2.6834e-06, 3.769e-06, -2.7853e-06, -3.3941e-06, -3.796e-06, 3.6194e-06, -2.7025e-06, -3.1091e-06, -3.0856e-06, 3.5516e-06, -3.2006e-06, 3.6487e-06, -3.0088e-06, -3.0878e-06, 3.8143e-06, -2.8318e-06, 3.7433e-06]}};
+var PAIRS = ["sup_int", "int_inf", "sup_inf"];
+var PAIR_LABELS = {"sup_int": "Sup \u2192 Int  (z\u2081\u2013z\u2082)", "int_inf": "Int \u2192 Inf  (z\u2082\u2013z\u2083)", "sup_inf": "Sup \u2192 Inf  (z\u2081\u2013z\u2083)"};
+var PAIR_COLORS = {"sup_int": "#0072BD", "int_inf": "#D95319", "sup_inf": "#EDB120"};
+var MS_TO_MMD = 86400000.0;
+var traces = [];
+PAIRS.forEach(function(pair) {
+  if (!DATA[pair]) return;
+  traces.push({
+    x: DATA[pair].dt, y: DATA[pair].flux_ms,
+    mode: 'lines+markers', name: PAIR_LABELS[pair],
+    line: {color: PAIR_COLORS[pair], width: 1.5},
+    marker: {size: 4}, legendgroup: pair
+  });
+});
+var layout = {
+  height: 420, template: 'plotly_white',
+  legend: {orientation: 'h', yanchor: 'bottom', y: 1.02, xanchor: 'center', x: 0.5},
+  xaxis: {
+    rangeslider: {visible: true, thickness: 0.1},
+    rangeselector: {buttons: [
+      {count: 3, label: '3d', step: 'day', stepmode: 'backward'},
+      {count: 7, label: '1sem', step: 'day', stepmode: 'backward'},
+      {count: 14, label: '2sem', step: 'day', stepmode: 'backward'},
+      {step: 'all', label: 'Todo'}
+    ]}, type: 'date'
+  },
+  yaxis: {title: 'Flujo vertical (m/s)'},
+  margin: {l: 70, r: 30, t: 40, b: 30}
+};
+Plotly.newPlot('chart', traces, layout, {responsive: true});
+function percentile(arr, p) {
+  var s = arr.slice().sort(function(a,b){return a-b;});
+  var idx = (p/100) * (s.length - 1);
+  var lo = Math.floor(idx), hi = Math.ceil(idx);
+  if (lo === hi) return s[lo];
+  return s[lo] + (idx - lo) * (s[hi] - s[lo]);
+}
+function updateStats(xMin, xMax) {
+  var tbody = document.getElementById('stats-body');
+  tbody.innerHTML = '';
+  var info = document.getElementById('range-info');
+  if (xMin && xMax) {
+    var d0 = new Date(xMin), d1 = new Date(xMax);
+    info.textContent = 'Ventana: ' + d0.toLocaleDateString('es-CL') + ' \u2013 ' + d1.toLocaleDateString('es-CL');
+  } else { info.textContent = 'Ventana: serie completa'; }
+  PAIRS.forEach(function(pair) {
+    if (!DATA[pair]) return;
+    var dt = DATA[pair].dt, v = DATA[pair].flux_ms, filtered = [];
+    for (var i = 0; i < dt.length; i++) {
+      if ((!xMin || dt[i] >= xMin) && (!xMax || dt[i] <= xMax)) filtered.push(v[i]);
+    }
+    if (filtered.length === 0) return;
+    var q1 = percentile(filtered, 25), med = percentile(filtered, 50);
+    var q3 = percentile(filtered, 75);
+    var mean = filtered.reduce(function(a,b){return a+b;},0) / filtered.length;
+    var iqr = q3 - q1;
+    tbody.innerHTML += '<tr>'
+      + '<td style="font-weight:bold;color:' + PAIR_COLORS[pair] + '">' + PAIR_LABELS[pair] + '</td>'
+      + '<td>' + med.toExponential(3) + '</td><td>' + mean.toExponential(3) + '</td>'
+      + '<td>' + q1.toExponential(3) + '</td><td>' + q3.toExponential(3) + '</td>'
+      + '<td>' + iqr.toExponential(3) + '</td>'
+      + '<td>' + (med * MS_TO_MMD).toFixed(1) + '</td><td>' + (mean * MS_TO_MMD).toFixed(1) + '</td>'
+      + '<td>' + filtered.length + '</td></tr>';
+  });
+}
+updateStats(null, null);
+document.getElementById('chart').on('plotly_relayout', function(ev) {
+  var xMin = ev['xaxis.range[0]'] || (ev['xaxis.range'] && ev['xaxis.range'][0]) || null;
+  var xMax = ev['xaxis.range[1]'] || (ev['xaxis.range'] && ev['xaxis.range'][1]) || null;
+  if (ev['xaxis.autorange']) { xMin = null; xMax = null; }
+  updateStats(xMin, xMax);
+});
+</script>
+</body>
+</html>

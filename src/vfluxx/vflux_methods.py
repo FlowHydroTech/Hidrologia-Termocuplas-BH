@@ -194,7 +194,8 @@ def calculate_vflux_all_methods(
     heat_capacity_sediment,
     heat_capacity_water,
     angular_frequency,
-    beta=0.0
+    beta=0.0,
+    quiet=False,
 ):
     """
     Calcula el flujo vertical usando los 5 métodos de VFLUX2.
@@ -276,15 +277,16 @@ def calculate_vflux_all_methods(
             results_mm_day[method] = np.nan
 
     # Mostrar resumen
-    print(f"  {'Método':<20} {'m/s':>12} {'mm/día':>12}")
-    print(f"  {'-'*44}")
-    for method in ['mccallum', 'hatch_amplitude', 'hatch_phase', 'keery', 'luce']:
-        v_ms = results_ms.get(method, np.nan)
-        v_mm = results_mm_day.get(method, np.nan)
-        if not np.isnan(v_mm):
-            print(f"  {method:<20} {v_ms:>12.2e} {v_mm:>12.2f}")
-        else:
-            print(f"  {method:<20} {'NaN':>12} {'NaN':>12}")
+    if not quiet:
+        print(f"  {'Método':<20} {'m/s':>12} {'mm/día':>12}")
+        print(f"  {'-'*44}")
+        for method in ['hatch_amplitude', 'mccallum']:
+            v_ms = results_ms.get(method, np.nan)
+            v_mm = results_mm_day.get(method, np.nan)
+            if not np.isnan(v_mm):
+                print(f"  {method:<20} {v_ms:>12.2e} {v_mm:>12.2f}")
+            else:
+                print(f"  {method:<20} {'NaN':>12} {'NaN':>12}")
 
     return {
         'flux_m_s': results_ms,

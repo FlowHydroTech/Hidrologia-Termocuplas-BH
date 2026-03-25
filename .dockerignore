@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Prefect
+.prefect/
+
+# Resultados (no empaquetarlos en imagen; se montan como volumen)
+data/processed/
+resultados_python/
+image/
+
+# Temporales de fix
+scripts/_fix_*.py
+
+# Git
+.git/
+.gitignore

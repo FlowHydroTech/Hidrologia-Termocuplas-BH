@@ -191,7 +191,8 @@ def calculate_flux_timeseries(
                 heat_capacity_sediment=Cs,
                 heat_capacity_water=Cw,
                 angular_frequency=omega,
-                beta=beta
+                beta=beta,
+                quiet=True,
             )
             
             # Desfase
