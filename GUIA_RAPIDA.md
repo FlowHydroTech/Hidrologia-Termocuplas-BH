@@ -57,11 +57,14 @@ Hidrologia-Termocuplas-BH/
 │   ├── io_utils.py              #   Lectura datos iButton / Excel
 │   └── preprocess.py            #   Alineación y remuestreo
 │
-├── scripts/                     # Scripts de ejecución directa
+├── scripts/                     # Scripts de ejecución
 │   ├── config_05A.py            #   Configuración (parámetros, rutas, constantes)
-│   ├── pipeline_05A.py          #   Pipeline completo (carga → exportación)
-│   ├── figuras_05A.py           #   Generación de figuras estáticas
-│   └── paneles_05A.py           #   Paneles interactivos (HTML)
+│   ├── pipeline_05A.py          #   Pipeline de cálculo (carga → exportación)
+│   ├── figuras_05A.py           #   10 figuras estáticas (PNG + PDF)
+│   ├── paneles_05A.py           #   4 paneles interactivos (Plotly + Folium)
+│   ├── prefect_pipeline.py      #   Orquestador Prefect (11 etapas + dashboard)
+│   ├── run_pipeline.py          #   Ejecución Python pura (sin servidor)
+│   └── stages/                  #   Tareas Prefect modularizadas (11 stages)
 │
 ├── notebooks/
 │   └── 05A_datos_terreno.ipynb  # Notebook interactivo (mismo análisis)
@@ -77,54 +80,110 @@ Hidrologia-Termocuplas-BH/
 │       └── Resultados IDIEM.xlsx
 │
 ├── tests/                       # Tests unitarios
+├── Dockerfile                   # Imagen Docker multi-stage
+├── docker-compose.yml           # 3 modos de ejecución Docker
 ├── pyproject.toml               # Metadatos del proyecto
 ├── requirements.txt             # Dependencias con versiones mínimas
+├── GUIA_RAPIDA.md / .txt        # Esta guía (Markdown + texto plano)
+├── GLOSARIO_TECNICO.md          # Glosario de términos técnicos
 └── README.md                    # Documentación completa
 ```
 
 ---
 
-## 4. Ejecución
+## 4. Ejecución — 3 modos disponibles
 
-### Opción A — Scripts por línea de comandos (recomendado)
+### Modo A — Python puro (el más simple)
 
-Ejecutar desde la carpeta `scripts/`:
+Ejecuta las 11 etapas del pipeline sin servidor ni dashboard:
 
 ```bash
-cd scripts
+python scripts/run_pipeline.py
 ```
 
-**Paso 1: Pipeline completo** (carga datos → análisis armónico → cálculo de flujo → exportación)
-```bash
-uv run python pipeline_05A.py
-```
-Genera:
-- `resultados_python/terreno_2026_hatch/resultados_05A_hatch_amplitude.xlsx` (Excel con 7 hojas)
-- CSVs de flujos, confiabilidad e incertidumbre
+> **Con uv**: `uv run python scripts/run_pipeline.py`
 
-**Paso 2: Figuras estáticas** (PNG + PDF calidad publicación)
+### Modo B — Prefect + Dashboard interactivo
+
+Requiere dos terminales:
+
 ```bash
-uv run python figuras_05A.py
+# Terminal 1: Iniciar servidor Prefect
+prefect server start
+
+# Terminal 2: Ejecutar pipeline
+python scripts/prefect_pipeline.py
 ```
-Genera en `image/terreno_2026/`:
+
+Dashboard disponible en: **http://localhost:4200**
+
+Flags opcionales:
+- `--no-figs` — Omitir generación de figuras
+- `--no-html` — Omitir paneles HTML
+- `--no-server` — No verificar servidor Prefect
+
+### Modo C — Docker (contenedores)
+
+Requiere Docker Desktop instalado y en ejecución.
+
+```bash
+# Completo: Pipeline + Dashboard Prefect
+docker compose up
+
+# Solo pipeline Python puro (sin Prefect)
+docker compose run --rm standalone
+
+# Solo Dashboard Prefect
+docker compose up prefect
+```
+
+Dashboard Docker: **http://localhost:4200**
+
+### Pipeline: 11 etapas
+
+| # | Etapa | Descripción |
+|:-:|:------|:------------|
+| 1 | Carga | Lectura de datos iButton (5 TC × 3 sensores) |
+| 2 | Alineación | Alineación temporal a grilla común 10 min |
+| 3 | Armónico | Ajuste armónico 24 h por sensor |
+| 4 | Flujo | Cálculo Hatch-Amplitude + McCallum |
+| 5 | Series | Series temporales ventana deslizante 48 h |
+| 6 | Confiabilidad | Índice IC por termocupla |
+| 7 | Incertidumbre | Bootstrap + propagación δλ, δC |
+| 8 | IQR | Tabla estadística por par de sensores |
+| 9 | Exportación | Excel 7 hojas + CSVs |
+| 10 | Resumen | Resumen ejecutivo en consola |
+| 11a | Figuras | 10 figuras estáticas (PNG + PDF, 300 DPI) |
+| 11b | Paneles | 4 paneles HTML interactivos |
+
+### Archivos de salida
+
+Directorio consolidado: `data/processed/resultados_20260325/`
+
+**Resultados** (`resultados/`):
+- `resultados_05A_hatch_amplitude.xlsx` — Excel con 7 hojas
+- CSVs de flujos, confiabilidad, incertidumbre, IQR
+- `resumen_estadistico_tendencia_central_MAD.csv` + `.xlsx` — Tabla estadística filtrada
+- `series_temporales/` — CSVs de flujo por TC
+
+**Figuras** (`figuras/` — PNG + PDF, 300 DPI):
 - Series de temperatura por TC
 - Ajustes armónicos 5×3
 - Boxplot comparativo Hatch vs McCallum
 - Barras de flujo por TC con referencia MATLAB
 - Forest-plot con intervalos de confianza 95%
-- Panel de series temporales de flujo
-- Figuras de publicación (300 DPI)
+- Series temporales de flujo con bandas MATLAB
+- Boxplot y series de publicación (estilo Flow v3)
+- **Series tendencia central** (filtrado MAD)
+- **Boxplot tendencia central** (filtrado MAD)
 
-**Paso 3: Paneles interactivos** (HTML con Plotly + Folium)
-```bash
-uv run python paneles_05A.py
-```
-Genera en `image/terreno_2026/`:
+**Paneles interactivos** (`contenido_web/`):
 - `selector_ventana_TC{1-5}.html` — Selectores con range-slider
 - `perfil_flujo_rio_05A.html` — Perfil longitudinal del río
 - `panel_sig_integrado_05A.html` — Mapa SIG con capas satelital/topográfica
+- `panel_sig_tendencia_central_mad.html` — **Mapa interactivo tendencia central MAD**
 
-### Opción B — Notebook interactivo
+### Opción legacy — Notebook interactivo
 
 ```bash
 uv run jupyter notebook notebooks/05A_datos_terreno.ipynb

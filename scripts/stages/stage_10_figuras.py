@@ -22,7 +22,7 @@ from config_05A import IMG_DIR
 
 @task(
     name="generar-figuras-estaticas",
-    description="Genera 10 figuras estáticas (PNG/PDF) del análisis Hatch-Amplitude.",
+    description="Genera 12 figuras estáticas (PNG/PDF) del análisis Hatch-Amplitude.",
     tags=["figuras", "matplotlib", "rio-cuncumen"],
 )
 def generar_figuras(
@@ -51,11 +51,17 @@ def generar_figuras(
     print("  [6/8] Series flujo MATLAB...")
     fig_mod.fig_flux_matlab()
 
-    print("  [7/8] Boxplot publicación...")
+    print("  [7/10] Boxplot publicación...")
     fig_mod.fig_boxplot_pub(flux_ts_results)
 
-    print("  [8/8] Series publicación...")
+    print("  [8/10] Series publicación...")
     fig_mod.fig_series_pub(flux_ts_results)
+
+    print("  [9/10] Series tendencia central (MAD)...")
+    fig_mod.fig_series_tendencia_central(flux_ts_results)
+
+    print("  [10/10] Boxplot tendencia central (MAD) + resumen...")
+    fig_mod.fig_boxplot_tendencia_central(flux_ts_results)
 
     created = [str(p) for p in IMG_DIR.glob("*") if p.is_file()]
     print(f"  {len(created)} archivos en {IMG_DIR.relative_to(IMG_DIR.parent.parent.parent)}/")

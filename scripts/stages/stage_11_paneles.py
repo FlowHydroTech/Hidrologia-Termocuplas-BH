@@ -20,7 +20,7 @@ from config_05A import WEB_DIR
 
 @task(
     name="generar-paneles-html-interactivos",
-    description="Genera paneles HTML interactivos (selectores TC, perfil río, mapa SIG).",
+    description="Genera paneles HTML interactivos (selectores TC, perfil río, mapa SIG, mapa MAD).",
     tags=["paneles", "html", "plotly", "folium", "rio-cuncumen"],
 )
 def generar_paneles(
@@ -44,14 +44,17 @@ def generar_paneles(
     try:
         all_data = pan_mod._load_flux_ts_csvs()
 
-        print("  [1/3] Selectores interactivos por TC...")
+        print("  [1/4] Selectores interactivos por TC...")
         pan_mod.gen_selectors(all_data)
 
-        print("  [2/3] Perfil del río...")
+        print("  [2/4] Perfil del río...")
         pan_mod.gen_perfil_rio(flujos_promedio_tc)
 
-        print("  [3/3] Panel SIG integrado...")
+        print("  [3/4] Panel SIG integrado...")
         pan_mod.gen_panel_sig(df_aligned, flux_ts_results, all_flux_results)
+
+        print("  [4/4] Panel SIG tendencia central MAD...")
+        pan_mod.gen_panel_tendencia_central_mad(df_aligned, flux_ts_results)
     finally:
         # Restaurar
         config_05A.IMG_DIR = original_img_dir

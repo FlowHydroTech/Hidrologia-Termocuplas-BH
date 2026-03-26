@@ -493,6 +493,8 @@ body{{font-family:'Segoe UI',Arial,sans-serif;margin:0;padding:8px;background:#f
 
 def gen_panel_sig(df_aligned, flux_ts_results, all_flux_results):
     """Genera panel SIG integrado con Folium."""
+    from branca.element import Element
+
     tc_list = list(STATION_COORDS_UTM.keys())
     clat = np.mean([_coords_wgs84[t]["lat"] for t in tc_list])
     clon = np.mean([_coords_wgs84[t]["lon"] for t in tc_list])
@@ -500,25 +502,48 @@ def gen_panel_sig(df_aligned, flux_ts_results, all_flux_results):
     m = folium.Map(location=[clat, clon], zoom_start=14,
                    tiles=None, control_scale=True)
 
+    # CSS: tooltips transparentes con halo de texto
+    m.get_root().header.add_child(Element(
+        "<style>"
+        ".leaflet-tooltip { background: none !important; border: none !important; "
+        "box-shadow: none !important; padding: 0 !important; }"
+        ".leaflet-tooltip::before { display: none !important; }"
+        "</style>"
+    ))
+
     folium.TileLayer(
         tiles="https://server.arcgisonline.com/ArcGIS/rest/services/"
               "World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        attr="Esri", name="Satélite ESRI", max_zoom=19).add_to(m)
+        attr="Esri", name="Satélite ESRI", max_zoom=19, show=True).add_to(m)
     folium.TileLayer(
         tiles="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
-        attr="OpenTopoMap", name="Topográfico").add_to(m)
+        attr="OpenTopoMap", name="Topográfico", show=False).add_to(m)
     folium.TileLayer(
         tiles="https://server.arcgisonline.com/ArcGIS/rest/services/"
               "Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
         attr="Esri Labels", name="Etiquetas", overlay=True).add_to(m)
 
+    _tooltip_dir = {"TC3": "left", "TC4": "right"}
+    _halo = ("text-shadow:-2px -2px 0 #fff, 2px -2px 0 #fff, "
+             "-2px 2px 0 #fff, 2px 2px 0 #fff, 0 -2px 0 #fff, "
+             "0 2px 0 #fff, -2px 0 0 #fff, 2px 0 0 #fff, "
+             "-1px -1px 0 #fff, 1px -1px 0 #fff, "
+             "-1px 1px 0 #fff, 1px 1px 0 #fff;")
     for st, wgs in _coords_wgs84.items():
         html_pop = _build_popup(st, df_aligned, flux_ts_results, all_flux_results)
         iframe = folium.IFrame(html=html_pop, width=520, height=800)
         popup = folium.Popup(iframe, max_width=530)
         folium.Marker(
             location=[wgs["lat"], wgs["lon"]], popup=popup,
-            tooltip=f"{st} ({THERMAL_PARAMS_LAB[st]['USCS']}) — clic para gráficos + selector",
+            tooltip=folium.Tooltip(
+                f"{st} ({THERMAL_PARAMS_LAB[st]['USCS']})",
+                permanent=True,
+                direction=_tooltip_dir.get(st, "auto"),
+                offset=(0, -5),
+                style=(f"font-size:12px;font-weight:bold;color:black;"
+                       f"background:transparent;border:none;box-shadow:none;"
+                       f"padding:0;{_halo}"),
+            ),
             icon=folium.Icon(color="red", icon="thermometer-half", prefix="fa")
         ).add_to(m)
 
@@ -537,6 +562,345 @@ def gen_panel_sig(df_aligned, flux_ts_results, all_flux_results):
     map_path = IMG_DIR / "panel_sig_integrado_05A.html"
     m.save(str(map_path))
     print(f"  ✔ Panel SIG integrado: {map_path.name}")
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# 4. PANEL SIG — TENDENCIA CENTRAL MAD
+# ══════════════════════════════════════════════════════════════════════════
+
+_MAD_THRESHOLD = 2.5
+_SMOOTH_WINDOW = 5
+
+_pair_col_mad = {"sup_int": "#4FC3F7", "int_inf": "#29B6F6", "sup_inf": "#0288D1"}
+_pair_lbl_mad = {"sup_int": "sup→int", "int_inf": "int→inf", "sup_inf": "sup→inf"}
+
+_JS_TMPL_MAD = """<script>
+(function(){
+  var FR=__DATA__;
+  var pk=Object.keys(FR);
+  function pct(a,p){var s=a.slice().sort(function(x,y){return x-y});
+    var i=p/100*(s.length-1),lo=Math.floor(i),hi=Math.ceil(i);
+    return lo===hi?s[lo]:s[lo]+(i-lo)*(s[hi]-s[lo]);}
+  function upd(xMin,xMax){
+    var tb=document.getElementById("stats-body");if(!tb)return;
+    tb.innerHTML="";
+    var ri=document.getElementById("rng-info");
+    if(ri){ri.textContent=xMin&&xMax
+      ?"Ventana: "+new Date(xMin).toLocaleDateString("es-CL")+" \\u2013 "+new Date(xMax).toLocaleDateString("es-CL")
+      :"Ventana: serie completa";}
+    var all=[];
+    pk.forEach(function(k){
+      var dt=FR[k].dt,v=FR[k].flux,f=[];
+      for(var i=0;i<dt.length;i++){if((!xMin||dt[i]>=xMin)&&(!xMax||dt[i]<=xMax))f.push(v[i]);}
+      if(!f.length)return; all=all.concat(f);
+      var q1=pct(f,25),md=pct(f,50),q3=pct(f,75);
+      var mn=f.reduce(function(a,b){return a+b},0)/f.length;
+      tb.innerHTML+="<tr><td style='color:"+FR[k].color+"'>"+FR[k].label+"</td>"
+        +"<td>"+q1.toFixed(0)+"</td><td style='font-weight:600'>"+md.toFixed(0)+"</td>"
+        +"<td>"+q3.toFixed(0)+"</td><td>"+mn.toFixed(0)+(mn>0?" \\u2193":" \\u2191")
+        +"</td><td>"+f.length+"</td></tr>";
+    });
+    if(all.length){
+      var tq1=pct(all,25),tmd=pct(all,50),tq3=pct(all,75);
+      var tmn=all.reduce(function(a,b){return a+b},0)/all.length;
+      tb.innerHTML+="<tr style='border-top:2px solid #333;font-weight:700'><td>TOTAL</td>"
+        +"<td>"+tq1.toFixed(0)+"</td><td>"+tmd.toFixed(0)+"</td>"
+        +"<td>"+tq3.toFixed(0)+"</td><td>"+tmn.toFixed(0)+"</td>"
+        +"<td>"+all.length+"</td></tr>";}
+  }
+  upd(null,null);
+  var fc=document.getElementById("flux-chart");
+  if(fc)fc.on("plotly_relayout",function(ev){
+    var xMin=ev["xaxis.range[0]"]||(ev["xaxis.range"]&&ev["xaxis.range"][0])||null;
+    var xMax=ev["xaxis.range[1]"]||(ev["xaxis.range"]&&ev["xaxis.range"][1])||null;
+    if(ev["xaxis.autorange"]){xMin=null;xMax=null;}
+    upd(xMin,xMax);
+  });
+})();</script>"""
+
+
+def _mad_filter_val(values, threshold=_MAD_THRESHOLD):
+    """Filtrar outliers con MAD (Median Absolute Deviation)."""
+    med = np.median(values)
+    mad_val = np.median(np.abs(values - med))
+    if mad_val < 1e-10:
+        return np.ones(len(values), dtype=bool)
+    mod_z = 0.6745 * np.abs(values - med) / mad_val
+    return mod_z < threshold
+
+
+def _apply_mad_filter(flux_ts_results):
+    """Aplica filtrado MAD + suavizado mediana móvil a todas las series."""
+    filtered = {}
+    for pair_name, df_flux in flux_ts_results.items():
+        df_valid = df_flux[df_flux["quality_flag"] == 0].copy()
+        if len(df_valid) == 0 or "flux_hatch_amplitude_mm_day" not in df_valid.columns:
+            continue
+        vals = df_valid["flux_hatch_amplitude_mm_day"].values
+        mask = _mad_filter_val(vals)
+        n_kept = mask.sum()
+        if n_kept < max(3, len(vals) * 0.10):
+            for fb in [3.5, 5.0]:
+                mask = _mad_filter_val(vals, fb)
+                if mask.sum() >= 3:
+                    break
+            else:
+                mask = np.ones(len(vals), dtype=bool)
+        df_f = df_valid.loc[mask].copy()
+        df_f["flux_smooth"] = (
+            df_f["flux_hatch_amplitude_mm_day"]
+            .rolling(window=_SMOOTH_WINDOW, center=True, min_periods=1)
+            .median()
+        )
+        filtered[pair_name] = df_f
+    return filtered
+
+
+def _build_popup_mad(tc, df_aligned, filtered_series):
+    """Popup HTML con datos MAD-filtrados para mapa de tendencia central."""
+    from config_05A import TC_PERIODS
+
+    utm_c = STATION_COORDS_UTM[tc]
+    color = _tc_hex_p.get(tc, "#555")
+    tp = THERMAL_PARAMS_LAB[tc]
+    tc_map = TC_CONFIG[tc]
+    depths_m = DEPTHS_M
+    ds = sorted(set(depths_m[tc_map[pos]] for pos in ["surface", "intermediate", "deep"]))
+    ds_str = " / ".join(f"{d*100:.0f}" for d in ds) + " cm"
+
+    # Temperatura
+    fig_t = go.Figure()
+    tc_start = pd.Timestamp(TC_PERIODS[tc][0])
+    tc_end = pd.Timestamp(TC_PERIODS[tc][1])
+    mask_tc = (df_aligned["fecha"] >= tc_start) & (df_aligned["fecha"] <= tc_end)
+    df_tc = df_aligned[mask_tc]
+    for pos in ["surface", "intermediate", "deep"]:
+        col = tc_map[pos]
+        dcm = depths_m[col] * 100
+        d = df_tc.dropna(subset=[col])
+        st = max(1, len(d) // 200)
+        fig_t.add_trace(go.Scatter(
+            x=d.iloc[::st]["fecha"], y=d.iloc[::st][col], mode="lines",
+            name=f"{_pos_short[pos]} ({dcm:.0f}cm)",
+            line=dict(width=1.5, dash=_pos_dash[pos]),
+            hovertemplate="%{x|%d-%b %H:%M}<br>%{y:.1f}°C<extra></extra>"))
+    fig_t.update_layout(
+        title=dict(text="Temperatura", font=dict(size=12)),
+        xaxis=dict(showgrid=False, tickfont=dict(size=8), tickformat="%d-%b"),
+        yaxis=dict(title=dict(text="°C", font=dict(size=9)), tickfont=dict(size=8)),
+        template="plotly_white", height=170, width=480,
+        margin=dict(l=35, r=8, t=28, b=28),
+        legend=dict(orientation="h", font=dict(size=8), y=1.15, x=0.5, xanchor="center"))
+    ht = fig_t.to_html(include_plotlyjs=False, full_html=False,
+                       config={"displayModeBar": False})
+
+    # Flujo MAD con range-slider
+    fig_f = go.Figure()
+    raw = {}
+    has_f = False
+    for pn in sorted(filtered_series.keys()):
+        if tc not in pn:
+            continue
+        df_filt = filtered_series[pn]
+        if len(df_filt) == 0:
+            continue
+        has_f = True
+        pt = pn.split("_", 1)[1]
+        raw[pt] = {
+            "dt": df_filt["datetime"].dt.strftime("%Y-%m-%dT%H:%M:%S").tolist(),
+            "flux": df_filt["flux_smooth"].round(2).tolist(),
+            "label": _pair_lbl_mad.get(pt, pt),
+            "color": _pair_col_mad.get(pt, "#888"),
+        }
+        sf = max(1, len(df_filt) // 150)
+        fig_f.add_trace(go.Scatter(
+            x=df_filt.iloc[::sf]["datetime"],
+            y=df_filt.iloc[::sf]["flux_smooth"],
+            mode="lines+markers", name=_pair_lbl_mad.get(pt, pt),
+            marker=dict(size=3),
+            line=dict(width=1.5, color=_pair_col_mad.get(pt, "#888")),
+            hovertemplate="%{x|%d-%b %H:%M}<br>%{y:.0f} mm/d<extra></extra>"))
+    ref = MATLAB_REFERENCE.get(tc, {})
+    if ref and has_f:
+        fig_f.add_hrect(y0=ref["min"], y1=ref["max"], fillcolor="gray",
+                        opacity=0.12, line_width=0)
+        fig_f.add_hline(y=ref["mean"], line_dash="dash", line_color="gray",
+                        line_width=1, annotation_text=f'MATLAB {ref["mean"]}',
+                        annotation_position="top right", annotation_font_size=8)
+    fig_f.update_layout(
+        title=dict(text="Flujo Hatch-Amp — Tendencia Central (MAD)",
+                   font=dict(size=11)),
+        xaxis=dict(rangeslider=dict(visible=True, thickness=0.12),
+                   rangeselector=dict(buttons=[
+                       dict(count=3, label="3d", step="day", stepmode="backward"),
+                       dict(count=7, label="1sem", step="day", stepmode="backward"),
+                       dict(count=14, label="2sem", step="day", stepmode="backward"),
+                       dict(step="all", label="Todo")], font=dict(size=8)),
+                   showgrid=False, tickfont=dict(size=8), tickformat="%d-%b"),
+        yaxis=dict(title=dict(text="mm/d", font=dict(size=9)), tickfont=dict(size=8)),
+        template="plotly_white", height=230, width=480,
+        margin=dict(l=40, r=8, t=35, b=25),
+        legend=dict(orientation="h", font=dict(size=7), y=1.18, x=0.5, xanchor="center"))
+    hf = fig_f.to_html(include_plotlyjs=False, full_html=False,
+                       config={"displayModeBar": False}, div_id="flux-chart")
+
+    # Boxplot MAD
+    fig_b = go.Figure()
+    _bp_all = []
+    for pn_b in sorted(filtered_series.keys()):
+        if tc not in pn_b:
+            continue
+        df_b = filtered_series[pn_b]
+        if len(df_b) == 0:
+            continue
+        pt_b = pn_b.split("_", 1)[1]
+        vb = df_b["flux_hatch_amplitude_mm_day"].dropna().values
+        if len(vb) > 0:
+            _bp_all.extend(vb.tolist())
+            fig_b.add_trace(go.Box(
+                y=vb, name=_pair_lbl_mad.get(pt_b, pt_b),
+                marker_color="#4FC3F7", boxmean=True, opacity=0.8,
+                boxpoints=False,
+                hovertemplate="%{y:.0f} mm/d<extra></extra>"))
+    _xrng = None
+    if _bp_all:
+        _bpa = np.array(_bp_all)
+        _q1b, _q3b = np.percentile(_bpa, 25), np.percentile(_bpa, 75)
+        _iqrb = _q3b - _q1b
+        _xrng = [max(_bpa.min(), _q1b - 1.5 * _iqrb) - _iqrb * 0.15,
+                 min(_bpa.max(), _q3b + 1.5 * _iqrb) + _iqrb * 0.15]
+    fig_b.update_layout(
+        title=dict(text="Boxplot (tendencia central MAD)", font=dict(size=11)),
+        yaxis=dict(title=dict(text="mm/d", font=dict(size=9)),
+                   tickfont=dict(size=8), range=_xrng),
+        xaxis=dict(tickfont=dict(size=8)),
+        template="plotly_white", height=160, width=480,
+        margin=dict(l=40, r=8, t=28, b=28), showlegend=False)
+    hb = fig_b.to_html(include_plotlyjs=False, full_html=False,
+                       config={"displayModeBar": False})
+
+    ref_h = ""
+    if ref:
+        ref_h = (f'<div style="font-size:9px;color:#666;margin-top:2px;">'
+                 f'Ref MATLAB: {ref["min"]}–{ref["max"]} mm/d '
+                 f'(prom {ref["mean"]})</div>')
+    js = _JS_TMPL_MAD.replace("__DATA__", _json.dumps(raw))
+
+    return f"""<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+body{{font-family:'Calibri','Segoe UI',Arial,sans-serif;margin:0;padding:8px;background:#fefefe;color:#222}}
+.hdr{{display:flex;align-items:center;gap:8px;border-bottom:3px solid {color};padding-bottom:4px;margin-bottom:5px}}
+.hdr h3{{margin:0;color:{color};font-size:14px}}
+.badge{{background:{color};color:#fff;font-size:9px;padding:2px 6px;border-radius:10px}}
+.info{{font-size:10px;color:#555;line-height:1.4;margin-bottom:4px}}
+.info b{{color:#333}}
+.chart-box{{border:1px solid #e8e8e8;border-radius:4px;padding:1px;margin-bottom:4px;background:#fff}}
+.mc{{font-size:10px;margin-top:2px}}
+.mc table{{width:100%;border-collapse:collapse}}
+.mc th{{background:#2c3e50;color:white;padding:2px 5px;font-size:9px;text-align:center}}
+.mc td{{padding:1px 5px;border-bottom:1px solid #eee;text-align:center;font-size:10px}}
+.mc td:first-child{{text-align:left}}
+#rng-info{{text-align:center;font-size:10px;color:#777;margin:2px 0 4px;background:#f8f9fa;border-radius:4px;padding:3px}}
+</style></head><body>
+<div class="hdr"><h3>&#128205; {tc}</h3><span class="badge">{tp['USCS']}</span></div>
+<div class="info">
+  <b>UTM 19S:</b> {utm_c['easting']}E, {utm_c['northing']}N &nbsp;|&nbsp;
+  <b>Prof:</b> {ds_str}<br>
+  <b>IDIEM:</b> &lambda;={tp['lambda_sediment']:.3f} W/m&middot;K |
+  C={tp['C_sediment']/1e6:.3f} MJ/m&sup3;&middot;K |
+  &alpha;={tp['alpha_e']:.2e} m&sup2;/s
+</div>
+<div class="chart-box">{ht}</div>
+<div class="chart-box">{hf}</div>
+<div id="rng-info">Ventana: serie completa &mdash; mueva el slider o use botones</div>
+<div class="chart-box">{hb}</div>
+<div class="mc">
+  <b>Flujo Hatch-Amp (mm/d) &mdash; tendencia central MAD:</b>
+  <table><thead><tr>
+    <th>Par</th><th>Q1</th><th>Mediana</th><th>Q3</th><th>Promedio</th><th>n</th>
+  </tr></thead>
+  <tbody id="stats-body"></tbody></table>
+  {ref_h}
+</div>
+{js}
+</body></html>"""
+
+
+def gen_panel_tendencia_central_mad(df_aligned, flux_ts_results):
+    """Genera mapa SIG interactivo con datos MAD-filtrados (satélite por defecto)."""
+    from branca.element import Element
+
+    filtered_series = _apply_mad_filter(flux_ts_results)
+
+    tc_list = list(STATION_COORDS_UTM.keys())
+    clat = np.mean([_coords_wgs84[t]["lat"] for t in tc_list])
+    clon = np.mean([_coords_wgs84[t]["lon"] for t in tc_list])
+
+    m2 = folium.Map(location=[clat, clon], zoom_start=14, tiles=None,
+                    control_scale=True)
+
+    # CSS: tooltips transparentes con halo de texto
+    m2.get_root().header.add_child(Element(
+        "<style>"
+        ".leaflet-tooltip { background: none !important; border: none !important; "
+        "box-shadow: none !important; padding: 0 !important; }"
+        ".leaflet-tooltip::before { display: none !important; }"
+        "</style>"
+    ))
+
+    folium.TileLayer(
+        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/"
+              "World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        attr="Esri", name="Satélite ESRI", max_zoom=19, show=True).add_to(m2)
+    folium.TileLayer(
+        tiles="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+        attr="OpenTopoMap", name="Topográfico", show=False).add_to(m2)
+    folium.TileLayer(
+        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/"
+              "Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+        attr="Esri Labels", name="Etiquetas", overlay=True).add_to(m2)
+
+    _tooltip_dir = {"TC3": "left", "TC4": "right"}
+    _halo = ("text-shadow:-2px -2px 0 #fff, 2px -2px 0 #fff, "
+             "-2px 2px 0 #fff, 2px 2px 0 #fff, 0 -2px 0 #fff, "
+             "0 2px 0 #fff, -2px 0 0 #fff, 2px 0 0 #fff, "
+             "-1px -1px 0 #fff, 1px -1px 0 #fff, "
+             "-1px 1px 0 #fff, 1px 1px 0 #fff;")
+    for st, wgs in _coords_wgs84.items():
+        html_pop = _build_popup_mad(st, df_aligned, filtered_series)
+        iframe = folium.IFrame(html=html_pop, width=520, height=800)
+        popup = folium.Popup(iframe, max_width=530)
+        folium.Marker(
+            location=[wgs["lat"], wgs["lon"]], popup=popup,
+            tooltip=folium.Tooltip(
+                f"{st} ({THERMAL_PARAMS_LAB[st]['USCS']})",
+                permanent=True,
+                direction=_tooltip_dir.get(st, "auto"),
+                offset=(0, -5),
+                style=(f"font-size:12px;font-weight:bold;color:black;"
+                       f"background:transparent;border:none;box-shadow:none;"
+                       f"padding:0;{_halo}"),
+            ),
+            icon=folium.Icon(color="red", icon="thermometer-half", prefix="fa"),
+        ).add_to(m2)
+
+    ordered = ["TC5", "TC4", "TC3", "TC2", "TC1"]
+    folium.PolyLine(
+        [[_coords_wgs84[s]["lat"], _coords_wgs84[s]["lon"]]
+         for s in ordered if s in _coords_wgs84],
+        color="cyan", weight=3, opacity=0.7,
+        dash_array="10", tooltip="Perfil del río").add_to(m2)
+
+    folium.plugins.MeasureControl(position="bottomleft").add_to(m2)
+    folium.plugins.Fullscreen().add_to(m2)
+    folium.plugins.MiniMap(toggle_display=True).add_to(m2)
+    folium.LayerControl().add_to(m2)
+
+    map_path = IMG_DIR / "panel_sig_tendencia_central_mad.html"
+    m2.save(str(map_path))
+    print(f"  ✔ Panel SIG tendencia central MAD: {map_path.name}")
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -568,14 +932,17 @@ def main():
     # Generar paneles
     all_data = _load_flux_ts_csvs()
 
-    print("\n[1/3] Selectores interactivos por TC...")
+    print("\n[1/4] Selectores interactivos por TC...")
     gen_selectors(all_data)
 
-    print("[2/3] Perfil del río...")
+    print("[2/4] Perfil del río...")
     gen_perfil_rio(flujos_promedio_tc)
 
-    print("[3/3] Panel SIG integrado...")
+    print("[3/4] Panel SIG integrado...")
     gen_panel_sig(df_aligned, flux_ts_results, all_flux_results)
+
+    print("[4/4] Panel SIG tendencia central MAD...")
+    gen_panel_tendencia_central_mad(df_aligned, flux_ts_results)
 
     print(f"\n✔ Todos los paneles HTML exportados a {IMG_DIR.relative_to(PROJECT_ROOT)}/")
 

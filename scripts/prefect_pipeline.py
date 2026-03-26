@@ -5,12 +5,14 @@ prefect_pipeline.py — Orquestador Prefect del pipeline Hatch-Amplitude.
 Río Cuncumén / Silala — 5 Termocuplas (TC1–TC5).
 
 Ejecutar:
-    # Modo local (sin servidor Prefect)
+    # 1) Iniciar servidor Prefect (dashboard en http://localhost:4200)
+    prefect server start
+
+    # 2) En otra terminal, ejecutar pipeline
     python scripts/prefect_pipeline.py
 
-    # Con Dashboard Prefect
-    prefect server start          # en otra terminal
-    python scripts/prefect_pipeline.py
+    # Modo rápido sin dashboard (efímero)
+    python scripts/prefect_pipeline.py --no-server
 
 Etapas:
    1. Carga de datos Excel (5 TCs)
@@ -33,6 +35,8 @@ Salidas:
 """
 import os
 import sys
+import logging
+import urllib.request
 from pathlib import Path
 
 # Forzar UTF-8 en stdout/stderr para consolas Windows (cp1252)
@@ -41,11 +45,38 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
 if sys.stderr and hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-# Configurar Prefect para modo efímero (sin servidor externo) si no hay
-# PREFECT_API_URL definida explícitamente por el usuario.
+# ── Silenciar errores cosméticos de EventsWorker en modo efímero ──
+logging.getLogger("prefect.events.utilities").setLevel(logging.CRITICAL)
+logging.getLogger("prefect._internal.concurrency").setLevel(logging.CRITICAL)
+
+# ── Conexión al servidor Prefect ──
+# Si ya hay PREFECT_API_URL definida (Docker, CI), respetarla.
+# Si no, intentar conectar al servidor local; si no responde, modo efímero.
+PREFECT_SERVER_URL = "http://127.0.0.1:4200/api"
+
 if not os.environ.get("PREFECT_API_URL"):
-    os.environ.setdefault("PREFECT_SERVER_ALLOW_EPHEMERAL_MODE", "true")
-    os.environ["PREFECT_API_URL"] = ""          # fuerza backend efímero
+    if "--no-server" in sys.argv:
+        # Forzar modo efímero explícitamente
+        os.environ["PREFECT_SERVER_ALLOW_EPHEMERAL_MODE"] = "true"
+        os.environ["PREFECT_API_URL"] = ""
+        print("[config] Modo efímero (--no-server)")
+    else:
+        # Intentar conectar al servidor local
+        try:
+            req = urllib.request.Request(
+                f"{PREFECT_SERVER_URL}/health", method="GET"
+            )
+            with urllib.request.urlopen(req, timeout=3) as resp:
+                if resp.status == 200:
+                    os.environ["PREFECT_API_URL"] = PREFECT_SERVER_URL
+                    print(f"[config] Conectado a servidor Prefect: {PREFECT_SERVER_URL}")
+                else:
+                    raise ConnectionError()
+        except Exception:
+            os.environ["PREFECT_SERVER_ALLOW_EPHEMERAL_MODE"] = "true"
+            os.environ["PREFECT_API_URL"] = ""
+            print("[config] Servidor no disponible → modo efímero")
+            print("         Iniciar con: prefect server start")
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent

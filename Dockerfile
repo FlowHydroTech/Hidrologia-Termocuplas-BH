@@ -1,6 +1,11 @@
 # ═══════════════════════════════════════════════════════════════════
 # Dockerfile — Pipeline Hatch-Amplitude Río Cuncumén / Silala
 # Multi-stage build para imagen liviana de producción.
+#
+# Modos de ejecución:
+#   docker compose up pipeline          → Prefect + dashboard
+#   docker compose up pipeline-standalone → Python puro (sin Prefect)
+#   docker compose up prefect           → Solo dashboard Prefect
 # ═══════════════════════════════════════════════════════════════════
 
 # ---------- Stage 1: Builder ----------
@@ -31,7 +36,6 @@ WORKDIR /app
 # Copiar código fuente
 COPY src/ src/
 COPY scripts/ scripts/
-COPY data/ data/
 
 # Variables de entorno
 ENV PYTHONUNBUFFERED=1
@@ -49,5 +53,7 @@ USER appuser
 # Verificar instalación
 RUN python -c "import prefect; import numpy; import pandas; print('OK')"
 
-# Punto de entrada: pipeline con Prefect
-ENTRYPOINT ["python", "scripts/prefect_pipeline.py"]
+# Punto de entrada por defecto: pipeline con Prefect
+# Se puede sobrescribir con CMD en docker-compose.yml
+ENTRYPOINT ["python"]
+CMD ["scripts/prefect_pipeline.py"]

@@ -1,6 +1,6 @@
 # GLOSARIO TÉCNICO - PROYECTO VFLUX2
 
-**Fecha:** 19 de noviembre de 2025  
+**Fecha:** 25 de marzo de 2026  
 **Proyecto:** Hidrología - Termocuplas BH  
 **Propósito:** Definiciones de conceptos técnicos y terminología especializada
 
@@ -82,6 +82,16 @@ if discriminante < 0:
 
 ## D
 
+### **DOCKER / DOCKER COMPOSE**
+**Definición:** Plataforma de contenedores que empaqueta el pipeline con todas sus dependencias en una imagen reproducible.
+
+**Contexto VFLUX2:** El proyecto incluye `Dockerfile` (multi-stage build con Python 3.12-slim) y `docker-compose.yml` con 3 servicios:
+- `prefect` — Dashboard Prefect en http://localhost:4200
+- `pipeline` — Pipeline con Prefect conectado al dashboard
+- `standalone` — Pipeline Python puro (sin Prefect)
+
+**Uso:** `docker compose up` (completo), `docker compose run --rm standalone` (sin Prefect).
+
 ### **DESFASE CONDUCTIVO (Δφ_conductivo)**
 **Definición:** Retraso en la señal térmica causado únicamente por difusión térmica, sin influencia del flujo de agua.
 
@@ -132,6 +142,16 @@ if discriminante < 0:
 **Rango típico:** 1-100 mm/día para ríos con intercambio sedimento-agua.  
 **Conversión:** 1 mm/día = 1.157×10⁻⁸ m/s
 
+### **FLOW v3**
+**Definición:** Estilo visual estandarizado del proyecto para figuras de publicación y paneles interactivos.
+
+**Características:** Fuentes sans-serif (Calibri/Arial), color celeste `#4FC3F7` para datos filtrados, bordes negros en ejes, grilla gris suave, fondo blanco, DPI 300. Se aplica en figuras estáticas (matplotlib) y paneles HTML (Plotly/Folium).
+
+### **FOLIUM**
+**Definición:** Librería Python para crear mapas interactivos basados en Leaflet.js.
+
+**Contexto VFLUX2:** Genera los paneles SIG interactivos con capas satelitales (Esri WorldImagery), marcadores por termocupla con popups de series temporales, y controles de capas. Archivo generado: `panel_sig_integrado_05A.html` y `panel_sig_tendencia_central_mad.html`.
+
 ---
 
 ## H
@@ -154,7 +174,24 @@ if discriminante < 0:
 
 ---
 
+## I
+
+### **iBUTTON (DS1922L)**
+**Definición:** Sensor autónomo de temperatura de alta resolución (0.0625 °C) fabricado por Maxim Integrated, encapsulado en acero inoxidable de 17 mm de diámetro.
+
+**Contexto VFLUX2:** 15 sensores iButton distribuidos en 5 termocuplas (3 por TC) a profundidades de 0, 0.20–0.28 y 0.40–0.56 m en el lecho del Río Cuncumén. Registran temperatura cada 10 min durante la campaña Dic 2025 – Feb 2026.
+
+---
+
 ## M
+
+### **MAD (Median Absolute Deviation)**
+**Definición:** Medida robusta de dispersión estadística definida como la mediana de las desviaciones absolutas respecto a la mediana de los datos.
+
+**Fórmula:** MAD = mediana(|xᵢ − mediana(x)|)  
+**Z-score modificado:** Zₘ = 0.6745 × |xᵢ − mediana(x)| / MAD
+
+**Contexto VFLUX2:** Se usa como filtro de outliers con umbral Zₘ < 2.5 (con fallback a 3.5 y 5.0 si se descarta >90% de los datos). El resultado filtrado se suaviza con mediana móvil de ventana 5 para obtener la tendencia central del flujo.
 
 ### **MCCALLUM**
 **Definición:** Método VFLUX2 que combina información de amplitud y fase para estimación de flujo más robusta.
@@ -193,6 +230,16 @@ if discriminante < 0:
 - **C (capacidad calorífica):** 5.0 MJ/m³·K (calibrado)  
 - **α (difusividad):** λ/C = 1.60×10⁻⁷ m²/s
 
+### **PIPELINE**
+**Definición:** Secuencia automatizada de 11 etapas que procesa datos crudos de temperatura hasta generar resultados, figuras y paneles interactivos.
+
+**Implementaciones:** 3 modos de ejecución — Python puro (`run_pipeline.py`), Prefect orquestado (`prefect_pipeline.py`) y Docker (`docker compose`). Las etapas se ejecutan secuencialmente: carga → alineación → armónico → flujo → series → confiabilidad → incertidumbre → IQR → exportación → resumen → figuras + paneles.
+
+### **PREFECT**
+**Definición:** Framework de orquestación de flujos de trabajo en Python que proporciona observabilidad, reintentos automáticos y dashboard web.
+
+**Contexto VFLUX2:** El pipeline Hatch-Amplitude se ejecuta como un `@flow` de Prefect con 11 `@task` modulares en `scripts/stages/`. El dashboard (http://localhost:4200) muestra estado, duración y logs de cada corrida. Se puede ejecutar localmente o vía Docker.
+
 ---
 
 ## R
@@ -222,7 +269,17 @@ if discriminante < 0:
 ### **TERMOCUPLAS**
 **Definición:** Sensores de temperatura de alta precisión utilizados para medir variaciones térmicas en sedimentos.
 
-**En el proyecto:** Datos sintéticos que simulan mediciones de termocuplas a diferentes profundidades (10, 20, 30 cm).
+**En el proyecto:** 5 termocuplas (TC1–TC5) instaladas en el lecho del Río Cuncumén, cada una con 3 sensores iButton DS1922L a profundidades de 0, 0.20–0.28 y 0.40–0.56 m. Registran temperatura cada 10 minutos durante Dic 2025 – Feb 2026.
+
+### **TENDENCIA CENTRAL (MAD)**
+**Definición:** Serie temporal de flujo procesada con filtrado MAD (Median Absolute Deviation) y suavizada con mediana móvil, que representa el comportamiento central del flujo eliminando valores atípicos.
+
+**Parámetros:** Umbral MAD = 2.5, ventana suavizado = 5 puntos (con fallback a 3.5 y 5.0).  
+**Archivos generados:**
+- `series_tendencia_central_informe.png/pdf` — Panel 5×1 con series por TC
+- `boxplot_tendencia_central_informe.png/pdf` — Distribución por TC
+- `resumen_estadistico_tendencia_central_MAD.csv/xlsx` — Tabla estadística
+- `panel_sig_tendencia_central_mad.html` — Mapa interactivo con popups
 
 ---
 
@@ -249,10 +306,14 @@ if discriminante < 0:
 - **CV:** Coeficiente de Variación
 - **DOI:** Digital Object Identifier (identificador de documentos)
 - **FFT:** Fast Fourier Transform (análisis frecuencial)
+- **IQR:** Interquartile Range (rango intercuartílico Q1–Q3)
+- **MAD:** Median Absolute Deviation (desviación absoluta mediana)
 - **MATLAB:** Lenguaje de programación científica
 - **Pe:** Número de Péclet
 - **SI:** Sistema Internacional de Unidades
+- **SIG:** Sistema de Información Geográfica
 - **TR:** Temperature Rod (varilla de temperatura)
+- **TC:** Termocupla
 
 ---
 
@@ -267,5 +328,5 @@ if discriminante < 0:
 ---
 
 **Elaborado por:** GitHub Copilot + Cesar (FlowHydroTech)  
-**Última actualización:** 19 de noviembre de 2025  
-**Estado:** Versión 1.0 - Conceptos validados con implementación exitosa
+**Última actualización:** 25 de marzo de 2026  
+**Estado:** Versión 2.0 - Incluye términos de pipeline Prefect, Docker, filtrado MAD y tendencia central

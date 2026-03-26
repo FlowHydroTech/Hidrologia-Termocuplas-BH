@@ -57,11 +57,14 @@ Entrega  : Marzo 2026
   |   |-- io_utils.py                Lectura datos iButton / Excel
   |   |-- preprocess.py              Alineacion y remuestreo
   |
-  |-- scripts/                     Scripts de ejecucion directa
+  |-- scripts/                     Scripts de ejecucion
   |   |-- config_05A.py              Configuracion (parametros, rutas)
-  |   |-- pipeline_05A.py            Pipeline completo (carga -> exportacion)
-  |   |-- figuras_05A.py             Generacion de figuras estaticas
-  |   |-- paneles_05A.py             Paneles interactivos (HTML)
+  |   |-- pipeline_05A.py            Pipeline de calculo (carga -> exportacion)
+  |   |-- figuras_05A.py             10 figuras estaticas (PNG + PDF)
+  |   |-- paneles_05A.py             4 paneles interactivos (Plotly + Folium)
+  |   |-- prefect_pipeline.py        Orquestador Prefect (11 etapas + dashboard)
+  |   |-- run_pipeline.py            Ejecucion Python pura (sin servidor)
+  |   |-- stages/                    Tareas Prefect modularizadas (11 stages)
   |
   |-- notebooks/
   |   |-- 05A_datos_terreno.ipynb  Notebook interactivo (mismo analisis)
@@ -77,56 +80,106 @@ Entrega  : Marzo 2026
   |       |-- Resultados IDIEM.xlsx
   |
   |-- tests/                       Tests unitarios
+  |-- Dockerfile                   Imagen Docker multi-stage
+  |-- docker-compose.yml           3 modos de ejecucion Docker
   |-- pyproject.toml               Metadatos del proyecto
   |-- requirements.txt             Dependencias con versiones minimas
+  |-- GUIA_RAPIDA.md / .txt        Esta guia (Markdown + texto plano)
+  |-- GLOSARIO_TECNICO.md          Glosario de terminos tecnicos
   |-- README.md                    Documentacion completa
 
 ================================================================================
-  4. EJECUCION
+  4. EJECUCION — 3 MODOS DISPONIBLES
 ================================================================================
 
-  OPCION A — Scripts por linea de comandos (recomendado)
-  ------------------------------------------------------
+  MODO A — Python puro (el mas simple)
+  -------------------------------------
 
-  Desde la carpeta scripts/:
+  Ejecuta las 11 etapas del pipeline sin servidor ni dashboard:
 
-      cd scripts
+      python scripts/run_pipeline.py
 
-  Paso 1: Pipeline completo
-  (carga datos -> analisis armonico -> calculo de flujo -> exportacion)
-
-      uv run python pipeline_05A.py
-
-    Genera:
-      - resultados_python/terreno_2026_hatch/resultados_05A_hatch_amplitude.xlsx
-        (Excel con 7 hojas)
-      - CSVs de flujos, confiabilidad e incertidumbre
-
-  Paso 2: Figuras estaticas (PNG + PDF calidad publicacion)
-
-      uv run python figuras_05A.py
-
-    Genera en image/terreno_2026/:
-      - Series de temperatura por TC
-      - Ajustes armonicos 5x3
-      - Boxplot comparativo Hatch vs McCallum
-      - Barras de flujo por TC con referencia MATLAB
-      - Forest-plot con intervalos de confianza 95%
-      - Panel de series temporales de flujo
-      - Figuras de publicacion (300 DPI)
-
-  Paso 3: Paneles interactivos (HTML con Plotly + Folium)
-
-      uv run python paneles_05A.py
-
-    Genera en image/terreno_2026/:
-      - selector_ventana_TC{1-5}.html   Selectores con range-slider
-      - perfil_flujo_rio_05A.html       Perfil longitudinal del rio
-      - panel_sig_integrado_05A.html    Mapa SIG con capas satelite/topo
+    Con uv: uv run python scripts/run_pipeline.py
 
 
-  OPCION B — Notebook interactivo
-  --------------------------------
+  MODO B — Prefect + Dashboard interactivo
+  -----------------------------------------
+
+  Requiere dos terminales:
+
+      Terminal 1: prefect server start
+      Terminal 2: python scripts/prefect_pipeline.py
+
+    Dashboard disponible en: http://localhost:4200
+
+    Flags opcionales:
+      --no-figs    Omitir generacion de figuras
+      --no-html    Omitir paneles HTML
+      --no-server  No verificar servidor Prefect
+
+
+  MODO C — Docker (contenedores)
+  -------------------------------
+
+  Requiere Docker Desktop instalado y en ejecucion.
+
+      docker compose up                    # Completo (pipeline + dashboard)
+      docker compose run --rm standalone   # Solo pipeline Python puro
+      docker compose up prefect            # Solo dashboard Prefect
+
+    Dashboard Docker: http://localhost:4200
+
+
+  PIPELINE: 11 ETAPAS
+  --------------------
+
+   #  | Etapa          | Descripcion
+  ----+----------------+----------------------------------------------
+   1  | Carga          | Lectura de datos iButton (5 TC x 3 sensores)
+   2  | Alineacion     | Alineacion temporal a grilla comun 10 min
+   3  | Armonico       | Ajuste armonico 24 h por sensor
+   4  | Flujo          | Calculo Hatch-Amplitude + McCallum
+   5  | Series         | Series temporales ventana deslizante 48 h
+   6  | Confiabilidad  | Indice IC por termocupla
+   7  | Incertidumbre  | Bootstrap + propagacion dL, dC
+   8  | IQR            | Tabla estadistica por par de sensores
+   9  | Exportacion    | Excel 7 hojas + CSVs
+  10  | Resumen        | Resumen ejecutivo en consola
+  11a | Figuras        | 10 figuras estaticas (PNG + PDF, 300 DPI)
+  11b | Paneles        | 4 paneles HTML interactivos
+
+
+  ARCHIVOS DE SALIDA
+  -------------------
+
+  Directorio consolidado: data/processed/resultados_20260325/
+
+  Resultados (resultados/):
+    - resultados_05A_hatch_amplitude.xlsx (Excel con 7 hojas)
+    - CSVs de flujos, confiabilidad, incertidumbre, IQR
+    - resumen_estadistico_tendencia_central_MAD.csv + .xlsx
+    - series_temporales/  (CSVs de flujo por TC)
+
+  Figuras (figuras/ — PNG + PDF, 300 DPI):
+    - Series de temperatura por TC
+    - Ajustes armonicos 5x3
+    - Boxplot comparativo Hatch vs McCallum
+    - Barras de flujo por TC con referencia MATLAB
+    - Forest-plot con intervalos de confianza 95%
+    - Series temporales de flujo con bandas MATLAB
+    - Boxplot y series de publicacion (estilo Flow v3)
+    - Series tendencia central (filtrado MAD)      ** NUEVO **
+    - Boxplot tendencia central (filtrado MAD)      ** NUEVO **
+
+  Paneles interactivos (contenido_web/):
+    - selector_ventana_TC{1-5}.html     Selectores con range-slider
+    - perfil_flujo_rio_05A.html         Perfil longitudinal del rio
+    - panel_sig_integrado_05A.html      Mapa SIG con capas satelite/topo
+    - panel_sig_tendencia_central_mad.html  Mapa tendencia central MAD ** NUEVO **
+
+
+  OPCION LEGACY — Notebook interactivo
+  --------------------------------------
 
       uv run jupyter notebook notebooks/05A_datos_terreno.ipynb
 

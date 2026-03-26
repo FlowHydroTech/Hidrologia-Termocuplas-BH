@@ -39,7 +39,7 @@ import matplotlib.dates as mdates
 import matplotlib.patches as mpatches
 from matplotlib.colors import LinearSegmentedColormap, Normalize
 from matplotlib.cm import ScalarMappable
-from matplotlib.ticker import FuncFormatter
+from matplotlib.ticker import FuncFormatter, MultipleLocator
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -711,6 +711,315 @@ def fig_series_pub(flux_ts_results):
 
 
 # ══════════════════════════════════════════════════════════════════════════
+# 9. SERIES TENDENCIA CENTRAL (MAD) + BOXPLOT + RESUMEN ESTADÍSTICO
+# ══════════════════════════════════════════════════════════════════════════
+MAD_THRESHOLD = 2.5
+SMOOTH_WINDOW = 5
+_FLOW_CELESTE = "#4FC3F7"
+
+_tc_pair_dash = {"sup_int": "-", "int_inf": "--", "sup_inf": "-."}
+_tc_pair_marker = {"sup_int": "o", "int_inf": "s", "sup_inf": "^"}
+_tc_pair_lbl = {
+    "sup_int": r"Sup → Int ($z_1$–$z_2$)",
+    "int_inf": r"Int → Inf ($z_2$–$z_3$)",
+    "sup_inf": r"Sup → Inf ($z_1$–$z_3$)",
+}
+
+
+def mad_filter(values, threshold=MAD_THRESHOLD):
+    """Filtrar outliers con MAD (Median Absolute Deviation)."""
+    med = np.median(values)
+    mad_val = np.median(np.abs(values - med))
+    if mad_val < 1e-10:
+        return np.ones(len(values), dtype=bool)
+    mod_z = 0.6745 * np.abs(values - med) / mad_val
+    return mod_z < threshold
+
+
+def _apply_mad_filtering(flux_ts_results):
+    """Aplica filtrado MAD + suavizado mediana móvil a todas las series."""
+    filtered = {}
+    for pair_name, df_flux in flux_ts_results.items():
+        df_valid = df_flux[df_flux["quality_flag"] == 0].copy()
+        if len(df_valid) == 0 or "flux_hatch_amplitude_mm_day" not in df_valid.columns:
+            continue
+        vals = df_valid["flux_hatch_amplitude_mm_day"].values
+        mask_mad = mad_filter(vals, MAD_THRESHOLD)
+        n_kept = mask_mad.sum()
+        if n_kept < max(3, len(vals) * 0.10):
+            for fallback_th in [3.5, 5.0]:
+                mask_mad = mad_filter(vals, fallback_th)
+                n_kept = mask_mad.sum()
+                if n_kept >= 3:
+                    break
+            else:
+                mask_mad = np.ones(len(vals), dtype=bool)
+        df_filt = df_valid.loc[mask_mad].copy()
+        df_filt["flux_smooth"] = (
+            df_filt["flux_hatch_amplitude_mm_day"]
+            .rolling(window=SMOOTH_WINDOW, center=True, min_periods=1)
+            .median()
+        )
+        filtered[pair_name] = df_filt
+    return filtered
+
+
+def fig_series_tendencia_central(flux_ts_results):
+    """Series temporales de tendencia central con filtrado MAD — Flow v3."""
+    filtered_series = _apply_mad_filtering(flux_ts_results)
+
+    plt.rcParams.update({
+        "font.family": "sans-serif",
+        "font.sans-serif": ["Calibri", "Arial", "Helvetica", "DejaVu Sans"],
+        "font.size": 9, "axes.labelsize": 10, "axes.titlesize": 11,
+        "axes.edgecolor": "black", "axes.linewidth": 0.8,
+        "axes.grid": True, "grid.color": "#c8c8c8", "grid.linewidth": 0.4,
+        "grid.alpha": 0.7, "figure.dpi": 150, "savefig.dpi": 300,
+        "figure.facecolor": "white", "axes.facecolor": "white",
+    })
+
+    all_dates, all_fluxes = [], []
+    for pn, df_f in filtered_series.items():
+        if len(df_f) > 0:
+            all_dates.extend(df_f["datetime"].tolist())
+            all_fluxes.extend(df_f["flux_smooth"].dropna().tolist())
+    for tc in ACTIVE_TCS:
+        ref = MATLAB_REFERENCE.get(tc, {})
+        if ref:
+            all_fluxes.extend([ref["min"], ref["max"]])
+    if not all_dates:
+        print("  ⚠ Series tendencia central: sin datos, saltando")
+        return
+
+    global_xmin, global_xmax = min(all_dates), max(all_dates)
+    global_ymin, global_ymax = min(all_fluxes), max(all_fluxes)
+    y_range = global_ymax - global_ymin
+    global_ymin -= y_range * 0.07
+    global_ymax += y_range * 0.07
+
+    n_tcs = len(ACTIVE_TCS)
+    fig, axes = plt.subplots(n_tcs, 1, figsize=(14, 3.2 * n_tcs), sharex=False)
+    if n_tcs == 1:
+        axes = [axes]
+
+    for ax_idx, (ax, tc_name) in enumerate(zip(axes, ACTIVE_TCS)):
+        ref = MATLAB_REFERENCE.get(tc_name, {})
+        tp = THERMAL_PARAMS_LAB[tc_name]
+        for pair_name, df_filt in filtered_series.items():
+            if tc_name not in pair_name or len(df_filt) == 0:
+                continue
+            pt = pair_name.split("_", 1)[1]
+            ax.plot(
+                df_filt["datetime"], df_filt["flux_smooth"],
+                linestyle=_tc_pair_dash.get(pt, "-"),
+                color=_FLOW_CELESTE, alpha=0.9,
+                marker=_tc_pair_marker.get(pt, "o"),
+                markersize=5, linewidth=1.3,
+                label=_tc_pair_lbl.get(pt, pt),
+                markerfacecolor="none", markeredgewidth=1.0,
+                markeredgecolor=_FLOW_CELESTE,
+            )
+        if ref:
+            ax.axhspan(ref["min"], ref["max"], alpha=0.07, color="#555555", zorder=0)
+            ax.axhline(y=ref["mean"], color="#888888", linestyle="--",
+                       linewidth=1.0, alpha=0.6, zorder=1,
+                       label=f'MATLAB prom: {ref["mean"]} mm/d')
+        ax.axhline(y=0, color="k", linestyle="-", linewidth=0.5, alpha=0.3)
+        ax.set_xlim(global_xmin, global_xmax)
+        ax.set_ylim(global_ymin, global_ymax)
+        ax.grid(True, axis="both", color="#c8c8c8", linewidth=0.4, alpha=0.7)
+        ax.set_axisbelow(True)
+        for spine in ax.spines.values():
+            spine.set_visible(True)
+            spine.set_linewidth(0.8)
+            spine.set_edgecolor("black")
+        ax.set_ylabel("$q$ [mm/día]", fontsize=10)
+        title_str = (f"{tc_name} — {tp['USCS']} | "
+                     f"$\\alpha_e$ = {tp['alpha_e']:.2e} m²/s")
+        if ref:
+            title_str += f" | ref MATLAB: {ref['mean']} mm/d"
+        ax.set_title(title_str, fontsize=9, fontweight="bold", pad=5, loc="left")
+        ax.legend(loc="upper right", fontsize=8, frameon=True,
+                  framealpha=0.95, edgecolor="black", fancybox=False,
+                  ncol=2, handlelength=2.5)
+        ax.xaxis.set_major_formatter(mdates.DateFormatter("%d-%b"))
+        ax.xaxis.set_major_locator(mdates.WeekdayLocator(interval=1))
+        ax.tick_params(axis="both", labelsize=8, direction="out", length=4)
+        ax.tick_params(axis="x", labelbottom=True, rotation=0)
+        ax.set_xlabel("Fecha", fontsize=10)
+
+    fig.suptitle(
+        "Series Temporales de Flujo — Tendencia Central (MAD)\n"
+        "Río Cuncumén — Dic 2025 – Feb 2026 — Ventanas deslizantes 48 h",
+        fontsize=11, fontweight="bold", y=1.01,
+    )
+    fig.tight_layout(rect=[0, 0, 1, 0.98])
+    for ext in ("png", "pdf"):
+        fig.savefig(IMG_DIR / f"series_tendencia_central_informe.{ext}",
+                    dpi=300, bbox_inches="tight", facecolor="white", pad_inches=0.2)
+    plt.close(fig)
+    print("  ✔ Series tendencia central (MAD)")
+
+
+def fig_boxplot_tendencia_central(flux_ts_results):
+    """Boxplot vertical tendencia central (MAD) + exportar resumen estadístico."""
+    filtered_series = _apply_mad_filtering(flux_ts_results)
+
+    boxplot_data_mad = {}
+    for pair_name, df_filt in filtered_series.items():
+        tc = pair_name.split("_")[0]
+        vals = df_filt["flux_hatch_amplitude_mm_day"].dropna().values
+        if tc not in boxplot_data_mad:
+            boxplot_data_mad[tc] = []
+        boxplot_data_mad[tc].extend(vals.tolist())
+
+    boxplot_data_orig = {}
+    for pair_name, df_flux in flux_ts_results.items():
+        tc = pair_name.split("_")[0]
+        df_ok = df_flux[df_flux["quality_flag"] == 0]
+        if "flux_hatch_amplitude_mm_day" in df_ok.columns:
+            vals = df_ok["flux_hatch_amplitude_mm_day"].dropna().values
+            if tc not in boxplot_data_orig:
+                boxplot_data_orig[tc] = []
+            boxplot_data_orig[tc].extend(vals.tolist())
+
+    plt.rcParams.update({
+        "font.family": "sans-serif",
+        "font.sans-serif": ["Calibri", "Arial", "Helvetica", "DejaVu Sans"],
+        "font.size": 9, "axes.labelsize": 10, "axes.titlesize": 11,
+        "axes.edgecolor": "black", "axes.linewidth": 0.8,
+        "axes.grid": False, "figure.dpi": 150, "savefig.dpi": 300,
+        "figure.facecolor": "white", "axes.facecolor": "white",
+    })
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    tc_order = ACTIVE_TCS
+    data_list = [np.array(boxplot_data_mad.get(tc, [])) for tc in tc_order]
+    positions = np.arange(1, len(tc_order) + 1)
+    colors_box = [_FLOW_CELESTE] * len(tc_order)
+
+    bp = ax.boxplot(
+        data_list, positions=positions, patch_artist=True, widths=0.55,
+        showfliers=False,
+        medianprops=dict(color="black", linewidth=1.8),
+        whiskerprops=dict(color="black", linewidth=1.0),
+        capprops=dict(color="black", linewidth=1.0),
+        boxprops=dict(edgecolor="black", linewidth=1.0),
+    )
+    for patch, color in zip(bp["boxes"], colors_box):
+        patch.set_facecolor(color)
+        patch.set_alpha(0.65)
+
+    rng = np.random.default_rng(42)
+    for i, (tc, vals) in enumerate(zip(tc_order, data_list)):
+        if len(vals) == 0:
+            continue
+        x_jitter = positions[i] + rng.normal(0, 0.08, size=len(vals))
+        ax.scatter(x_jitter, vals, s=8, alpha=0.35, zorder=5,
+                   color=colors_box[i], edgecolors="black", linewidths=0.3)
+
+    for i, tc in enumerate(tc_order):
+        ref = MATLAB_REFERENCE.get(tc, {})
+        if ref:
+            ax.scatter(positions[i], ref["mean"], marker="D", s=80, facecolors="none",
+                       edgecolors="#01579B", linewidths=1.5, zorder=6,
+                       label="Ref. MATLAB VFLUX2" if i == 0 else None)
+
+    all_caps_hi = [bp["caps"][2 * i + 1].get_ydata()[0] for i in range(len(tc_order))]
+    all_caps_lo = [bp["caps"][2 * i].get_ydata()[0] for i in range(len(tc_order))]
+    y_data_max = max(all_caps_hi)
+    y_data_min = min(min(all_caps_lo), 0)
+    y_range = y_data_max - y_data_min
+    _y_top = int(np.ceil((y_data_max + y_range * 0.22) / 500) * 500)
+    ax.set_ylim(0, _y_top)
+    ax.yaxis.set_major_locator(MultipleLocator(500))
+
+    for i, (tc, vals) in enumerate(zip(tc_order, data_list)):
+        if len(vals) == 0:
+            continue
+        med = np.median(vals)
+        hi_cap = all_caps_hi[i]
+        ref = MATLAB_REFERENCE.get(tc, {})
+        ref_str = f"\nMATLAB: {ref['mean']}" if ref else ""
+        ax.annotate(
+            f"med = {med:.0f}{ref_str}",
+            xy=(positions[i], hi_cap),
+            xytext=(positions[i], hi_cap + y_range * 0.04),
+            fontsize=8, ha="center", va="bottom", color="black",
+            bbox=dict(boxstyle="round,pad=0.2", facecolor="white",
+                      alpha=0.9, edgecolor="#ccc", linewidth=0.5),
+            arrowprops=dict(arrowstyle="-", color="#999", linewidth=0.5),
+        )
+
+    x_labels = []
+    for tc, vals in zip(tc_order, data_list):
+        tp = THERMAL_PARAMS_LAB[tc]
+        x_labels.append(f"{tc}\n({tp['USCS']})\nn = {len(vals)}")
+    ax.set_xticks(positions)
+    ax.set_xticklabels(x_labels, fontsize=9, fontweight="bold")
+    ax.set_xlim(0.4, len(tc_order) + 0.6)
+    ax.tick_params(axis="x", which="both", pad=8, length=0)
+    ax.set_ylabel("Flujo vertical $q$ [mm/día]", fontsize=10)
+    ax.set_title(
+        "Distribución del Flujo Hatch-Amplitude — Tendencia Central (MAD)\n"
+        "Río Cuncumén — Dic 2025 a Feb 2026",
+        fontsize=11, fontweight="bold", pad=10,
+    )
+    ax.axhline(y=0, color="k", linestyle="-", linewidth=0.6, alpha=0.4)
+    ax.grid(False)
+    for spine in ax.spines.values():
+        spine.set_visible(True)
+        spine.set_linewidth(0.8)
+        spine.set_color("black")
+    ax.tick_params(axis="y", labelsize=8, direction="out", length=4)
+
+    legend_items = [
+        mpatches.Patch(facecolor=_FLOW_CELESTE, alpha=0.65, edgecolor="k",
+                       linewidth=0.8, label="Rango IQR (Q1–Q3)"),
+        plt.Line2D([0], [0], color="k", linewidth=1.8, label="Mediana"),
+        plt.Line2D([0], [0], marker="D", color="w", markerfacecolor="none",
+                   markeredgecolor="#01579B", markersize=8, markeredgewidth=1.5,
+                   label="Ref. MATLAB VFLUX2"),
+        plt.Line2D([0], [0], marker="o", color="w", markerfacecolor=_FLOW_CELESTE,
+                   markeredgecolor="black", markersize=5, markeredgewidth=0.3,
+                   label="Observaciones individuales"),
+    ]
+    ax.legend(handles=legend_items, loc="upper left", frameon=True,
+              framealpha=0.95, edgecolor="black", fancybox=False, fontsize=8)
+    fig.tight_layout()
+    for ext in ("png", "pdf"):
+        fig.savefig(IMG_DIR / f"boxplot_tendencia_central_informe.{ext}",
+                    dpi=300, bbox_inches="tight", facecolor="white", pad_inches=0.25)
+    plt.close(fig)
+    print("  ✔ Boxplot tendencia central (MAD)")
+
+    # Exportar resumen estadístico CSV + XLSX
+    rows = []
+    for tc, vals in zip(tc_order, data_list):
+        if len(vals) == 0:
+            continue
+        ref_m = MATLAB_REFERENCE.get(tc, {}).get("mean", np.nan)
+        n_orig = len(boxplot_data_orig.get(tc, []))
+        mad_val = np.median(np.abs(vals - np.median(vals)))
+        rows.append({
+            "TC": tc, "USCS": THERMAL_PARAMS_LAB[tc]["USCS"],
+            "n": len(vals), "n_orig": n_orig,
+            "Media [mm/d]": round(np.mean(vals), 1),
+            "Mediana [mm/d]": round(np.median(vals), 1),
+            "Q1 [mm/d]": round(np.percentile(vals, 25), 1),
+            "Q3 [mm/d]": round(np.percentile(vals, 75), 1),
+            "MAD": round(mad_val, 1),
+            "MATLAB [mm/d]": ref_m,
+        })
+    df_resumen = pd.DataFrame(rows)
+    csv_path = OUT_DIR / "resumen_estadistico_tendencia_central_MAD.csv"
+    df_resumen.to_csv(csv_path, index=False, encoding="utf-8-sig")
+    xlsx_path = OUT_DIR / "resumen_estadistico_tendencia_central_MAD.xlsx"
+    df_resumen.to_excel(xlsx_path, index=False, sheet_name="Resumen MAD")
+    print(f"  ✔ Resumen MAD: {csv_path.name} + {xlsx_path.name}")
+
+
+# ══════════════════════════════════════════════════════════════════════════
 # MAIN
 # ══════════════════════════════════════════════════════════════════════════
 def main():
@@ -754,11 +1063,17 @@ def main():
     print("[6/8] Series flujo MATLAB...")
     fig_flux_matlab()
 
-    print("[7/8] Boxplot publicación...")
+    print("[7/10] Boxplot publicación...")
     fig_boxplot_pub(flux_ts_results)
 
-    print("[8/8] Series publicación...")
+    print("[8/10] Series publicación...")
     fig_series_pub(flux_ts_results)
+
+    print("[9/10] Series tendencia central (MAD)...")
+    fig_series_tendencia_central(flux_ts_results)
+
+    print("[10/10] Boxplot tendencia central (MAD)...")
+    fig_boxplot_tendencia_central(flux_ts_results)
 
     print(f"\n✔ Todas las figuras exportadas a {IMG_DIR.relative_to(PROJECT_ROOT)}/")
 

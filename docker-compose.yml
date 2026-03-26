@@ -2,10 +2,19 @@
 # docker-compose.yml — Hatch-Amplitude Pipeline + Prefect Dashboard
 # ═══════════════════════════════════════════════════════════════════
 #
-# Uso:
-#   docker compose up              — Ejecuta pipeline + dashboard
-#   docker compose up pipeline     — Solo pipeline (sin dashboard)
-#   docker compose up prefect      — Solo dashboard Prefect
+# Modos de uso:
+#
+#   1) Pipeline + Dashboard Prefect (completo):
+#      docker compose up
+#
+#   2) Solo pipeline con Prefect (sin dashboard local):
+#      docker compose up pipeline
+#
+#   3) Pipeline Python puro (sin Prefect):
+#      docker compose run --rm standalone
+#
+#   4) Solo dashboard Prefect:
+#      docker compose up prefect
 #
 # Acceder al dashboard: http://localhost:4200
 # ═══════════════════════════════════════════════════════════════════
@@ -26,7 +35,7 @@ services:
       retries: 5
     restart: unless-stopped
 
-  # --- Pipeline Hatch-Amplitude ---
+  # --- Pipeline con Prefect (conecta al dashboard) ---
   pipeline:
     build:
       context: .
@@ -37,6 +46,18 @@ services:
     environment:
       PREFECT_API_URL: "http://prefect:4200/api"
     volumes:
-      # Montar data/ para acceso a entradas y persistir salidas
       - ./data:/app/data
     working_dir: /app
+    command: ["scripts/prefect_pipeline.py"]
+
+  # --- Pipeline Python puro (sin Prefect ni servidor) ---
+  standalone:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./data:/app/data
+    working_dir: /app
+    command: ["scripts/run_pipeline.py"]
+    profiles:
+      - standalone
